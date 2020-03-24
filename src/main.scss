@@ -1,0 +1,218 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap");
+$background-grey: #e9e8e8;
+$light-grey: #f6f6f6;
+$main-black: #141414;
+$dark-blue: #0b486b;
+$light-blue: #3b8686;
+$main-red: #f96767;
+
+$main-font: "Montserrat";
+
+body,
+html {
+  margin: 0;
+  box-sizing: border-box;
+  background: $background-grey;
+  height: 100vh;
+}
+
+.App {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .Register {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    .left-side {
+      h1 {
+        font-family: $main-font;
+        color: $dark-blue;
+        font-weight: 400;
+        font-size: 8em;
+        margin: 0px;
+        box-sizing: border-box;
+      }
+
+      h3 {
+        font-family: $main-font;
+        color: $main-black;
+        font-weight: 400;
+        font-size: 3em;
+        margin: 0px 0px 1em 0px;
+        position: relative;
+        left: 3em;
+      }
+
+      .svg-image {
+        position: relative;
+        left: 15em;
+        bottom: 1.5em;
+        width: 90%;
+        z-index: 2;
+      }
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid $main-black;
+      width: 30vw;
+      border-radius: 8px;
+      padding: 4em 4em;
+      margin-left: 2em;
+      text-align: center;
+      background: $light-grey;
+      z-index: 1;
+
+      h1 {
+        font-family: "Montserrat";
+        font-weight: 400;
+        font-size: 3em;
+        color: $dark-blue;
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        input {
+          font-family: $main-font;
+          margin: 1.3em 0px 0px 0px;
+          padding: 1em;
+          width: 75%;
+          border: 1px solid $background-grey;
+          border-radius: 4px;
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+        }
+
+        button {
+          width: 75%;
+          background: $light-blue;
+          color: white;
+          font-family: $main-font;
+          margin: 1.3em 1.3em 0px 1.3em;
+          font-size: 1.7em;
+          padding: 0.5em 2em;
+          border: none;
+          border-radius: 4px;
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          cursor: pointer;
+        }
+      }
+
+      .already-registered {
+        font-family: $main-font;
+        color: $main-black;
+        font-size: 1.2em;
+        margin: 0.4em;
+
+        .login-cta {
+          color: $light-blue;
+          font-weight: medium;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .Login {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    .left-side {
+      h1 {
+        font-family: $main-font;
+        color: $dark-blue;
+        font-weight: 400;
+        font-size: 6em;
+        margin: 0px;
+        box-sizing: border-box;
+      }
+
+      .svg-image {
+        position: relative;
+        left: 4em;
+        bottom: 4em;
+        width: 90%;
+        z-index: 1;
+      }
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid $main-black;
+      width: 30vw;
+      height: 50vh;
+      border-radius: 8px;
+      padding: 3em 3em;
+      margin-left: 0;
+      text-align: center;
+      background: $light-grey;
+      z-index: 2;
+
+      h1 {
+        font-family: "Montserrat";
+        font-weight: 400;
+        font-size: 3em;
+        color: $dark-blue;
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        input {
+          font-family: $main-font;
+          margin: 1.3em 0px 0px 0px;
+          padding: 1em;
+          width: 75%;
+          border: 1px solid $background-grey;
+          border-radius: 4px;
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+        }
+
+        button {
+          width: 75%;
+          background: $light-blue;
+          color: white;
+          font-family: $main-font;
+          margin: 1.3em 1.3em 0px 1.3em;
+          font-size: 1.7em;
+          padding: 0.5em 2em;
+          border: none;
+          border-radius: 4px;
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          cursor: pointer;
+        }
+      }
+
+      .need-account {
+        font-family: $main-font;
+        color: $main-black;
+        font-size: 1.2em;
+        margin: 0.4em;
+
+        .register-cta {
+          color: $light-blue;
+          font-weight: medium;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
