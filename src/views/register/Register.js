@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import svg from "./bugfixing.svg";
+import { Link } from "react-router-dom";
 
 export default function Register(props) {
+  const [userName, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+
+  function validateForm() {
+    return (
+      email.length > 0 &&
+      password.length > 0 &&
+      passwordConfirm === password
+    );
+  }
+
   return (
     <div className="Register">
       <section className="left-side">
@@ -18,27 +33,55 @@ export default function Register(props) {
       </section>
       <div className="form-container">
         <h1>Create an Account</h1>
-        <form onSubmit={props.handleRegistration} className="form">
-          <input type="text" placeholder="Email..." name="email" />
+        <form onSubmit={props.handleSubmit} className="form">
+          <input
+            type="text"
+            placeholder="Full Name..."
+            name="userName"
+            onChange={e => setUsername(e.target.value)}
+            value={userName}
+          />
+          <input
+            type="text"
+            placeholder="Email..."
+            name="email"
+            onChange={e => setEmail(e.target.value)}
+            value={email}
+          />
           <input
             type="text"
             placeholder="Company Name..."
             name="companyName"
+            onChange={e => setCompanyName(e.target.value)}
+            value={companyName}
           />
-          <input type="text" placeholder="Password..." name="password" />
+          <input
+            type="text"
+            placeholder="Password..."
+            name="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
           <input
             type="text"
             placeholder="Confirm Password..."
             name="confirmPassword"
+            value={passwordConfirm}
+            onChange={e => setPasswordConfirm(e.target.value)}
           />
-          <button type="submit" name="submitButton">
+
+          <button
+            disabled={!validateForm()}
+            type="submit"
+            name="submitButton"
+          >
             Get Started
           </button>
         </form>
         <p className="already-registered">
           Already registered?{" "}
-          <span onClick={props.redirectToLogin} className="login-cta">
-            Login
+          <span className="login-cta">
+            <Link to="/login">Login</Link>
           </span>
         </p>
       </div>

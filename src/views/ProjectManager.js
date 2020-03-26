@@ -54,7 +54,10 @@ function ProjectManager() {
           path={path}
           render={() => <ProjectList projectList={projectList} />}
         />
-        <Route path={`${path}/:projectid`} render={() => <Project />} />
+        <Route
+          path="/home/project/:projectid"
+          render={() => <Project />}
+        />
       </Switch>
     </div>
   );

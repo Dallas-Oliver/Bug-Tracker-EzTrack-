@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import svg from "./walking.svg";
+import { Link } from "react-router-dom";
 
 export default function Login(props) {
-  const [email, setEmail] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
 
   function validateForm() {
-    return email.length > 0 && password.length > 0;
+    return userEmail.length > 0 && password.length > 0;
   }
 
   return (
@@ -27,28 +28,27 @@ export default function Login(props) {
         <form onSubmit={props.handleSubmit} className="form">
           <input
             type="text"
-            name="email"
-            placeholder="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            name="userEmail"
+            placeholder="Email..."
+            value={userEmail}
+            onChange={e => setUserEmail(e.target.value)}
           />
           <input
             type="text"
             name="password"
-            placeholder="password"
+            placeholder="Password..."
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
+
           <button disabled={!validateForm()} type="submit">
             Login
           </button>
+
           <p className="need-account">
             Need an Account?{" "}
-            <span
-              onClick={props.redirectToRegister}
-              className="register-cta"
-            >
-              Register
+            <span className="register-cta">
+              <Link to="/">Register</Link>
             </span>{" "}
           </p>
         </form>

@@ -9,26 +9,34 @@ app.use(bodyParser.json());
 app.use(cors());
 // const Project = require("./models/Project");
 
-app.post("/users/save-user-info", (req, res) => {
+app.post("/users/save-user", (req, res) => {
   const userInfo = req.body;
 
   //use userInfo to save user data to mongo
   console.log(userInfo);
 
-  res.status(200).send({ code: 200, email: userInfo.email });
+  res.status(200).send(userInfo);
 });
 
-app.get("/users/get-user/:user_email", (req, res) => {
-  let userEmail = req.params.user_email;
+app.get("/users/get-user/:user_name", (req, res) => {
+  let userName = req.params.user_name;
+  console.log("userEmail", userName);
 
   //use userEmail to get data from mongo on that user
   const userData = {
-    name: "dallas",
+    name: "dallas Oliver",
+    email: "dallas.oliver91@gmail.com",
+    openTickets: ["ticket1", "ticket2"],
+    projects: [
+      {
+        projectName: "project1",
+        projectid: "e32f84fo4f3",
+        tickets: ["ticket1", "ticket2"]
+      }
+    ],
     _id: "rr44erd093434",
     roles: ["admin", "developer"]
   };
-
-  console.log(userEmail);
 
   res.json(userData);
 });
