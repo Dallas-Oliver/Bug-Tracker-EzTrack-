@@ -3,11 +3,11 @@ import svg from "./bugfixing.svg";
 import { Link } from "react-router-dom";
 
 export default function Register(props) {
-  const [userName, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [userName, setUsername] = useState("Dallas Oliver");
+  const [email, setEmail] = useState("dallas.oliver91@gmail.com");
+  const [companyName, setCompanyName] = useState("company");
+  const [password, setPassword] = useState("s");
+  const [passwordConfirm, setPasswordConfirm] = useState("s");
 
   function validateForm() {
     return (

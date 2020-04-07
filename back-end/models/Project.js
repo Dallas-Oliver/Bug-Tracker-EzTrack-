@@ -1,23 +1,23 @@
 const mongoose = require("mongoose");
-const TicketSchema = require("./Ticket");
-const UserSchema = require("./User");
 
 const Schema = mongoose.Schema;
 
 const ProjectSchema = new Schema({
-  name: String,
-  _id: String,
+  name: { type: String, required: true },
+  _id: { type: String, required: true },
   dateCreated: String,
   numberOfTickets: Number,
   projectDescription: String,
   Tickets: {
-    type: [TicketSchema],
+    type: [],
     default: undefined
   },
   assignedUsers: {
-    type: [UserSchema],
+    type: [],
     default: undefined
-  }
+  },
+  status: String,
+  dueDate: String
 });
 
 module.exports = mongoose.model("Project", ProjectSchema);

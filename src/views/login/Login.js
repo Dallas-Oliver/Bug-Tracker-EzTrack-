@@ -3,8 +3,8 @@ import svg from "./walking.svg";
 import { Link } from "react-router-dom";
 
 export default function Login(props) {
-  const [userEmail, setUserEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userEmail, setUserEmail] = useState("dallas.oliver91@gmail.com");
+  const [password, setPassword] = useState("s");
 
   function validateForm() {
     return userEmail.length > 0 && password.length > 0;

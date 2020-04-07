@@ -7,7 +7,7 @@ function Navigation(props) {
       <NavLink
         activeClassName="selected"
         className="dashboard-link"
-        to="/home/dashboard"
+        to="/home/dashboard/"
       >
         Dashboard
       </NavLink>
