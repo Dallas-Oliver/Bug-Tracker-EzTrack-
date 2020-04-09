@@ -102,7 +102,6 @@ router.get("/get-user-info", (req, res) => {
         User.findOne({ email: decoded.email })
           .exec()
           .then(userInfo => {
-            console.log(userInfo);
             res.status(200).json({ userInfo: userInfo });
           });
       });

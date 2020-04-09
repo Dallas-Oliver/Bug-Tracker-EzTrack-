@@ -3,7 +3,9 @@ import ProjectListItem from "./ProjectListItem";
 
 function ProjectList(props) {
   return (
-    <div className="project-list">
+    <div
+      className={`project-list ${props.addProjectVisible ? "blur" : ""}`}
+    >
       {props.projectList.length >= 1 ? (
         <table>
           <thead>

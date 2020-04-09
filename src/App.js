@@ -10,6 +10,16 @@ function App() {
   const history = useHistory();
   const Auth = new AuthService();
 
+  function loginAndRedirect(email, password) {
+    try {
+      Auth.login(email, password).then(() => {
+        history.replace("/home/dashboard");
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async function handleRegistration(e) {
     e.preventDefault();
 
@@ -20,34 +30,17 @@ function App() {
       companyName: form.companyName.value,
       password: form.password.value
     };
-
-    await fetch("http://localhost:5000/users/register", {
+    const response = await fetch("http://localhost:5000/users/register", {
       headers: { "content-type": "application/json; charset=UTF-8" },
       body: JSON.stringify(formData),
       method: "POST"
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(json => {
-        console.log(json);
+    });
 
-        Auth.login(json.email, formData.password)
-          .then(res => {
-            history.replace(`/home/dashboard`);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      })
-      .catch(err => {
-        if (err) {
-          console.log(err);
-        }
-      });
+    const json = await response.json();
+    loginAndRedirect(json.email, formData.password);
   }
 
-  async function handleLogin(e) {
+  function handleLogin(e) {
     e.preventDefault();
 
     const formData = {
@@ -55,13 +48,7 @@ function App() {
       password: e.target.password.value
     };
 
-    Auth.login(formData.email, formData.password)
-      .then(res => {
-        history.replace(`/home/dashboard`);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    loginAndRedirect(formData.email, formData.password);
   }
 
   return (

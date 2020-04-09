@@ -135,7 +135,12 @@ function ProjectManager() {
           exact
           path={path}
           render={() => {
-            return <ProjectList projectList={projectList} />;
+            return (
+              <ProjectList
+                addProjectVisible={addProjectVisible}
+                projectList={projectList}
+              />
+            );
           }}
         />
         <Route
@@ -143,18 +148,18 @@ function ProjectManager() {
           render={() => <Project />}
         />
       </Switch>
-      {addProjectVisible ? (
-        <AddProject
-          validateInputs={validateInputs}
-          titleValue={titleInput}
-          onTitleChange={e => handleInput(e)}
-          onDevChange={e => handleInput(e)}
-          onSubmit={e => handleSubmit(e)}
-          closeAddForm={() => toggleAddProject(false)}
-          descValue={descInput}
-          onDescChange={e => handleInput(e)}
-        />
-      ) : null}
+
+      <AddProject
+        validateInputs={validateInputs}
+        addProjectVisible={addProjectVisible}
+        titleValue={titleInput}
+        onTitleChange={e => handleInput(e)}
+        onDevChange={e => handleInput(e)}
+        onSubmit={e => handleSubmit(e)}
+        closeAddForm={() => toggleAddProject(false)}
+        descValue={descInput}
+        onDescChange={e => handleInput(e)}
+      />
     </div>
   );
 }

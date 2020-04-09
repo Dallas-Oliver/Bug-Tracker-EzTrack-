@@ -10,28 +10,4 @@ export default class User {
     this.roles = roles;
     this.assignedTickets = [];
   }
-
-  // submitTicket(
-  //   name,
-  //   summary,
-  //   description,
-  //   reproduceDesc,
-  //   reproducable,
-  //   submitter,
-  //   dev,
-  //   projectid,
-  //   type
-  // ) {
-  //   let ticket = new Ticket(
-  //     name,
-  //     projectid,
-  //     summary,
-  //     description,
-  //     reproduceDesc,
-  //     reproducable,
-  //     submitter,
-  //     dev,
-  //     type
-  //   );
-  // }
 }

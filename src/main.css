@@ -475,7 +475,6 @@ html {
   width: 90vw;
   position: relative;
   padding: 0 5em 0 2em;
-  z-index: 1;
 }
 
 .App .Home .project-manager .top-bar {
@@ -515,13 +514,14 @@ html {
 .App .Home .project-manager .project-list {
   width: 100%;
   height: 100%;
+  z-index: -1;
 }
 
 .App .Home .project-manager .project-list table {
+  position: relative;
   width: 85%;
   height: auto;
   margin-top: 4em;
-  z-index: -1;
 }
 
 .App .Home .project-manager .project-list table thead tr th {
@@ -547,16 +547,22 @@ html {
   color: #56c556;
 }
 
+.App .Home .project-manager .blur {
+  -webkit-filter: blur(1px);
+          filter: blur(1px);
+  opacity: 0.5;
+}
+
 .App .Home .project-manager .add-project {
   font-family: "Montserrat";
   position: absolute;
   right: 0;
   top: 0;
-  z-index: 7;
+  z-index: 1;
   -webkit-box-shadow: -1px 0 12px #707070;
           box-shadow: -1px 0 12px #707070;
   height: 100%;
-  width: 35%;
+  width: 35vw;
 }
 
 .App .Home .project-manager .add-project h3 {
@@ -580,6 +586,7 @@ html {
       -ms-flex-align: center;
           align-items: center;
   font-family: "Montserrat";
+  position: relative;
 }
 
 .App .Home .project-manager .add-project .form label {

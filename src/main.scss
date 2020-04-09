@@ -385,7 +385,6 @@ html {
       width: 90vw;
       position: relative;
       padding: 0 5em 0 2em;
-      z-index: 1;
 
       .top-bar {
         display: flex;
@@ -412,12 +411,13 @@ html {
       .project-list {
         width: 100%;
         height: 100%;
+        z-index: -1;
 
         table {
+          position: relative;
           width: 85%;
           height: auto;
           margin-top: 4em;
-          z-index: -1;
 
           thead {
             tr {
@@ -450,16 +450,24 @@ html {
         }
       }
 
+      .blur {
+        filter: blur(1px);
+        opacity: 0.5;
+      }
+
       .add-project {
         font-family: $main-font;
         position: absolute;
         right: 0;
         top: 0;
-        z-index: 7;
-
+        z-index: 1;
         box-shadow: -1px 0 12px $border-grey;
         height: 100%;
-        width: 35%;
+        width: 35vw;
+
+        // .show {
+        //   right: 0;
+        // }
 
         h3 {
           margin: 0;
@@ -473,6 +481,7 @@ html {
           justify-content: center;
           align-items: center;
           font-family: $main-font;
+          position: relative;
 
           label {
             margin-top: 1.2em;
