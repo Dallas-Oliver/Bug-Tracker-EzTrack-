@@ -6,40 +6,27 @@ import {
   BrowserRouter,
   Route,
   Switch,
-  useHistory
+  useHistory,
 } from "react-router-dom";
 import AuthService from "../../auth/AuthService";
 
 function Home() {
   const history = useHistory();
   const [userInfo, setUserInfo] = useState();
-  const [dataLoaded, setDataBoolean] = useState(false);
+  const [dataLoaded, handleDataLoaded] = useState(false);
   const Auth = new AuthService();
 
   async function getUserData() {
-    if (Auth.loggedIn()) {
-      const token = Auth.getToken();
+    const jsonData = await Auth.fetch(
+      "http://localhost:5000/users/get-user-info"
+    );
 
-      const response = await fetch(
-        "http://localhost:5000/users/get-user-info",
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            authorization: `bearer ${token}`
-          },
-          method: "GET"
-        }
-      );
-
-      const json = await response.json();
-
-      if (json) {
-        setUserInfo(json);
-        setDataBoolean(true);
-      }
+    if (jsonData) {
+      setUserInfo(jsonData);
+      handleDataLoaded(true);
     }
   }
+
   useEffect(() => {
     if (!dataLoaded) {
       getUserData();

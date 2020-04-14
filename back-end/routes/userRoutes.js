@@ -4,37 +4,39 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 router.post("/register", (req, res) => {
+  console.log(req.body);
   const userInfo = req.body;
   User.find({ email: userInfo.email })
     .exec()
-    .then(user => {
+    .then((user) => {
       if (false) {
         return res.status(409).json({ message: "email already in use!" });
       } else {
-        bcrypt.hash(userInfo.password, 10, function(err, hash) {
+        bcrypt.hash(userInfo.password, 10, function (err, hash) {
           if (err) {
             return res.status(500).json({
-              message: err
+              message: err,
             });
           } else {
             const newUser = new User({
               name: userInfo.name,
               email: userInfo.email,
               companyName: userInfo.companyName,
-              password: hash
+              password: hash,
             });
 
             newUser
               .save()
-              .then(result => {
+              .then((result) => {
                 console.log({ message: result });
                 res.status(201).send({
                   message: "New user created!",
-                  email: result.email
+                  email: result.email,
                 });
               })
-              .catch(err => {
+              .catch((err) => {
                 if (err) {
+                  res.status(400).send({ message: "user not saved!" });
                   console.log(err);
                 }
               });
@@ -49,10 +51,10 @@ router.post("/login", async (req, res) => {
 
   User.find({ email: req.body.email })
     .exec()
-    .then(user => {
+    .then((user) => {
       if (user.length < 1) {
         return res.status(401).json({
-          message: "Auth failed"
+          message: "Auth failed",
         });
       } else {
         bcrypt.compare(
@@ -61,25 +63,25 @@ router.post("/login", async (req, res) => {
           (err, result) => {
             if (err) {
               return res.status(401).json({
-                message: "Auth failed"
+                message: "Auth failed",
               });
             }
             if (result) {
               const token = jwt.sign(
                 {
                   email: user[0].email,
-                  userId: user[0]._id
+                  userId: user[0]._id,
                 },
                 process.env.JWT_KEY,
                 { expiresIn: "2 days" }
               );
               return res.status(200).json({
                 message: "Auth successful",
-                token: token
+                token: token,
               });
             }
             return res.status(401).json({
-              message: "Auth failed"
+              message: "Auth failed",
             });
           }
         );
@@ -101,7 +103,7 @@ router.get("/get-user-info", (req, res) => {
 
         User.findOne({ email: decoded.email })
           .exec()
-          .then(userInfo => {
+          .then((userInfo) => {
             res.status(200).json(userInfo);
           });
       });

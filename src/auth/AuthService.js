@@ -5,6 +5,30 @@ export default class AuthService {
     this.domain = domain || "http://localhost:5000";
   }
 
+  async fetch(url, options) {
+    // performs api calls sending the required authentication headers
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
+    // Setting Authorization header
+    if (this.loggedIn()) {
+      headers["Authorization"] = `Bearer ${this.getToken()}`;
+    }
+    const response = await fetch(url, {
+      headers,
+      ...options,
+    });
+    return response.json();
+  }
+
+  async register(formData) {
+    return await this.fetch(`${this.domain}/users/register`, {
+      method: "POST",
+      body: JSON.stringify(formData),
+    });
+  }
+
   login(email, password) {
     // Get a token from api server using the fetch api
 
@@ -12,9 +36,9 @@ export default class AuthService {
       method: "POST",
       body: JSON.stringify({
         email,
-        password
-      })
-    }).then(res => {
+        password,
+      }),
+    }).then((res) => {
       this.setToken(res.token); // Setting the token in localStorage
       return Promise.resolve(res);
     });
@@ -38,25 +62,6 @@ export default class AuthService {
     }
   }
 
-  fetch(url, options) {
-    // performs api calls sending the required authentication headers
-    const headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    };
-
-    // Setting Authorization header
-    // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
-    if (this.loggedIn()) {
-      headers["Authorization"] = "Bearer " + this.getToken();
-    }
-
-    return fetch(url, {
-      headers,
-      ...options
-    }).then(response => response.json());
-  }
-
   isTokenExpired(token) {
     try {
       const decoded = decode(token);
@@ -72,9 +77,5 @@ export default class AuthService {
 
   logout() {
     localStorage.removeItem("id_token");
-  }
-
-  getUserInfo() {
-    return decode(this.getToken());
   }
 }
