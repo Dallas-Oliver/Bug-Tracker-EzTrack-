@@ -29,19 +29,20 @@ export default class AuthService {
     });
   }
 
-  login(email, password) {
+  async login(email, password) {
     // Get a token from api server using the fetch api
-
-    return this.fetch(`${this.domain}/users/login`, {
+    const jsonResponse = await this.fetch(`${this.domain}/users/login`, {
       method: "POST",
       body: JSON.stringify({
         email,
         password,
       }),
-    }).then((res) => {
-      this.setToken(res.token); // Setting the token in localStorage
-      return Promise.resolve(res);
     });
+
+    if (jsonResponse) {
+      this.setToken(jsonResponse.token);
+      return jsonResponse;
+    }
   }
 
   setToken(token) {
