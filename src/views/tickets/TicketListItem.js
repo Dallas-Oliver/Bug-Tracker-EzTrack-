@@ -1,17 +1,14 @@
 import React from "react";
 import { NavLink, useRouteMatch } from "react-router-dom";
 
-export default function ProjectListItem(props) {
+function TicketListItem(props) {
   const { url } = useRouteMatch();
 
   return (
-    <tr className="project-list-item">
+    <tr className="ticket-list-item">
       <td>
         {" "}
-        <NavLink
-          className="project-link"
-          to={`${url}/project/${props.id}`}
-        >
+        <NavLink className="ticket-link" to={`${url}/${props.id}`}>
           {props.name}
         </NavLink>
       </td>
@@ -21,7 +18,8 @@ export default function ProjectListItem(props) {
       >
         {props.status}
       </td>
-      <td>{props.numberOfTickets}</td>
     </tr>
   );
 }
+
+export default TicketListItem;

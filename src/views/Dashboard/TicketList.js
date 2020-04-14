@@ -8,9 +8,9 @@ function TicketList(props) {
     let ticketArray = [
       ...tickets.openTickets,
       ...tickets.closedTickets,
-      ...tickets.overdueTickets
+      ...tickets.overdueTickets,
     ];
-    console.log(ticketArray);
+    console.log(props.tickets);
     setTicketArray(ticketArray);
   }, []);
 
@@ -27,7 +27,7 @@ function TicketList(props) {
           </tr>
         </thead>
         <tbody>
-          {/* {tickets.map(ticket => {
+          {/* {tickets.map((ticket) => {
             return (
               <tr className="table-row" key={ticket.id}>
                 <td>{ticket.name}</td>

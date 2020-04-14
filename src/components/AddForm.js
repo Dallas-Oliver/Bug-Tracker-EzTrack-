@@ -1,29 +1,32 @@
 import React from "react";
 
-function AddProjects(props) {
+function AddForm(props) {
   return (
-    <div className="add-project">
-      <h3>New Project</h3>
+    <div className="add-form">
+      <h3>{props.header}</h3>
       <hr></hr>
-      <form className="form" onSubmit={props.onSubmit}>
-        <label htmlFor="project-title">Project Title</label>
+      <form
+        className={`form ${props.formType}-form`}
+        onSubmit={props.onSubmit}
+      >
+        <label htmlFor="title">{props.formType} Title</label>
         <input
           onChange={props.onTitleChange}
           value={props.titleValue}
-          name="project-title"
+          name="title"
           type="text"
         ></input>
-        <label htmlFor="project-dev">Assigned Developer</label>
+        <label htmlFor="dev">Assigned Developer</label>
         <input
           onChange={props.onDevChange}
           value={props.devValue}
-          name="project-dev"
+          name="dev"
           type="text"
         ></input>
-        <label htmlFor="project-description">Project Description</label>
+        <label htmlFor="description">{props.formType} Description</label>
         <textarea
           type="text"
-          name="project-description"
+          name="description"
           value={props.descValue}
           onChange={props.onDescChange}
         ></textarea>
@@ -33,9 +36,9 @@ function AddProjects(props) {
             className="button add"
             type="submit"
           >
-            Add Project
+            Add {props.formType}
           </button>
-          <button className="button cancel" onClick={props.closeAddForm}>
+          <button className="button cancel" onClick={props.hideForm}>
             Cancel
           </button>
         </div>
@@ -44,4 +47,4 @@ function AddProjects(props) {
   );
 }
 
-export default AddProjects;
+export default AddForm;

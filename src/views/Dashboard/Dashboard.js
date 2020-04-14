@@ -18,6 +18,8 @@ function Dashboard(props) {
     }
   ]);
 
+  console.log(props.userInfo);
+
   return (
     <div className="Dashboard">
       <h1>Welcome, {props.userInfo.name}</h1>

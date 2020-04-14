@@ -1,135 +1,98 @@
 import React, { useState, useEffect } from "react";
 import { Route, useRouteMatch, Switch } from "react-router-dom";
 import ProjectModel from "../../models/main models/ProjectModel";
+import TicketModel from "../../models/main models/TicketModel";
 import ProjectList from "./ProjectList";
 import Project from "./Project";
-import AddProject from "./AddProject";
-import plusSVG from "./img/plus.svg";
+
+import AuthService from "../../auth/AuthService";
 
 function ProjectManager() {
-  const { path } = useRouteMatch();
-
   const [titleInput, handleTitleUpdate] = useState("");
   const [descInput, handleDescUpdate] = useState("");
   const [devInput, handleDevUpdate] = useState("");
   const [projectList, updateProjectList] = useState([]);
-  const [addProjectVisible, toggleAddProject] = useState(false);
+  const [formIsVisible, toggleForm] = useState(false);
+  const { path } = useRouteMatch();
+  const Auth = new AuthService();
 
-  const validateInputs = () => {
+  function validateInputs() {
     return (
       titleInput.length > 0 && descInput.length > 0 && devInput.length > 0
     );
-  };
+  }
 
-  const getAllProjects = () => {
-    if (localStorage.getItem("id_token")) {
-      let token = localStorage.getItem("id_token");
+  async function getAllProjects() {
+    if (Auth.loggedIn()) {
+      const token = Auth.getToken();
+      const response = await fetch(
+        "http://localhost:5000/projects/all-projects",
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            authorization: `bearer ${token}`,
+          },
+          method: "GET",
+        }
+      );
 
-      fetch("http://localhost:5000/projects/all-projects", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          authorization: `bearer ${token}`
-        },
-        method: "GET"
-      })
-        .then(response => {
-          if (response.status >= 400) {
-            console.log("no projects");
-          }
-          return response.json();
-        })
-        .then(json => {
-          console.log(json.projects);
-          updateProjectList(json.projects);
-        });
+      const json = await response.json();
+
+      if (json) {
+        updateProjectList(json.projects);
+      }
     }
-  };
+  }
 
   useEffect(() => {
     getAllProjects();
   }, []);
 
-  const handleInput = e => {
+  function handleInput(e) {
     const elementName = e.target.name;
     const value = e.target.value;
 
     switch (elementName) {
-      case "project-title":
+      case "title":
         handleTitleUpdate(value);
         break;
-      case "project-dev":
+      case "dev":
         handleDevUpdate(value);
         break;
-      case "project-description":
+      case "description":
         handleDescUpdate(value);
         break;
       default:
         break;
     }
-  };
+  }
 
-  const handleSubmit = async e => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    let newProject = new ProjectModel(titleInput, descInput, devInput);
-    updateProjectList([...projectList, newProject]);
 
-    let response = await fetch(
+    let newProject = new ProjectModel(titleInput, descInput, devInput);
+
+    const response = await fetch(
       "http://localhost:5000/projects/save-project",
       {
         headers: { "content-type": "application/json; charset=UTF-8" },
         body: JSON.stringify(newProject),
-        method: "POST"
+        method: "POST",
       }
     );
-    let json = await response.json();
-    console.log(json);
-    handleTitleUpdate("");
-    handleDescUpdate("");
-    toggleAddProject(false);
-  };
+
+    const json = await response.json();
+    if (json) {
+      updateProjectList([...projectList, json.project]);
+      handleTitleUpdate("");
+      handleDescUpdate("");
+      toggleForm(false);
+    }
+  }
 
   return (
     <div className="project-manager">
-      <div className="top-bar">
-        <h1>All Projects</h1>
-        {addProjectVisible ? null : (
-          <button
-            className="add-project-button"
-            onClick={() => toggleAddProject(true)}
-          >
-            New Project{" "}
-            {
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="12"
-                viewBox="0 0 29 29"
-              >
-                <g transform="translate(-1507 -684)">
-                  <line
-                    y2="24"
-                    transform="translate(1521.5 686.5)"
-                    fill="none"
-                    stroke="#141414"
-                    strokeLinecap="round"
-                    strokeWidth="5"
-                  />
-                  <line
-                    y1="24"
-                    transform="translate(1533.5 698.5) rotate(90)"
-                    fill="none"
-                    stroke="#141414"
-                    strokeLinecap="round"
-                    strokeWidth="5"
-                  />
-                </g>
-              </svg>
-            }
-          </button>
-        )}
-      </div>
-
       <Switch>
         <Route
           exact
@@ -137,29 +100,32 @@ function ProjectManager() {
           render={() => {
             return (
               <ProjectList
-                addProjectVisible={addProjectVisible}
+                validateInputs={validateInputs}
+                titleInput={titleInput}
+                handleInput={(e) => handleInput(e)}
+                handleSubmit={(e) => handleSubmit(e)}
+                hideForm={() => toggleForm(false)}
+                showForm={() => toggleForm(true)}
+                formIsVisible={formIsVisible}
                 projectList={projectList}
               />
             );
           }}
         />
         <Route
-          path="/home/project/:projectid"
-          render={() => <Project />}
+          path="/home/projects/project/:projectId"
+          render={() => (
+            <Project
+              validateInputs={validateInputs}
+              titleInput={titleInput}
+              hideForm={() => toggleForm(false)}
+              showForm={() => toggleForm(true)}
+              formIsVisible={formIsVisible}
+              handleInput={(e) => handleInput(e)}
+            />
+          )}
         />
       </Switch>
-
-      <AddProject
-        validateInputs={validateInputs}
-        addProjectVisible={addProjectVisible}
-        titleValue={titleInput}
-        onTitleChange={e => handleInput(e)}
-        onDevChange={e => handleInput(e)}
-        onSubmit={e => handleSubmit(e)}
-        closeAddForm={() => toggleAddProject(false)}
-        descValue={descInput}
-        onDescChange={e => handleInput(e)}
-      />
     </div>
   );
 }

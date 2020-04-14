@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Project = require("../models/Project");
+const Ticket = require("../models/Ticket");
 const jwt = require("jsonwebtoken");
 
 router.post("/save-project", (req, res) => {
@@ -14,17 +15,15 @@ router.post("/save-project", (req, res) => {
     Tickets: body.Tickets,
     assignedUsers: body.assignedUsers,
     status: body.status,
-    dueDate: body.dueDate
+    dueDate: body.dueDate,
   });
 
   project
     .save()
-    .then(data => {
-      res
-        .status(200)
-        .send({ message: "project saved", projectName: data.name });
+    .then((project) => {
+      res.status(200).send({ message: "project saved", project });
     })
-    .catch(err => {
+    .catch((err) => {
       if (err) {
         res.status(400).send({ message: "project not saved", error: err });
       }
@@ -38,13 +37,13 @@ router.get("/all-projects", (req, res) => {
     res.status(400).send("Invald token");
   } else {
     try {
-      jwt.verify(token, process.env.JWT_KEY, err => {
+      jwt.verify(token, process.env.JWT_KEY, (err) => {
         if (err) {
           res.status(400).send("Invalid token");
         }
         Project.find()
           .exec()
-          .then(projects => {
+          .then((projects) => {
             res.status(200).send({ projects });
           });
       });
@@ -54,6 +53,55 @@ router.get("/all-projects", (req, res) => {
   }
 });
 
-router.get("/project", (req, res) => {});
+router.get("/get-project/:projectId", (req, res) => {
+  const projectId = req.params.projectId;
+
+  if (!projectId) {
+    res.status(400).send({ message: "Bad request" });
+  } else {
+    Project.findOne({ _id: projectId })
+      .exec()
+      .then((project) => {
+        res.status(200).send(project);
+      })
+      .catch((err) => {
+        res.status(400).send({ message: "No matching project" });
+      });
+  }
+});
+
+router.post("/save-ticket/:projectId", (req, res) => {
+  const projectId = req.params.projectId;
+
+  const body = req.body;
+
+  if (!projectId) {
+    res.status(400).send({ message: "Bad request" });
+  } else {
+    Project.findOne({ _id: projectId })
+      .exec()
+      .then((project) => {
+        const ticket = new Ticket({
+          name: body.name,
+          _id: body.uid,
+          dateCreated: body.dateCreated,
+          ticketDescription: body.description,
+          projectId: projectId,
+          priority: body.priority,
+          status: body.status,
+        });
+
+        project.Tickets.push(ticket);
+
+        project.save().then((err) => {
+          if (err) {
+            res.status(400).send({ message: "ticket not sent!" });
+          } else {
+            res.status(200).send({ message: "ticket saved!", project });
+          }
+        });
+      });
+  }
+});
 
 module.exports = router;

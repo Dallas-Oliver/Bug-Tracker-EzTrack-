@@ -1,13 +1,21 @@
 import React from "react";
 import ProjectListItem from "./ProjectListItem";
+import HeaderBar from "../../components/HeaderBar";
+import AddForm from "../../components/AddForm";
 
 function ProjectList(props) {
   return (
-    <div
-      className={`project-list ${props.addProjectVisible ? "blur" : ""}`}
-    >
+    <div className="project-list">
+      <HeaderBar
+        title="All Projects"
+        formIsVisible={props.formIsVisible}
+        showForm={props.showForm}
+        buttonText="New Project"
+      />
       {props.projectList.length >= 1 ? (
-        <table>
+        <table
+          className={`project-table ${props.formIsVisible ? "blur" : ""}`}
+        >
           <thead>
             <tr>
               <th>Project Name</th>
@@ -17,7 +25,7 @@ function ProjectList(props) {
           </thead>
           <tbody>
             {props.projectList.length >= 1 ? (
-              props.projectList.map(project => {
+              props.projectList.map((project) => {
                 return (
                   <ProjectListItem
                     key={project._id}
@@ -36,6 +44,20 @@ function ProjectList(props) {
       ) : (
         <p>Create a Project!</p>
       )}
+      {props.formIsVisible ? (
+        <AddForm
+          header="New Project"
+          formType="Project"
+          validateInputs={props.validateInputs}
+          titleValue={props.titleInput}
+          onTitleChange={props.handleInput}
+          onDevChange={props.handleInput}
+          onSubmit={props.handleSubmit}
+          hideForm={props.hideForm}
+          descValue={props.descInput}
+          onDescChange={props.handleInput}
+        />
+      ) : null}
     </div>
   );
 }

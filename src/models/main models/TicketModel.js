@@ -1,33 +1,17 @@
-// import User from "./UserModel";
-import uuid from "uuid/v4";
+import { v4 as uuidv4 } from "uuid";
 
 export default class Ticket {
-  constructor(
-    name,
-    summary,
-    description,
-    reproduceDesc,
-    reproducable,
-    submitter,
-    dev,
-    projectid,
-    type
-  ) {
-    this.name = name;
-    this.uid = uuid();
+  constructor(title, description, dev, projectid) {
+    this.name = title;
+    this.uid = uuidv4();
     this.dateCreated = Date.now();
-    this.summary = summary;
     this.description = description;
     this.history = [];
-    this.reproduceDesc = reproduceDesc;
-    this.reproducable = reproducable;
     this.comments = [];
-    this.submitter = submitter;
     this.assignedDeveloper = dev;
     this.projectid = projectid;
     this.priority = "High";
     this.status = "Open";
-    this.type = type;
     this.possibleStatuses = ["Open", "Closed", "Reopened"];
     this.possiblePriorityLevels = ["High", "Medium", "Low"];
   }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 function Navigation(props) {
@@ -7,14 +7,15 @@ function Navigation(props) {
       <NavLink
         activeClassName="selected"
         className="dashboard-link"
-        to="/home/dashboard/"
+        to="/home/dashboard"
       >
         Dashboard
       </NavLink>
       <NavLink
         activeClassName="selected"
         className="projects-link"
-        to="/home/project-manager"
+        to="/home/projects"
+        exact
       >
         Projects
       </NavLink>

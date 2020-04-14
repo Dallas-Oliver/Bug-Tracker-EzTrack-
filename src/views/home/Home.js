@@ -17,30 +17,28 @@ function Home() {
   const Auth = new AuthService();
 
   async function getUserData() {
-    if (localStorage.getItem("id_token")) {
-      let token = localStorage.getItem("id_token");
+    if (Auth.loggedIn()) {
+      const token = Auth.getToken();
 
-      fetch("http://localhost:5000/users/get-user-info", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          authorization: `bearer ${token}`
-        },
-        method: "GET"
-      })
-        .then(response => {
-          return response.json();
-        })
-        .then(json => {
-          const decodedUserInfo = json;
-          return decodedUserInfo;
-        })
-        .then(decodedUserInfo => {
-          setUserInfo(decodedUserInfo.userInfo);
-          setDataBoolean(true);
-        });
+      const response = await fetch(
+        "http://localhost:5000/users/get-user-info",
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            authorization: `bearer ${token}`
+          },
+          method: "GET"
+        }
+      );
+
+      const json = await response.json();
+
+      if (json) {
+        setUserInfo(json);
+        setDataBoolean(true);
+      }
     }
-    return dataLoaded;
   }
   useEffect(() => {
     if (!dataLoaded) {
@@ -70,7 +68,6 @@ function Home() {
               Logout
             </h3>
           </section>
-          <section className="welcome-screen"></section>
           <Switch>
             <Route
               exact
@@ -78,7 +75,7 @@ function Home() {
               render={() => <Dashboard userInfo={userInfo} />}
             />
             <Route
-              path="/home/project-manager"
+              path="/home/projects"
               render={() => <ProjectManager />}
             ></Route>
           </Switch>

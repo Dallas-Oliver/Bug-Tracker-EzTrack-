@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const projectRoutes = require("./routes/projectRoutes");
+const ticketRoutes = require("./routes/ticketRoutes");
 const mongoose = require("mongoose");
 // const Project = require("./models/Project");
 
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use("/users", userRoutes);
 app.use("/projects", projectRoutes);
+app.use("/tickets", ticketRoutes);
 
 // connect to DB
 mongoose.connect(
