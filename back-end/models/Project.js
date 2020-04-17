@@ -8,16 +8,12 @@ const ProjectSchema = new Schema({
   dateCreated: String,
   numberOfTickets: Number,
   projectDescription: String,
-  Tickets: {
-    type: [],
-    default: undefined
-  },
   assignedUsers: {
     type: [],
-    default: undefined
+    default: undefined,
   },
   status: String,
-  dueDate: String
+  dueDate: String,
 });
 
 module.exports = mongoose.model("Project", ProjectSchema);

@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 router.post("/register", (req, res) => {
-  console.log(req.body);
   const userInfo = req.body;
   User.find({ email: userInfo.email })
     .exec()
@@ -70,7 +69,8 @@ router.post("/login", async (req, res) => {
               const token = jwt.sign(
                 {
                   email: user[0].email,
-                  userId: user[0]._id,
+                  name: user[0].name,
+                  _id: user[0]._id,
                 },
                 process.env.JWT_KEY,
                 { expiresIn: "2 days" }

@@ -1,14 +1,17 @@
 import React from "react";
-import { NavLink, useRouteMatch } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 function TicketListItem(props) {
-  const { url } = useRouteMatch();
+  const { projectId, ticketId } = useParams();
 
+  console.log(props._id);
   return (
     <tr className="ticket-list-item">
       <td>
-        {" "}
-        <NavLink className="ticket-link" to={`${url}/${props.id}`}>
+        <NavLink
+          className="ticket-link"
+          to={`/home/projects/${projectId}/ticket/${props._id}`}
+        >
           {props.name}
         </NavLink>
       </td>

@@ -1,32 +1,31 @@
 import { v4 as uuidv4 } from "uuid";
 
 export default class Project {
-  constructor(name, description, assignedDeveloper) {
+  constructor(name, description, assignedUser) {
     this.name = name;
     this.uid = uuidv4();
     this.dateCreated = `${new Date().toLocaleTimeString()} ${new Date().toLocaleDateString()}`;
     this.numberOfTickets = 0;
     this.projectDescription = description;
-    this.Tickets = [];
-    this.assignedDevelopers = [assignedDeveloper];
+    this.assignedUsers = [assignedUser];
     this.status = "Open";
     this.dueDate = "";
   }
 
-  addUser(developer) {
-    if (developer) {
-      this.assignedDevelopers.push(developer);
+  addUser(user) {
+    if (user) {
+      this.assignedDevelopers.push(user);
     }
-    return developer;
+    return user;
   }
 
-  removeUser(developer) {
-    if (developer) {
+  removeUser(user) {
+    if (user) {
       this.assignedDevelopers.splice(
-        this.assignedDevelopers.indexOf(developer),
+        this.assignedDevelopers.indexOf(user),
         1
       );
     }
-    return developer;
+    return user;
   }
 }

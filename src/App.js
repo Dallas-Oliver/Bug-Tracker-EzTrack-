@@ -1,6 +1,6 @@
 import React from "react";
 import "../src/main.css";
-import AuthService from "./auth/AuthService";
+import { AuthService as Auth } from "./auth/AuthService";
 import Home from "./views/home/Home";
 import Register from "./views/register/Register";
 import Login from "./views/login/Login";
@@ -8,7 +8,6 @@ import { Route, Switch, useHistory, Redirect } from "react-router-dom";
 
 function App() {
   const history = useHistory();
-  const Auth = new AuthService();
 
   async function loginAndRedirect(email, password) {
     try {
@@ -35,7 +34,6 @@ function App() {
 
     const jsonResponse = await Auth.register(formData);
     if (jsonResponse) {
-      console.log(jsonResponse);
       loginAndRedirect(jsonResponse.email, formData.password);
     }
   }

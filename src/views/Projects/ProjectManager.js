@@ -1,53 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { Route, useRouteMatch, Switch } from "react-router-dom";
 import ProjectModel from "../../models/main models/ProjectModel";
-import TicketModel from "../../models/main models/TicketModel";
 import ProjectList from "./ProjectList";
 import Project from "./Project";
+import Ticket from "../tickets/Ticket";
 
-import AuthService from "../../auth/AuthService";
+import { AuthService as Auth } from "../../auth/AuthService";
 
 function ProjectManager() {
   const [titleInput, handleTitleUpdate] = useState("");
   const [descInput, handleDescUpdate] = useState("");
-  const [devInput, handleDevUpdate] = useState("");
   const [projectList, updateProjectList] = useState([]);
   const [formIsVisible, toggleForm] = useState(false);
   const { path } = useRouteMatch();
-  const Auth = new AuthService();
 
   function validateInputs() {
-    return (
-      titleInput.length > 0 && descInput.length > 0 && devInput.length > 0
-    );
+    return titleInput.length > 0 && descInput.length > 0;
   }
 
   async function getAllProjects() {
-    if (Auth.loggedIn()) {
-      const token = Auth.getToken();
-      const response = await fetch(
-        "http://localhost:5000/projects/all-projects",
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            authorization: `bearer ${token}`,
-          },
-          method: "GET",
-        }
-      );
-
-      const json = await response.json();
-
-      if (json) {
-        updateProjectList(json.projects);
-      }
+    const projects = await Auth.fetch(
+      "http://localhost:5000/projects/all-projects"
+    );
+    if (projects) {
+      updateProjectList(projects);
+    } else {
+      console.log("nooooo");
     }
   }
 
   useEffect(() => {
-    getAllProjects();
-  }, []);
+    if (projectList.length <= 0) {
+      getAllProjects();
+    }
+  });
 
   function handleInput(e) {
     const elementName = e.target.name;
@@ -56,9 +42,6 @@ function ProjectManager() {
     switch (elementName) {
       case "title":
         handleTitleUpdate(value);
-        break;
-      case "dev":
-        handleDevUpdate(value);
         break;
       case "description":
         handleDescUpdate(value);
@@ -71,13 +54,17 @@ function ProjectManager() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    let newProject = new ProjectModel(titleInput, descInput, devInput);
+    let newProject = new ProjectModel(titleInput, descInput);
+    const currentUser = {
+      name: Auth.getUserData().name,
+      _id: Auth.getUserData()._id,
+    };
 
     const response = await fetch(
       "http://localhost:5000/projects/save-project",
       {
         headers: { "content-type": "application/json; charset=UTF-8" },
-        body: JSON.stringify(newProject),
+        body: JSON.stringify({ newProject, currentUser }),
         method: "POST",
       }
     );
@@ -113,7 +100,7 @@ function ProjectManager() {
           }}
         />
         <Route
-          path="/home/projects/project/:projectId"
+          path="/home/projects/:projectId"
           render={() => (
             <Project
               validateInputs={validateInputs}

@@ -16,13 +16,6 @@ function AddForm(props) {
           name="title"
           type="text"
         ></input>
-        <label htmlFor="dev">Assigned Developer</label>
-        <input
-          onChange={props.onDevChange}
-          value={props.devValue}
-          name="dev"
-          type="text"
-        ></input>
         <label htmlFor="description">{props.formType} Description</label>
         <textarea
           type="text"

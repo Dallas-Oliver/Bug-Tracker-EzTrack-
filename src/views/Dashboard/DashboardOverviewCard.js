@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Chart from "./Chart";
 
 function DashboardOverviewCard(props) {
+  function getTicketData() {
+    let ticketsArray = [];
+    props.userInfo.projects.forEach((project) => {
+      project.Tickets.forEach((ticket) => {
+        ticketsArray.push(ticket);
+      });
+    });
+    ticketsArray.flat();
+  }
+
+  useEffect(() => {
+    getTicketData();
+  }, []);
+
   return (
     <div className="dash-card overview-card">
-      <h2>Overview</h2>
+      {/* <h2>Overview</h2>
       <div className="content">
         <Chart ticketInfo={props.userInfo.tickets} />
         <section className="statistics">
@@ -23,7 +37,7 @@ function DashboardOverviewCard(props) {
             </li>
           </ul>
         </section>
-      </div>
+      </div> */}
     </div>
   );
 }

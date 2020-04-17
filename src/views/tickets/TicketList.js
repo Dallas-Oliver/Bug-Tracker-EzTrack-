@@ -4,6 +4,7 @@ import TicketListItem from "./TicketListItem";
 export default function TicketList(props) {
   return (
     <div className="ticket-list">
+      <h2>All Tickets</h2>
       {props.ticketList.length >= 1 ? (
         <table>
           <thead>
@@ -17,7 +18,7 @@ export default function TicketList(props) {
               return (
                 <TicketListItem
                   key={ticket._id}
-                  id={ticket._id}
+                  _id={ticket._id}
                   name={ticket.name}
                   status={ticket.status}
                 />

@@ -51,7 +51,6 @@ function ProjectList(props) {
           validateInputs={props.validateInputs}
           titleValue={props.titleInput}
           onTitleChange={props.handleInput}
-          onDevChange={props.handleInput}
           onSubmit={props.handleSubmit}
           hideForm={props.hideForm}
           descValue={props.descInput}

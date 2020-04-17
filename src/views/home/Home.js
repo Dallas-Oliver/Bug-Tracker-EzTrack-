@@ -2,19 +2,13 @@ import React, { useState, useEffect } from "react";
 import Navigation from "./Navigation";
 import Dashboard from "../Dashboard/Dashboard";
 import ProjectManager from "../Projects/ProjectManager";
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-  useHistory,
-} from "react-router-dom";
-import AuthService from "../../auth/AuthService";
+import { Route, Switch, useHistory } from "react-router-dom";
+import { AuthService as Auth } from "../../auth/AuthService";
 
 function Home() {
   const history = useHistory();
   const [userInfo, setUserInfo] = useState();
   const [dataLoaded, handleDataLoaded] = useState(false);
-  const Auth = new AuthService();
 
   async function getUserData() {
     const jsonData = await Auth.fetch(
@@ -31,7 +25,7 @@ function Home() {
     if (!dataLoaded) {
       getUserData();
     }
-  }, []);
+  });
 
   function handleLogout() {
     Auth.logout();
@@ -39,7 +33,7 @@ function Home() {
   }
 
   return (
-    <BrowserRouter>
+    <React.Fragment>
       {dataLoaded ? (
         <div className="Home">
           <section className="side-bar">
@@ -70,7 +64,7 @@ function Home() {
       ) : (
         <h3>Loading...</h3>
       )}
-    </BrowserRouter>
+    </React.Fragment>
   );
 }
 

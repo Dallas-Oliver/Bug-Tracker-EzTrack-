@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap");
-$background-grey: #f3f3f3;
+$background-grey: #f8f8f8;
 $form-grey: #ffffff;
-$nav-grey: #e9e8e8;
+$nav-grey: #a5d6ce;
 $border-grey: #707070;
 $main-black: #141414;
 $dark-blue: #0b486b;
@@ -479,6 +479,13 @@ html {
           color: $main-black;
           padding: 1em;
           transition: opacity 0.3s ease-in-out;
+
+          .ticket-list-item {
+            .ticket-link {
+              cursor: pointer;
+              margin: 0;
+            }
+          }
         }
       }
 

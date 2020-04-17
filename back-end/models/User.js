@@ -8,11 +8,6 @@ const UserSchema = new Schema({
   companyName: { type: String, required: false },
   password: { type: String, required: true },
   projects: [],
-  tickets: {
-    openTickets: [],
-    closedTickets: [],
-    overdueTickets: []
-  }
 });
 
 const User = mongoose.model("users", UserSchema);

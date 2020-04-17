@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import Overview from "./DashboardOverviewCard";
-import TicketList from "./TicketList";
+import DashboardTicketList from "./DashboardTicketList";
 
 function Dashboard(props) {
-  console.log(props.userInfo);
-
   return (
     <div className="Dashboard">
       <h1>Welcome, {props.userInfo.name}</h1>
       <Overview userInfo={props.userInfo} />
-      <TicketList tickets={props.userInfo.tickets} />
+      {/* <TicketList tickets={props.userInfo} /> */}
     </div>
   );
 }

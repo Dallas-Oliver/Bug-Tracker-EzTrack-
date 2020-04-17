@@ -4,7 +4,7 @@ html {
   margin: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  background: #f3f3f3;
+  background: #f8f8f8;
   height: 100vh;
 }
 
@@ -110,7 +110,7 @@ html {
   margin: 1.3em 0px 0px 0px;
   padding: 1em;
   width: 75%;
-  border: 1px solid #f3f3f3;
+  border: 1px solid #f8f8f8;
   border-radius: 4px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -226,7 +226,7 @@ html {
   margin: 1.3em 0px 0px 0px;
   padding: 1em;
   width: 75%;
-  border: 1px solid #f3f3f3;
+  border: 1px solid #f8f8f8;
   border-radius: 4px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -290,7 +290,7 @@ html {
           justify-content: space-between;
   height: 100%;
   width: 10vw;
-  background: #e9e8e8;
+  background: #a5d6ce;
 }
 
 .App .Home .side-bar .personal {
@@ -343,7 +343,7 @@ html {
 }
 
 .App .Home .side-bar .nav .selected {
-  background: #f3f3f3;
+  background: #f8f8f8;
   opacity: 1;
 }
 
@@ -445,7 +445,7 @@ html {
 }
 
 .App .Home .Dashboard .overview-card .content .statistics {
-  background: #f3f3f3;
+  background: #f8f8f8;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   padding: 1em 2em;
@@ -579,6 +579,11 @@ html {
   transition: opacity 0.3s ease-in-out;
 }
 
+.App .Home .project-manager .project .ticket-list .ticket-list-item .ticket-link {
+  cursor: pointer;
+  margin: 0;
+}
+
 .App .Home .project-manager .blur {
   -webkit-filter: blur(1px);
           filter: blur(1px);
@@ -595,7 +600,7 @@ html {
           box-shadow: -1px 0 12px #707070;
   height: 100%;
   width: 35vw;
-  background: #f3f3f3;
+  background: #f8f8f8;
 }
 
 .App .add-form h3 {
@@ -632,7 +637,7 @@ html {
   font-family: "Montserrat";
   padding: 0.6em;
   width: 100%;
-  border: 1px solid #f3f3f3;
+  border: 1px solid #f8f8f8;
   border-radius: 4px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;

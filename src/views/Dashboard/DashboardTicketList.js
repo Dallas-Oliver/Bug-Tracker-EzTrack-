@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function TicketList(props) {
+function DashboardTicketList(props) {
   const [tickets, setTicketArray] = useState();
 
   useEffect(() => {
@@ -42,4 +42,4 @@ function TicketList(props) {
   );
 }
 
-export default TicketList;
+export default DashboardTicketList;
