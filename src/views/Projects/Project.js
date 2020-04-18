@@ -10,9 +10,11 @@ import Ticket from "../../views/tickets/Ticket";
 function Project(props) {
   const [projectInfo, setProjectInfo] = useState();
   const [ticketList, setTicketList] = useState([]);
+  const [currentTicketId, setTicketId] = useState();
   const [titleInput, handleTitleUpdate] = useState("");
   const [descInput, handleDescUpdate] = useState("");
   const [formIsVisible, toggleForm] = useState(false);
+  const [ticketIsVisible, toggleTicket] = useState(false);
   const { projectId } = useParams();
 
   async function getProjectData() {
@@ -69,15 +71,24 @@ function Project(props) {
     return titleInput.length > 0 && descInput.length > 0;
   }
 
+  function passTicketId(_id) {
+    setTicketId(_id);
+    toggleTicket(true);
+  }
+
   return (
     <div className="project">
       {projectInfo ? (
-        <div className={`project-content ${formIsVisible ? "blur" : ""}`}>
+        <div
+          className={`project-content ${
+            formIsVisible || ticketIsVisible ? "blur" : ""
+          }`}
+        >
           <HeaderBar
             title={projectInfo.name}
             formIsVIsible={formIsVisible}
             buttonText="New Ticket"
-            showForm={() => toggleForm(true)}
+            toggle={() => toggleForm(true)}
           />
 
           <section className="project-description">
@@ -89,6 +100,7 @@ function Project(props) {
             <TicketList
               projectId={projectInfo._id}
               ticketList={ticketList}
+              passTicketId={(_id) => passTicketId(_id)}
             />
           </div>
         </div>
@@ -110,7 +122,12 @@ function Project(props) {
         />
       ) : null}
 
-      <Ticket />
+      {!currentTicketId || ticketIsVisible === false ? null : (
+        <Ticket
+          hideTicket={() => toggleTicket(false)}
+          ticketId={currentTicketId}
+        />
+      )}
     </div>
   );
 }

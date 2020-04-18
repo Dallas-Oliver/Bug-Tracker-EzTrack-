@@ -21,6 +21,7 @@ export default function TicketList(props) {
                   _id={ticket._id}
                   name={ticket.name}
                   status={ticket.status}
+                  passTicketId={props.passTicketId}
                 />
               );
             })}

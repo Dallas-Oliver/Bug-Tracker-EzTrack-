@@ -1,32 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { AuthService as Auth } from "../../auth/AuthService";
+import HeaderBar from "../../components/HeaderBar";
 
 export default function Ticket(props) {
-  const { projectId, ticketId } = useParams();
+  const { projectId } = useParams();
   const [ticketInfo, setTicketInfo] = useState();
 
   useEffect(() => {
-    if (ticketId && !ticketInfo) {
-      getTicketData();
-    }
-  });
+    getTicketData();
+  }, [ticketInfo]);
 
-  if (!ticketId) {
+  if (!ticketInfo) {
     return null;
   }
 
   async function getTicketData() {
     const ticket = await Auth.fetch(
-      `/projects/${projectId}/ticket/${ticketId}`
+      `http://localhost:5000/projects/${projectId}/ticket/${props.ticketId}`
     );
 
     if (ticket) {
+      console.log(ticket);
       setTicketInfo(ticket);
     }
-
-    console.log(ticket);
   }
 
-  return <h1>{props.title}</h1>;
+  return (
+    <div className="ticket">
+      <HeaderBar
+        title={ticketInfo.name}
+        buttonText="hide"
+        toggle={props.hideTicket}
+      />
+      <hr></hr>
+    </div>
+  );
 }

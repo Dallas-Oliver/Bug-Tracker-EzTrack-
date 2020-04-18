@@ -94,17 +94,29 @@ router.post("/save-ticket/:projectId", (req, res) => {
 
     try {
       ticket.save().then((ticket) => {
-        console.log(ticket);
         res.status(200).send(ticket);
       });
     } catch (err) {
-      console.log(err);
+      res.status(400).send({ message: "ticket not saved!" });
     }
   }
 });
 
 router.get("/:projectId/ticket/:ticketId", (req, res) => {
-  console.log(req.params);
+  Ticket.findOne({ _id: req.params.ticketId })
+    .exec()
+    .then((ticket) => {
+      if (!ticket) {
+        res.status(400).send({ message: "No ticket found error 2!" });
+      } else {
+        res.status(200).send(ticket);
+      }
+    })
+    .catch((err) => {
+      if (err) {
+        res.status(400).send({ message: "No ticket found error 1!" });
+      }
+    });
 });
 
 module.exports = router;

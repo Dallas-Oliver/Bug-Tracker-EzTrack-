@@ -4,16 +4,20 @@ import { NavLink, useParams } from "react-router-dom";
 function TicketListItem(props) {
   const { projectId, ticketId } = useParams();
 
-  console.log(props._id);
+  function showTicket() {
+    props.passTicketId(props._id);
+  }
+
   return (
     <tr className="ticket-list-item">
       <td>
-        <NavLink
+        {/* <NavLink
           className="ticket-link"
           to={`/home/projects/${projectId}/ticket/${props._id}`}
         >
           {props.name}
-        </NavLink>
+        </NavLink> */}
+        <p onClick={() => showTicket()}>{props.name}</p>
       </td>
 
       <td

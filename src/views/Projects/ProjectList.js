@@ -9,7 +9,7 @@ function ProjectList(props) {
       <HeaderBar
         title="All Projects"
         formIsVisible={props.formIsVisible}
-        showForm={props.showForm}
+        toggle={props.showForm}
         buttonText="New Project"
       />
       {props.projectList.length >= 1 ? (
