@@ -6,11 +6,13 @@ const jwt = require("jsonwebtoken");
 
 router.post("/save-project", (req, res) => {
   const body = req.body.newProject;
+  console.log(req.body.currentUser.name);
 
   const project = new Project({
     name: body.name,
     _id: body.uid,
     dateCreated: body.dateCreated,
+    createdBy: req.body.currentUser.name,
     numberOfTickets: body.numberOfTickets,
     projectDescription: body.projectDescription,
     assignedUsers: req.body.currentUser,
@@ -21,6 +23,7 @@ router.post("/save-project", (req, res) => {
   project
     .save()
     .then((project) => {
+      console.log(project);
       res.status(200).send({ message: "project saved", project });
     })
     .catch((err) => {
@@ -77,19 +80,20 @@ router.get("/:projectId", (req, res) => {
 router.post("/save-ticket/:projectId", (req, res) => {
   const projectId = req.params.projectId;
 
-  const body = req.body;
+  const newTicket = req.body.newTicket;
 
   if (!projectId) {
     res.status(400).send({ message: "Bad request" });
   } else {
     const ticket = new Ticket({
-      name: body.name,
-      _id: body.uid,
-      dateCreated: body.dateCreated,
-      ticketDescription: body.description,
+      name: newTicket.name,
+      _id: newTicket.uid,
+      dateCreated: newTicket.dateCreated,
+      createdBy: req.body.currentUser.name,
+      ticketDescription: newTicket.description,
       projectId: projectId,
-      priority: body.priority,
-      status: body.status,
+      priority: newTicket.priority,
+      status: newTicket.status,
     });
 
     try {

@@ -1,14 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
 
 export default class Ticket {
-  constructor(title, description, dev, projectid) {
+  constructor(title, description, projectid) {
     this.name = title;
     this.uid = uuidv4();
     this.dateCreated = Date.now();
     this.description = description;
     this.history = [];
     this.comments = [];
-    this.assignedDeveloper = dev;
+    this.createdBy = undefined;
     this.projectid = projectid;
     this.priority = "High";
     this.status = "Open";

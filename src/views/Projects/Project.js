@@ -23,6 +23,7 @@ function Project(props) {
     );
 
     if (response) {
+      console.log(response.project);
       setProjectInfo(response.project);
       setTicketList(response.tickets);
     }
@@ -37,10 +38,14 @@ function Project(props) {
   async function handleSubmit(e) {
     e.preventDefault();
     let newTicket = new TicketModel(titleInput, descInput);
+    const currentUser = {
+      name: Auth.getUserData().name,
+      _id: Auth.getUserData()._id,
+    };
 
     const ticket = await Auth.fetch(
       `http://localhost:5000/projects/save-ticket/${projectId}`,
-      { body: JSON.stringify(newTicket), method: "POST" }
+      { body: JSON.stringify({ newTicket, currentUser }), method: "POST" }
     );
 
     if (ticket) {
@@ -92,7 +97,43 @@ function Project(props) {
           />
 
           <section className="project-description">
-            <h2>Project description</h2>
+            <div>
+              <span>Created by: {projectInfo.createdBy} </span>
+              <span>{projectInfo.dateCreated}</span>
+              <br />
+              <p>
+                <span>
+                  {projectInfo.status === "Open" ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="9"
+                      height="9"
+                      viewBox="0 0 9 9"
+                    >
+                      <circle cx="4.5" cy="4.5" r="4.5" fill="#f96767" />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="9"
+                      height="9"
+                      viewBox="0 0 9 9"
+                    >
+                      <circle cx="4.5" cy="4.5" r="4.5" fill="#f96767" />
+                    </svg>
+                  )}{" "}
+                  {projectInfo.status}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 48 48"
+                  >
+                    <path d="M14.83 16.42L24 25.59l9.17-9.17L36 19.25l-12 12-12-12z" />
+                  </svg>
+                </span>
+              </p>
+            </div>
             <hr></hr>
             <p>{projectInfo.projectDescription}</p>
           </section>

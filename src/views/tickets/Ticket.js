@@ -21,7 +21,6 @@ export default function Ticket(props) {
     );
 
     if (ticket) {
-      console.log(ticket);
       setTicketInfo(ticket);
     }
   }
@@ -33,6 +32,7 @@ export default function Ticket(props) {
         buttonText="hide"
         toggle={props.hideTicket}
       />
+      <p>Created by: {ticketInfo.createdBy}</p>
       <hr></hr>
     </div>
   );

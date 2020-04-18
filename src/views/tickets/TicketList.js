@@ -4,7 +4,7 @@ import TicketListItem from "./TicketListItem";
 export default function TicketList(props) {
   return (
     <div className="ticket-list">
-      <h2>All Tickets</h2>
+      <h4>All Tickets</h4>
       {props.ticketList.length >= 1 ? (
         <table>
           <thead>

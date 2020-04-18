@@ -5,6 +5,7 @@ export default class Project {
     this.name = name;
     this.uid = uuidv4();
     this.dateCreated = `${new Date().toLocaleTimeString()} ${new Date().toLocaleDateString()}`;
+    this.createdBy = undefined;
     this.numberOfTickets = 0;
     this.projectDescription = description;
     this.assignedUsers = [assignedUser];

@@ -6,6 +6,7 @@ const TicketSchema = new Schema({
   name: { type: String, required: true },
   _id: { type: String, required: true },
   dateCreated: String,
+  createdBy: { type: String },
   ticketDescription: { type: String, required: true },
   projectId: { type: String, require: true },
   priority: { type: String, required: true },
