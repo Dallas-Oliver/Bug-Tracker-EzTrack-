@@ -1,4 +1,5 @@
 import React from "react";
+import Dropdown from "react-bootstrap/Dropdown";
 
 function AddForm(props) {
   return (
@@ -23,6 +24,30 @@ function AddForm(props) {
           value={props.descValue}
           onChange={props.onDescChange}
         ></textarea>
+        {/* {props.formType === "Project" ? (
+          <Dropdown className="dropdown">
+            <Dropdown.Toggle
+              className="dropdown-button"
+              variant="light"
+              id="dropdown-basic"
+            >
+              Dropdown Button
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu className="dropdown-menu">
+              {props.users.map((user) => {
+                return (
+                  <Dropdown.Item
+                    key={user._id}
+                    onClick={(e) => props.addUser(e)}
+                  >
+                    {user.name}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : null} */}
         <div className="buttons">
           <button
             disabled={!props.validateInputs()}

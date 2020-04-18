@@ -5,10 +5,9 @@ import ProjectManager from "../Projects/ProjectManager";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { AuthService as Auth } from "../../auth/AuthService";
 
-function Home() {
+function Home(props) {
   const history = useHistory();
   const [userInfo, setUserInfo] = useState();
-  const [dataLoaded, handleDataLoaded] = useState(false);
 
   async function getUserData() {
     const jsonData = await Auth.fetch(
@@ -17,12 +16,11 @@ function Home() {
 
     if (jsonData) {
       setUserInfo(jsonData);
-      handleDataLoaded(true);
     }
   }
 
   useEffect(() => {
-    if (!dataLoaded) {
+    if (!userInfo) {
       getUserData();
     }
   });
@@ -34,7 +32,7 @@ function Home() {
 
   return (
     <React.Fragment>
-      {dataLoaded ? (
+      {userInfo ? (
         <div className="Home">
           <section className="side-bar">
             <div className="personal">
@@ -57,7 +55,7 @@ function Home() {
             />
             <Route
               path="/home/projects"
-              render={() => <ProjectManager />}
+              render={() => <ProjectManager users={props.users} />}
             ></Route>
           </Switch>
         </div>

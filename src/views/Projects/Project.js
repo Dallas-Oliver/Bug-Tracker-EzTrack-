@@ -42,7 +42,6 @@ function Project(props) {
     );
 
     if (ticket) {
-      console.log(ticket);
       setTicketList(ticketList.concat(ticket));
       handleTitleUpdate("");
       handleDescUpdate("");

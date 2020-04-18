@@ -3,6 +3,19 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+router.get("/", (req, res) => {
+  User.find()
+    .exec()
+    .then((users) => {
+      if (!users || users.length <= 0) {
+        res.status(400).send({ message: "no users registered" });
+      } else {
+        console.log(users);
+        res.status(200).send(users);
+      }
+    });
+});
+
 router.post("/register", (req, res) => {
   const userInfo = req.body;
   User.find({ email: userInfo.email })

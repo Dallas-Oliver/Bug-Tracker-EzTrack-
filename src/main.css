@@ -509,6 +509,7 @@ html {
           box-sizing: border-box;
   -moz-box-sizing: border-box;
   cursor: pointer;
+  background: #a5d6ce;
 }
 
 .App .Home .project-manager .project-list {

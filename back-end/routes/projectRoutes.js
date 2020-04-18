@@ -62,10 +62,9 @@ router.get("/:projectId", (req, res) => {
     Project.findOne({ _id: projectId })
       .exec()
       .then((project) => {
-        Ticket.find({ projectid: project._id })
+        Ticket.find({ projectId: project._id })
           .exec()
           .then((tickets) => {
-            console.log(tickets);
             res.status(200).send({ project, tickets });
           });
       })

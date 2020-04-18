@@ -7,7 +7,7 @@ import Ticket from "../tickets/Ticket";
 
 import { AuthService as Auth } from "../../auth/AuthService";
 
-function ProjectManager() {
+function ProjectManager(props) {
   const [titleInput, handleTitleUpdate] = useState("");
   const [descInput, handleDescUpdate] = useState("");
   const [projectList, updateProjectList] = useState([]);
@@ -95,6 +95,7 @@ function ProjectManager() {
                 showForm={() => toggleForm(true)}
                 formIsVisible={formIsVisible}
                 projectList={projectList}
+                users={props.users}
               />
             );
           }}

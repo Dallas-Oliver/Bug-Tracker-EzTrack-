@@ -55,6 +55,8 @@ function ProjectList(props) {
           hideForm={props.hideForm}
           descValue={props.descInput}
           onDescChange={props.handleInput}
+          users={props.users}
+          addUser={props.addUser}
         />
       ) : null}
     </div>
