@@ -7,7 +7,7 @@ const UserSchema = new Schema({
   email: { type: String, required: true },
   companyName: { type: String, required: false },
   password: { type: String, required: true },
-  projects: [],
+  projectIds: [],
 });
 
 const User = mongoose.model("users", UserSchema);

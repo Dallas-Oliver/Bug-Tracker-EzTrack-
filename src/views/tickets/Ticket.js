@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { AuthService as Auth } from "../../auth/AuthService";
 import HeaderBar from "../../components/HeaderBar";
+import InfoBar from "../../components/InfoBar";
 
 export default function Ticket(props) {
   const { projectId } = useParams();
@@ -9,7 +10,7 @@ export default function Ticket(props) {
 
   useEffect(() => {
     getTicketData();
-  }, [ticketInfo]);
+  }, []);
 
   if (!ticketInfo) {
     return null;
@@ -21,6 +22,7 @@ export default function Ticket(props) {
     );
 
     if (ticket) {
+      console.log(ticket);
       setTicketInfo(ticket);
     }
   }
@@ -29,11 +31,17 @@ export default function Ticket(props) {
     <div className="ticket">
       <HeaderBar
         title={ticketInfo.name}
-        buttonText="hide"
+        buttonText="< back"
         toggle={props.hideTicket}
       />
-      <p>Created by: {ticketInfo.createdBy}</p>
-      <hr></hr>
+      <InfoBar
+        barType="ticket"
+        createdBy={ticketInfo.createdBy}
+        dateCreated={ticketInfo.dateCreated}
+        status={ticketInfo.status}
+        description={ticketInfo.projectDescription}
+        priority={ticketInfo.priority}
+      />
     </div>
   );
 }

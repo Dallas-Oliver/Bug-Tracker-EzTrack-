@@ -1,25 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Chart from "./Chart";
+import { AuthService as Auth } from "../../auth/AuthService";
 
 function DashboardOverviewCard(props) {
-  function getTicketData() {
-    let ticketsArray = [];
-    props.userInfo.projects.forEach((project) => {
-      project.Tickets.forEach((ticket) => {
-        ticketsArray.push(ticket);
-      });
-    });
-    ticketsArray.flat();
-  }
-
-  useEffect(() => {
-    getTicketData();
-  }, []);
-
+  console.log(props.userInfo);
   return (
     <div className="dash-card overview-card">
-      {/* <h2>Overview</h2>
-      <div className="content">
+      <h3>Overview</h3>
+      {/* <div className="content">
         <Chart ticketInfo={props.userInfo.tickets} />
         <section className="statistics">
           <h3>Statistics</h3>

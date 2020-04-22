@@ -6,6 +6,7 @@ import HeaderBar from "../../components/HeaderBar";
 import AddForm from "../../components/AddForm";
 import TicketModel from "../../models/main models/TicketModel";
 import Ticket from "../../views/tickets/Ticket";
+import InfoBar from "../../components/InfoBar";
 
 function Project(props) {
   const [projectInfo, setProjectInfo] = useState();
@@ -16,6 +17,7 @@ function Project(props) {
   const [formIsVisible, toggleForm] = useState(false);
   const [ticketIsVisible, toggleTicket] = useState(false);
   const { projectId } = useParams();
+  const [assignedUsers, addAssignedUser] = useState([]);
 
   async function getProjectData() {
     const response = await Auth.fetch(
@@ -23,7 +25,6 @@ function Project(props) {
     );
 
     if (response) {
-      console.log(response.project);
       setProjectInfo(response.project);
       setTicketList(response.tickets);
     }
@@ -35,9 +36,9 @@ function Project(props) {
     }
   });
 
-  async function handleSubmit(e) {
+  async function handleTicketSubmit(e) {
     e.preventDefault();
-    let newTicket = new TicketModel(titleInput, descInput);
+    let newTicket = new TicketModel(titleInput, descInput, assignedUsers);
     const currentUser = {
       name: Auth.getUserData().name,
       _id: Auth.getUserData()._id,
@@ -77,8 +78,20 @@ function Project(props) {
   }
 
   function passTicketId(_id) {
-    setTicketId(_id);
-    toggleTicket(true);
+    if (_id) {
+      setTicketId(_id);
+      toggleTicket(true);
+    }
+  }
+
+  async function addUser(userId) {
+    if (userId) {
+      if (assignedUsers.indexOf(userId) !== -1) {
+        console.log("User already asigned to this ticket");
+      } else {
+        addAssignedUser(assignedUsers.concat(userId));
+      }
+    }
   }
 
   return (
@@ -92,56 +105,21 @@ function Project(props) {
           <HeaderBar
             title={projectInfo.name}
             formIsVIsible={formIsVisible}
-            buttonText="New Ticket"
+            buttonText="New Ticket +"
             toggle={() => toggleForm(true)}
           />
-
-          <section className="project-description">
-            <div>
-              <span>Created by: {projectInfo.createdBy} </span>
-              <span>{projectInfo.dateCreated}</span>
-              <br />
-              <p>
-                <span>
-                  {projectInfo.status === "Open" ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="9"
-                      height="9"
-                      viewBox="0 0 9 9"
-                    >
-                      <circle cx="4.5" cy="4.5" r="4.5" fill="#f96767" />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="9"
-                      height="9"
-                      viewBox="0 0 9 9"
-                    >
-                      <circle cx="4.5" cy="4.5" r="4.5" fill="#f96767" />
-                    </svg>
-                  )}{" "}
-                  {projectInfo.status}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="28"
-                    height="28"
-                    viewBox="0 0 48 48"
-                  >
-                    <path d="M14.83 16.42L24 25.59l9.17-9.17L36 19.25l-12 12-12-12z" />
-                  </svg>
-                </span>
-              </p>
-            </div>
-            <hr></hr>
-            <p>{projectInfo.projectDescription}</p>
-          </section>
+          <InfoBar
+            barType="project"
+            createdBy={projectInfo.createdBy}
+            dateCreated={projectInfo.dateCreated}
+            status={projectInfo.status}
+            description={projectInfo.projectDescription}
+          />
           <div className="ticket-list-container">
             <TicketList
               projectId={projectInfo._id}
               ticketList={ticketList}
-              passTicketId={(_id) => passTicketId(_id)}
+              passTicketId={(userId) => passTicketId(userId)}
             />
           </div>
         </div>
@@ -156,10 +134,12 @@ function Project(props) {
           titleValue={titleInput}
           onTitleChange={(e) => handleInput(e)}
           onDevChange={(e) => handleInput(e)}
-          onSubmit={(e) => handleSubmit(e)}
+          onSubmit={(e) => handleTicketSubmit(e)}
           hideForm={() => toggleForm(false)}
           descValue={descInput}
           onDescChange={(e) => handleInput(e)}
+          users={props.users}
+          addUser={(msg) => addUser(msg)}
         />
       ) : null}
 

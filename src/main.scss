@@ -133,6 +133,7 @@ html {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    margin: 2em;
 
     .left-side {
       h1 {
@@ -162,6 +163,7 @@ html {
       border-radius: 8px;
       padding: 3em 3em;
       margin-left: 0;
+
       text-align: center;
       background: $form-grey;
       z-index: 2;
@@ -364,20 +366,6 @@ html {
           }
         }
       }
-
-      .ticket-list {
-        grid-row: 2;
-        grid-column: 2;
-
-        > * {
-        }
-
-        .table-header {
-        }
-
-        .table-row {
-        }
-      }
     }
 
     .project-manager {
@@ -393,6 +381,7 @@ html {
         justify-content: space-between;
         align-items: center;
         margin-top: 2em;
+        padding: 1em;
         h1 {
           margin: 0 3em 0 0;
         }
@@ -400,13 +389,13 @@ html {
           font-size: 1em;
           color: $main-black;
           border: 1px solid $main-black;
-          padding: 0.3em;
+          padding: 0.1em 0.4em;
           margin: 0.6em 0.6em 0 0;
           border-radius: 4px;
           box-sizing: border-box;
           -moz-box-sizing: border-box;
           cursor: pointer;
-          background: $nav-grey;
+          background: none;
         }
       }
 
@@ -421,6 +410,7 @@ html {
           width: 85%;
           height: auto;
           margin-top: 4em;
+          padding: 1em;
 
           thead {
             tr {
@@ -456,11 +446,6 @@ html {
       .project {
         width: 100%;
         height: auto;
-        // margin: 1em;
-        // display: grid;
-        // grid-template-columns: repeat(auto, 2);
-        // grid-template-rows: 5vh auto auto;
-        // gap: 2vw;
 
         .project-content {
           margin-top: 3em;
@@ -468,11 +453,13 @@ html {
           .project-description {
             background: white;
             font-family: $main-font;
-            // border-radius: 4px;
-            // box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
             color: $main-black;
             padding: 1em;
             margin-top: 2em;
+
+            .created-by {
+              margin-right: 1em;
+            }
           }
           .ticket-list {
             margin-top: 3em;
@@ -481,19 +468,33 @@ html {
             border-radius: 4px;
             width: 50%;
             height: auto;
-            // box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
             color: $main-black;
             padding: 1em;
             transition: opacity 0.3s ease-in-out;
+            .ticket-link {
+              cursor: pointer;
+              margin: 0;
+              color: $dark-blue;
+              font-weight: 500;
+            }
 
-            .ticket-list-item {
-              td p {
-                margin: 0;
-                cursor: pointer;
+            table {
+              width: 85%;
+              height: auto;
+              margin-top: 4em;
+              padding: 1em;
+
+              thead {
+                tr {
+                  th {
+                    text-align: left;
+                    padding-bottom: 0.6em;
+                  }
+                }
               }
-              .ticket-link {
-                cursor: pointer;
-                margin: 0;
+
+              td {
+                padding: 0.3em 0;
               }
             }
           }
@@ -506,9 +507,8 @@ html {
           height: 90vh;
           width: 90%;
           padding: 2em;
-          border: 1px solid $border-grey;
-          border-radius: 8px;
-          background: $background-grey;
+
+          background: white;
         }
       }
 
@@ -569,8 +569,10 @@ html {
       .button {
         color: white;
         font-family: $main-font;
+        background-color: none;
         border: none;
-        padding: 0.6em;
+        width: 33%;
+        padding: 10px;
         margin: 0.6em 0.6em 0 0;
         border-radius: 4px;
         box-sizing: border-box;
@@ -582,7 +584,21 @@ html {
         background: $light-blue;
       }
 
-      .cancel {
+      .dropdown {
+        margin: 0.8em 0;
+        width: 100%;
+        align-self: flex-start;
+        .dropdown-button {
+          width: 33%;
+          padding: 10px;
+        }
+        .dropdown-menu {
+          width: 33%;
+        }
+      }
+
+      .cancel,
+      .btn {
         background: none;
         color: $main-black;
         border: 1px solid $main-black;

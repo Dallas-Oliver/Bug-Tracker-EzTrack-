@@ -3,7 +3,6 @@ import { Route, useRouteMatch, Switch } from "react-router-dom";
 import ProjectModel from "../../models/main models/ProjectModel";
 import ProjectList from "./ProjectList";
 import Project from "./Project";
-import Ticket from "../tickets/Ticket";
 
 import { AuthService as Auth } from "../../auth/AuthService";
 
@@ -60,18 +59,16 @@ function ProjectManager(props) {
       _id: Auth.getUserData()._id,
     };
 
-    const response = await fetch(
+    const project = await Auth.fetch(
       "http://localhost:5000/projects/save-project",
       {
-        headers: { "content-type": "application/json; charset=UTF-8" },
         body: JSON.stringify({ newProject, currentUser }),
         method: "POST",
       }
     );
 
-    const json = await response.json();
-    if (json) {
-      updateProjectList([...projectList, json.project]);
+    if (project) {
+      updateProjectList([...projectList, project.project]);
       handleTitleUpdate("");
       handleDescUpdate("");
       toggleForm(false);
@@ -95,7 +92,6 @@ function ProjectManager(props) {
                 showForm={() => toggleForm(true)}
                 formIsVisible={formIsVisible}
                 projectList={projectList}
-                users={props.users}
               />
             );
           }}
@@ -110,6 +106,7 @@ function ProjectManager(props) {
               showForm={() => toggleForm(true)}
               formIsVisible={formIsVisible}
               handleInput={(e) => handleInput(e)}
+              users={props.users}
             />
           )}
         />

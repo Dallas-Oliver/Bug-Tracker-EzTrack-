@@ -15,7 +15,6 @@ export class AuthService {
       headers,
       ...options,
     });
-
     return response.json();
   }
 

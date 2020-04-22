@@ -9,6 +9,7 @@ const ProjectSchema = new Schema({
   createdBy: { type: String },
   numberOfTickets: Number,
   projectDescription: String,
+  tickets: { type: [] },
   assignedUsers: {
     type: [],
     default: undefined,

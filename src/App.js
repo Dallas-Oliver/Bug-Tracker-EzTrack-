@@ -10,11 +10,19 @@ import { Route, Switch, useHistory, Redirect } from "react-router-dom";
 function App() {
   const history = useHistory();
   const [users, setUserList] = React.useState([]);
+  const [currentUser, setCurrentUser] = React.useState();
 
   async function getUserList() {
-    const userList = await Auth.fetch("/users");
+    const userList = await Auth.fetch("/users/all-users");
     if (userList) {
       setUserList(userList);
+    }
+  }
+
+  async function getCurrentUser() {
+    const user = await Auth.getUserData();
+    if (user) {
+      setCurrentUser(user);
     }
   }
 
@@ -24,11 +32,19 @@ function App() {
     }
   });
 
+  React.useEffect(() => {
+    if (!currentUser) {
+      getCurrentUser();
+    }
+  });
+
   async function loginAndRedirect(email, password) {
     try {
       const response = await Auth.login(email, password);
-      if (response) {
-        history.replace("/home/dashboard");
+      if (response.status >= 400) {
+        console.log(response);
+      } else {
+        history.replace("/home");
       }
     } catch (err) {
       console.log(err);
@@ -72,7 +88,7 @@ function App() {
           path="/"
           render={() =>
             Auth.loggedIn() ? (
-              <Redirect to="home/dashboard" />
+              <Redirect to="/home" />
             ) : (
               <Register handleSubmit={(e) => handleRegistration(e)} />
             )
@@ -82,7 +98,10 @@ function App() {
           path="/login"
           render={() => <Login handleSubmit={(e) => handleLogin(e)} />}
         />
-        <Route path="/home" render={() => <Home users={users} />} />
+        <Route
+          path="/home"
+          render={() => <Home currentUser={currentUser} users={users} />}
+        />
       </Switch>
     </div>
   );

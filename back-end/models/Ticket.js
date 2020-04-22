@@ -11,6 +11,7 @@ const TicketSchema = new Schema({
   projectId: { type: String, require: true },
   priority: { type: String, required: true },
   status: { type: String, require: true },
+  assignedUsers: { type: [] },
 });
 
 module.exports = mongoose.model("Ticket", TicketSchema);

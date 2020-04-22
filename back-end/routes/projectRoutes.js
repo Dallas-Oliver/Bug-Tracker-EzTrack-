@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 
 router.post("/save-project", (req, res) => {
   const body = req.body.newProject;
-  console.log(req.body.currentUser.name);
 
   const project = new Project({
     name: body.name,
@@ -20,10 +19,18 @@ router.post("/save-project", (req, res) => {
     dueDate: body.dueDate,
   });
 
+  User.findOne({ _id: req.body.currentUser._id })
+    .exec()
+    .then((user) => {
+      user.projectIds.push(project._id);
+      user.save().then((user) => {
+        console.log(user);
+      });
+    });
+
   project
     .save()
     .then((project) => {
-      console.log(project);
       res.status(200).send({ message: "project saved", project });
     })
     .catch((err) => {
@@ -79,29 +86,41 @@ router.get("/:projectId", (req, res) => {
 
 router.post("/save-ticket/:projectId", (req, res) => {
   const projectId = req.params.projectId;
-
+  const token = req.headers["authorization"].split(" ")[1];
   const newTicket = req.body.newTicket;
+
+  console.log(req.body.newTicket.assignedUsers);
 
   if (!projectId) {
     res.status(400).send({ message: "Bad request" });
   } else {
-    const ticket = new Ticket({
-      name: newTicket.name,
-      _id: newTicket.uid,
-      dateCreated: newTicket.dateCreated,
-      createdBy: req.body.currentUser.name,
-      ticketDescription: newTicket.description,
-      projectId: projectId,
-      priority: newTicket.priority,
-      status: newTicket.status,
-    });
-
     try {
-      ticket.save().then((ticket) => {
-        res.status(200).send(ticket);
+      jwt.verify(token, process.env.JWT_KEY, (err) => {
+        const ticket = new Ticket({
+          name: newTicket.name,
+          _id: newTicket.uid,
+          dateCreated: newTicket.dateCreated,
+          createdBy: req.body.currentUser.name,
+          ticketDescription: newTicket.description,
+          projectId: projectId,
+          priority: newTicket.priority,
+          status: newTicket.status,
+          assignedUsers: newTicket.assignedUsers,
+        });
+
+        ticket.save().then((ticket) => {
+          res.status(200).send(ticket);
+        });
+
+        Project.findOne({ _id: projectId })
+          .exec()
+          .then((project) => {
+            project.tickets.push(ticket._id);
+            project.save();
+          });
       });
     } catch (err) {
-      res.status(400).send({ message: "ticket not saved!" });
+      console.log(err);
     }
   }
 });
@@ -121,6 +140,47 @@ router.get("/:projectId/ticket/:ticketId", (req, res) => {
         res.status(400).send({ message: "No ticket found error 1!" });
       }
     });
+});
+
+router.get("/all-tickets", (req, res) => {
+  const token = req.headers["authorization"].split(" ")[1];
+
+  if (!token) {
+    res.status(400).send("Invald token");
+  } else {
+    try {
+      jwt.verify(token, process.env.JWT_KEY, (err) => {
+        if (err) {
+          res.status(400).send("Invalid token");
+        }
+        Project.find()
+          .exec()
+          .then((projects) => {
+            res.status(200).send(projects);
+          });
+      });
+    } catch (err) {
+      res.status(400).send("Invalid token");
+    }
+  }
+});
+
+router.post("/:projectId/add-user/:userId", (req, res) => {
+  const projectId = req.params.projectId;
+  const userId = req.params.user_id;
+
+  if (!projectId || !userId) {
+    res.status(400).send({ message: "user not added!" });
+  } else {
+    Project.findOne({ _id: projectId })
+      .exec()
+      .then((project) => {
+        if (!project) {
+          res.status(400).send({ message: "no project found!" });
+        } else {
+        }
+      });
+  }
 });
 
 module.exports = router;

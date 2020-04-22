@@ -24,14 +24,14 @@ function AddForm(props) {
           value={props.descValue}
           onChange={props.onDescChange}
         ></textarea>
-        {/* {props.formType === "Project" ? (
+        {props.formType === "Ticket" ? (
           <Dropdown className="dropdown">
             <Dropdown.Toggle
               className="dropdown-button"
               variant="light"
               id="dropdown-basic"
             >
-              Dropdown Button
+              Add Users
             </Dropdown.Toggle>
 
             <Dropdown.Menu className="dropdown-menu">
@@ -39,7 +39,7 @@ function AddForm(props) {
                 return (
                   <Dropdown.Item
                     key={user._id}
-                    onClick={(e) => props.addUser(e)}
+                    onClick={() => props.addUser(user._id)}
                   >
                     {user.name}
                   </Dropdown.Item>
@@ -47,7 +47,7 @@ function AddForm(props) {
               })}
             </Dropdown.Menu>
           </Dropdown>
-        ) : null} */}
+        ) : null}
         <div className="buttons">
           <button
             disabled={!props.validateInputs()}
