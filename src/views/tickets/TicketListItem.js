@@ -6,7 +6,7 @@ function TicketListItem(props) {
       <td>
         <p
           className="ticket-link"
-          onClick={() => props.passTicketId(props._id)}
+          onClick={() => props.openTicket(props._id)}
         >
           {props.name}
         </p>
@@ -17,6 +17,7 @@ function TicketListItem(props) {
       >
         {props.status}
       </td>
+      <td className="assigned-user">{props.assignedUser}</td>
     </tr>
   );
 }

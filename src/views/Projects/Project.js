@@ -17,17 +17,19 @@ function Project(props) {
   const [formIsVisible, toggleForm] = useState(false);
   const [ticketIsVisible, toggleTicket] = useState(false);
   const { projectId } = useParams();
-  const [assignedUsers, addAssignedUser] = useState([]);
+  const [assignedUser, setAssignedUser] = useState();
 
   async function getProjectData() {
     const response = await Auth.fetch(
       `http://localhost:5000/projects/${projectId}`
     );
 
-    if (response) {
-      setProjectInfo(response.project);
-      setTicketList(response.tickets);
+    if (!response) {
+      console.log("no project");
     }
+    const json = await response.json();
+    setProjectInfo(json.project);
+    setTicketList(json.tickets);
   }
 
   useEffect(() => {
@@ -38,23 +40,29 @@ function Project(props) {
 
   async function handleTicketSubmit(e) {
     e.preventDefault();
-    let newTicket = new TicketModel(titleInput, descInput, assignedUsers);
+
+    let newTicket = new TicketModel(titleInput, descInput, assignedUser);
     const currentUser = {
       name: Auth.getUserData().name,
       _id: Auth.getUserData()._id,
     };
 
-    const ticket = await Auth.fetch(
+    const response = await Auth.fetch(
       `http://localhost:5000/projects/save-ticket/${projectId}`,
-      { body: JSON.stringify({ newTicket, currentUser }), method: "POST" }
+      {
+        body: JSON.stringify({ newTicket, currentUser }),
+        method: "POST",
+      }
     );
 
-    if (ticket) {
-      setTicketList(ticketList.concat(ticket));
-      handleTitleUpdate("");
-      handleDescUpdate("");
-      toggleForm(false);
+    if (!response) {
+      console.log("no ticket");
     }
+    const ticket = await response.json();
+    setTicketList((ticketList) => ticketList.concat(ticket));
+    handleTitleUpdate("");
+    handleDescUpdate("");
+    toggleForm(false);
   }
 
   function handleInput(e) {
@@ -77,7 +85,7 @@ function Project(props) {
     return titleInput.length > 0 && descInput.length > 0;
   }
 
-  function passTicketId(_id) {
+  function openTicket(_id) {
     if (_id) {
       setTicketId(_id);
       toggleTicket(true);
@@ -86,11 +94,7 @@ function Project(props) {
 
   async function addUser(userId) {
     if (userId) {
-      if (assignedUsers.indexOf(userId) !== -1) {
-        console.log("User already asigned to this ticket");
-      } else {
-        addAssignedUser(assignedUsers.concat(userId));
-      }
+      setAssignedUser(userId);
     }
   }
 
@@ -115,13 +119,12 @@ function Project(props) {
             status={projectInfo.status}
             description={projectInfo.projectDescription}
           />
-          <div className="ticket-list-container">
-            <TicketList
-              projectId={projectInfo._id}
-              ticketList={ticketList}
-              passTicketId={(userId) => passTicketId(userId)}
-            />
-          </div>
+          <h4>All Tickets</h4>
+
+          <TicketList
+            ticketList={ticketList}
+            openTicket={(userId) => openTicket(userId)}
+          />
         </div>
       ) : (
         "Create a ticket"
@@ -139,7 +142,7 @@ function Project(props) {
           descValue={descInput}
           onDescChange={(e) => handleInput(e)}
           users={props.users}
-          addUser={(msg) => addUser(msg)}
+          addUser={(userId) => addUser(userId)}
         />
       ) : null}
 

@@ -1,41 +1,37 @@
 import React, { useState, useEffect } from "react";
+import HeaderBar from "../../components/HeaderBar";
+import SimpleBar from "simplebar-react";
+import "simplebar/dist/simplebar.min.css";
 
 function DashboardTicketList(props) {
-  const [tickets, setTicketArray] = useState();
-
-  useEffect(() => {
-    let tickets = props.tickets;
-    let ticketArray = [
-      ...tickets.openTickets,
-      ...tickets.closedTickets,
-      ...tickets.overdueTickets,
-    ];
-    console.log(props.tickets);
-    setTicketArray(ticketArray);
-  }, []);
-
   return (
-    <div className="dash-card ticket-list">
-      <h2>Tickets</h2>
-      <button>View All</button>
-      <table className="list">
+    <div className="dash-card ">
+      <HeaderBar
+        title="All Tickets"
+        buttonText="View All"
+        formIsVisible={props.formIsVisible}
+        toggle={props.toggle}
+      />
+
+      <table>
         <thead>
           <tr className="table-header">
             <th>Name</th>
-            <th>Project</th>
-            <th>Due Date</th>
+            <th>Status</th>
+            <th>Assigned User</th>
           </tr>
         </thead>
+
         <tbody>
-          {/* {tickets.map((ticket) => {
+          {props.tickets.map((ticket) => {
             return (
-              <tr className="table-row" key={ticket.id}>
+              <tr className="table-row" key={ticket._id}>
                 <td>{ticket.name}</td>
-                <td>{ticket.parentProject}</td>
-                <td>{ticket.dueDate}</td>
+                <td>{ticket.status}</td>
+                <td>{ticket.assignedUser}</td>
               </tr>
             );
-          })} */}
+          })}
         </tbody>
       </table>
     </div>

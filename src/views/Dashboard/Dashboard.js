@@ -2,28 +2,22 @@ import React, { useState, useEffect } from "react";
 import DashboardOverviewCard from "./DashboardOverviewCard";
 import DashboardTicketList from "./DashboardTicketList";
 import { AuthService as Auth } from "../../auth/AuthService";
-import { useHistory } from "react-router-dom";
 
 function Dashboard(props) {
-  const history = useHistory();
-  const [ticketList, setTicketList] = useState();
-  const [projectList, setProjectList] = useState();
+  const [userInfo, setUserInfo] = useState();
 
   async function getUserData() {
-    const tickets = await Auth.fetch(
-      "http://localhost:5000/projects/all-tickets"
-    );
-    const projects = await Auth.fetch(
-      "http://localhost:5000/projects/all-projects"
-    );
+    const user = await Auth.getUserData();
+    if (!user) {
+      console.log("no user");
+    }
 
-    if (tickets && projects) {
-      console.log(projects);
-      setTicketList(tickets);
-      setProjectList(projects);
-      history.push("/home/dashboard");
-    } else {
-      console.log("no data");
+    if (user) {
+      const response = await Auth.fetch(
+        `http://localhost:5000/users/${user._id}`
+      );
+      const userData = await response.json();
+      setUserInfo(userData);
     }
   }
 
@@ -33,14 +27,18 @@ function Dashboard(props) {
 
   return (
     <React.Fragment>
-      {ticketList && projectList ? (
+      {userInfo ? (
         <div className="Dashboard">
-          <h2>Welcome, {props.currentUser.name}</h2>
+          <h2>Welcome, {userInfo.user.name}</h2>
           <DashboardOverviewCard
-            tickets={ticketList}
-            projects={projectList}
+            tickets={userInfo.ticketList}
+            projects={userInfo.projectList}
           />
-          {/* <DashboardTicketList tickets={userInfo.tickets} /> */}
+          <DashboardTicketList
+            toggle={props.toggle}
+            formIsVisible={props.formIsVisible}
+            tickets={userInfo.ticketList}
+          />
         </div>
       ) : (
         <h4 className="loading-msg">Loading...</h4>

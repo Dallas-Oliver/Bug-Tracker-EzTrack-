@@ -19,6 +19,14 @@ function Navigation(props) {
       >
         Projects
       </NavLink>
+      <NavLink
+        className="tickets-link"
+        activeClassName="selected"
+        to="/home/tickets"
+        exact
+      >
+        Tickets
+      </NavLink>
     </div>
   );
 }

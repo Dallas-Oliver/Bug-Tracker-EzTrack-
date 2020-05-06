@@ -18,14 +18,14 @@ function ProjectManager(props) {
   }
 
   async function getAllProjects() {
-    const projects = await Auth.fetch(
-      "http://localhost:5000/projects/all-projects"
+    const response = await Auth.fetch(
+      "http://localhost:5000/projects/all"
     );
-    if (projects) {
-      updateProjectList(projects);
-    } else {
-      console.log("nooooo");
+    if (!response) {
+      console.log("no projects");
     }
+    const projects = await response.json();
+    updateProjectList(projects);
   }
 
   useEffect(() => {
@@ -59,7 +59,7 @@ function ProjectManager(props) {
       _id: Auth.getUserData()._id,
     };
 
-    const project = await Auth.fetch(
+    const response = await Auth.fetch(
       "http://localhost:5000/projects/save-project",
       {
         body: JSON.stringify({ newProject, currentUser }),
@@ -67,8 +67,9 @@ function ProjectManager(props) {
       }
     );
 
-    if (project) {
-      updateProjectList([...projectList, project.project]);
+    if (response) {
+      const project = await response.json();
+      updateProjectList((projectList) => projectList.concat(project));
       handleTitleUpdate("");
       handleDescUpdate("");
       toggleForm(false);

@@ -31,6 +31,7 @@ html {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    height: 90%;
 
     .left-side {
       h1 {
@@ -40,6 +41,7 @@ html {
         font-size: 8em;
         margin: 0px;
         box-sizing: border-box;
+        height: 100%;
       }
 
       h3 {
@@ -49,12 +51,12 @@ html {
         font-size: 3em;
         margin: 0px 0px 1em 0px;
         position: relative;
-        left: 3em;
+        left: 1em;
       }
 
       .svg-image {
         position: relative;
-        left: 15em;
+        left: 0em;
         bottom: 1.5em;
         width: 90%;
         z-index: 2;
@@ -65,19 +67,22 @@ html {
       display: flex;
       flex-direction: column;
       border: 1px solid $main-black;
-      width: 30vw;
+      width: 40vw;
       border-radius: 8px;
-      padding: 4em 4em;
+      padding: 4em 3em 1em 3em;
       margin-left: 2em;
       text-align: center;
-      background: $form-grey;
+      background: rgba(211, 211, 211, 0.1);
       z-index: 1;
+      height: auto;
 
       h1 {
         font-family: "Montserrat";
         font-weight: 400;
         font-size: 3em;
         color: $dark-blue;
+        position: relative;
+        z-index: 3;
       }
 
       .form {
@@ -143,12 +148,14 @@ html {
         font-size: 6em;
         margin: 0px;
         box-sizing: border-box;
+        position: relative;
+        z-index: 2;
       }
 
       .svg-image {
         position: relative;
         left: 4em;
-        bottom: 4em;
+        bottom: 0em;
         width: 90%;
         z-index: 1;
       }
@@ -159,13 +166,13 @@ html {
       flex-direction: column;
       border: 1px solid $main-black;
       width: 30vw;
-      height: 50vh;
+      height: auto;
       border-radius: 8px;
       padding: 3em 3em;
       margin-left: 0;
 
       text-align: center;
-      background: $form-grey;
+      background: rgba(211, 211, 211, 0.1);
       z-index: 2;
 
       h1 {
@@ -226,7 +233,7 @@ html {
   .Home {
     display: flex;
     flex-direction: row;
-    height: 100%;
+    height: 100vh;
     width: 100%;
 
     .side-bar {
@@ -262,7 +269,8 @@ html {
         position: relative;
 
         .dashboard-link,
-        .projects-link {
+        .projects-link,
+        .tickets-link {
           color: $main-black;
           text-decoration: none;
           text-align: center;
@@ -299,15 +307,16 @@ html {
       grid-template-columns: repeat(auto-fill, 2);
       grid-template-rows: 5vh auto auto;
       gap: 2vw;
+      height: auto;
 
       .dash-card {
-        // justify-self: stretch;
         background: white;
         font-family: $main-font;
         border-radius: 4px;
         box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
         color: $main-black;
         padding: 1em;
+        height: auto;
       }
 
       h1 {
@@ -366,6 +375,19 @@ html {
           }
         }
       }
+
+      .ticket-list {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        transition: opacity 0.2s ease-in-out;
+        margin-top: 3em;
+
+        table {
+          width: 80%;
+        }
+      }
     }
 
     .project-manager {
@@ -374,30 +396,6 @@ html {
       width: 90vw;
       position: relative;
       padding: 0 5em 0 2em;
-
-      .header-bar {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 2em;
-        padding: 1em;
-        h1 {
-          margin: 0 3em 0 0;
-        }
-        .add-project-button {
-          font-size: 1em;
-          color: $main-black;
-          border: 1px solid $main-black;
-          padding: 0.1em 0.4em;
-          margin: 0.6em 0.6em 0 0;
-          border-radius: 4px;
-          box-sizing: border-box;
-          -moz-box-sizing: border-box;
-          cursor: pointer;
-          background: none;
-        }
-      }
 
       .project-list {
         position: relative;
@@ -450,27 +448,18 @@ html {
         .project-content {
           margin-top: 3em;
 
-          .project-description {
-            background: white;
-            font-family: $main-font;
-            color: $main-black;
-            padding: 1em;
-            margin-top: 2em;
-
-            .created-by {
-              margin-right: 1em;
-            }
-          }
           .ticket-list {
-            margin-top: 3em;
+            position: relative;
+            margin-top: 1em;
             background: white;
             font-family: $main-font;
             border-radius: 4px;
-            width: 50%;
-            height: auto;
+            width: auto;
+            height: 40vh;
             color: $main-black;
-            padding: 1em;
+            padding: 0 1em;
             transition: opacity 0.3s ease-in-out;
+
             .ticket-link {
               cursor: pointer;
               margin: 0;
@@ -493,6 +482,9 @@ html {
                 }
               }
 
+              tbody {
+              }
+
               td {
                 padding: 0.3em 0;
               }
@@ -507,15 +499,69 @@ html {
           height: 90vh;
           width: 90%;
           padding: 2em;
-
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 10px;
+          box-shadow: -1px 0 10px rgba(0, 0, 0, 0.1);
           background: white;
         }
       }
 
       .blur {
         filter: blur(1px);
-        opacity: 0.2;
+        opacity: 0.3;
         pointer-events: none;
+      }
+    }
+
+    .all-tickets {
+      font-family: $main-font;
+      font-size: 1.1em;
+      width: 90vw;
+      position: relative;
+      padding: 0 5em 0 2em;
+      margin-top: 1em;
+
+      .ticket-list {
+        position: relative;
+        margin-top: 1em;
+        background: white;
+        font-family: $main-font;
+        border-radius: 4px;
+        width: auto;
+        height: 40vh;
+        color: $main-black;
+
+        transition: opacity 0.3s ease-in-out;
+
+        .ticket-link {
+          cursor: pointer;
+          margin: 0;
+          color: $dark-blue;
+          font-weight: 500;
+        }
+
+        table {
+          width: 85%;
+          height: auto;
+          margin-top: 4em;
+          padding: 1em;
+
+          thead {
+            tr {
+              th {
+                text-align: left;
+                padding-bottom: 0.6em;
+              }
+            }
+          }
+
+          tbody {
+          }
+
+          td {
+            padding: 0.3em 0;
+          }
+        }
       }
     }
   }
@@ -603,6 +649,52 @@ html {
         color: $main-black;
         border: 1px solid $main-black;
       }
+    }
+  }
+  .header-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1em;
+    padding: 1em;
+    h1 {
+      margin: 0 3em 0 0;
+    }
+    .add-project-button {
+      font-size: 1em;
+      color: $main-black;
+      border: 1px solid $main-black;
+      padding: 0.1em 0.4em;
+      margin: 0.6em 0.6em 0 0;
+      border-radius: 4px;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      cursor: pointer;
+      background: none;
+    }
+  }
+
+  .info-bar {
+    background: white;
+    font-family: $main-font;
+    color: $main-black;
+    padding: 1em;
+    margin-top: 1em;
+
+    .created-by {
+      margin-right: 1em;
+    }
+    .status-bar {
+      margin-right: 1em;
+
+      .status {
+        margin-left: 0.3em;
+      }
+    }
+
+    .priority {
+      margin-right: 1em;
     }
   }
 }

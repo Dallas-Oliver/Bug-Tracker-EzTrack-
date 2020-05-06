@@ -2,13 +2,13 @@ import React from "react";
 
 function InfoBar(props) {
   return (
-    <section className={`${props.barType}-description infoBar`}>
+    <section className={`info-bar`}>
       <div>
         <span className="created-by">Created by: {props.createdBy}</span>
         <span className="date-created">{props.dateCreated}</span>
         <br />
         <p>
-          <span>
+          <span className="status-bar">
             {props.status === "Open" ? (
               <svg
                 className="open-status indicator"
@@ -30,15 +30,7 @@ function InfoBar(props) {
                 <circle cx="4.5" cy="4.5" r="4.5" fill="#f96767" />
               </svg>
             )}
-            {props.status}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              viewBox="0 0 48 48"
-            >
-              <path d="M14.83 16.42L24 25.59l9.17-9.17L36 19.25l-12 12-12-12z" />
-            </svg>
+            <span className="status">{props.status}</span>
           </span>
           {props.barType === "ticket" ? (
             <span>

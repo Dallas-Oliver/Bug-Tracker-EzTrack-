@@ -6,8 +6,8 @@ export default function Register(props) {
   const [userName, setUsername] = useState("Dallas Oliver");
   const [email, setEmail] = useState("dallas.oliver91@gmail.com");
   const [companyName, setCompanyName] = useState("company");
-  const [password, setPassword] = useState("s");
-  const [passwordConfirm, setPasswordConfirm] = useState("s");
+  const [password, setPassword] = useState("pass");
+  const [passwordConfirm, setPasswordConfirm] = useState("pass");
 
   function validateForm() {
     return (
@@ -38,21 +38,21 @@ export default function Register(props) {
             type="text"
             placeholder="Full Name..."
             name="userName"
-            onChange={e => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             value={userName}
           />
           <input
             type="text"
             placeholder="Email..."
             name="email"
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
           <input
             type="text"
             placeholder="Company Name..."
             name="companyName"
-            onChange={e => setCompanyName(e.target.value)}
+            onChange={(e) => setCompanyName(e.target.value)}
             value={companyName}
           />
           <input
@@ -60,14 +60,14 @@ export default function Register(props) {
             placeholder="Password..."
             name="password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <input
             type="text"
             placeholder="Confirm Password..."
             name="confirmPassword"
             value={passwordConfirm}
-            onChange={e => setPasswordConfirm(e.target.value)}
+            onChange={(e) => setPasswordConfirm(e.target.value)}
           />
 
           <button

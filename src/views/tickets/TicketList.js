@@ -1,35 +1,42 @@
 import React from "react";
 import TicketListItem from "./TicketListItem";
+import SimpleBar from "simplebar-react";
+import "simplebar/dist/simplebar.min.css";
 
 export default function TicketList(props) {
+  console.log(props.ticketList);
   return (
     <div className="ticket-list">
-      <h4>All Tickets</h4>
-      {props.ticketList.length >= 1 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Ticket Name</th>
-              <th>Ticket Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {props.ticketList.map((ticket) => {
-              return (
-                <TicketListItem
-                  key={ticket._id}
-                  _id={ticket._id}
-                  name={ticket.name}
-                  status={ticket.status}
-                  passTicketId={props.passTicketId}
-                />
-              );
-            })}
-          </tbody>
-        </table>
-      ) : (
-        <p>No tickets in this project!</p>
-      )}
+      <SimpleBar>
+        {props.ticketList.length >= 1 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Ticket Name</th>
+                <th>Ticket Status</th>
+                <th>Assigned user</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {props.ticketList.map((ticket) => {
+                return (
+                  <TicketListItem
+                    key={ticket._id}
+                    _id={ticket._id}
+                    name={ticket.name}
+                    status={ticket.status}
+                    openTicket={props.openTicket}
+                    assignedUser={ticket.assignedUser}
+                  />
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <p>No tickets in this project!</p>
+        )}
+      </SimpleBar>
     </div>
   );
 }

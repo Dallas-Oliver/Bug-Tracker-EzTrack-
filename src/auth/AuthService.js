@@ -15,7 +15,8 @@ export class AuthService {
       headers,
       ...options,
     });
-    return response.json();
+
+    return response;
   }
 
   static async register(formData) {
@@ -26,8 +27,8 @@ export class AuthService {
   }
 
   static async login(email, password) {
-    // Get a token from api server using the fetch api
-    const jsonResponse = await this.fetch(`/users/login`, {
+    // Get a token from server using the fetch api
+    const response = await this.fetch(`/users/login`, {
       method: "POST",
       body: JSON.stringify({
         email,
@@ -35,10 +36,14 @@ export class AuthService {
       }),
     });
 
-    if (jsonResponse) {
-      this.setToken(jsonResponse.token);
-      return jsonResponse;
+    if (response.status >= 400) {
+      console.log(response);
+      return response;
     }
+    const json = await response.json();
+
+    this.setToken(json.token);
+    return response;
   }
 
   static setToken(token) {
@@ -73,10 +78,20 @@ export class AuthService {
   }
 
   static logout() {
-    localStorage.removeItem("id_token");
+    try {
+      localStorage.removeItem("id_token");
+    } catch (err) {
+      console.error(err);
+      return;
+    }
   }
 
   static getUserData() {
-    return decode(this.getToken());
+    try {
+      return decode(this.getToken());
+    } catch (err) {
+      console.log("no user logged in!");
+      return;
+    }
   }
 }

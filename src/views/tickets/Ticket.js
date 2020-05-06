@@ -17,14 +17,15 @@ export default function Ticket(props) {
   }
 
   async function getTicketData() {
-    const ticket = await Auth.fetch(
+    const response = await Auth.fetch(
       `http://localhost:5000/projects/${projectId}/ticket/${props.ticketId}`
     );
 
-    if (ticket) {
-      console.log(ticket);
-      setTicketInfo(ticket);
+    if (!response) {
+      console.log("no ticket info");
     }
+    const ticket = await response.json();
+    setTicketInfo(ticket);
   }
 
   return (
@@ -39,8 +40,9 @@ export default function Ticket(props) {
         createdBy={ticketInfo.createdBy}
         dateCreated={ticketInfo.dateCreated}
         status={ticketInfo.status}
-        description={ticketInfo.projectDescription}
+        description={ticketInfo.ticketDescription}
         priority={ticketInfo.priority}
+        assignedTo={ticketInfo.assignedUser}
       />
     </div>
   );

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Login(props) {
   const [userEmail, setUserEmail] = useState("dallas.oliver91@gmail.com");
-  const [password, setPassword] = useState("s");
+  const [password, setPassword] = useState("pass");
 
   function validateForm() {
     return userEmail.length > 0 && password.length > 0;
@@ -26,19 +26,22 @@ export default function Login(props) {
       <div className="form-container">
         <h1>Login</h1>
         <form onSubmit={props.handleSubmit} className="form">
+          {props.errorMessage ? (
+            <span>{props.errorMessage.message}</span>
+          ) : null}
           <input
             type="text"
             name="userEmail"
             placeholder="Email..."
             value={userEmail}
-            onChange={e => setUserEmail(e.target.value)}
+            onChange={(e) => setUserEmail(e.target.value)}
           />
           <input
             type="text"
             name="password"
             placeholder="Password..."
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           <button disabled={!validateForm()} type="submit">

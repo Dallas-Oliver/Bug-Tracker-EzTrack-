@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../src/main.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthService as Auth } from "./auth/AuthService";
@@ -10,20 +10,15 @@ import { Route, Switch, useHistory, Redirect } from "react-router-dom";
 function App() {
   const history = useHistory();
   const [users, setUserList] = React.useState([]);
-  const [currentUser, setCurrentUser] = React.useState();
+  const [errorMessage, setErrorMessage] = useState();
 
   async function getUserList() {
-    const userList = await Auth.fetch("/users/all-users");
-    if (userList) {
-      setUserList(userList);
+    const response = await Auth.fetch("/users/all-users");
+    if (!response) {
+      console.log("no users");
     }
-  }
-
-  async function getCurrentUser() {
-    const user = await Auth.getUserData();
-    if (user) {
-      setCurrentUser(user);
-    }
+    const userList = await response.json();
+    setUserList(userList);
   }
 
   React.useEffect(() => {
@@ -32,20 +27,16 @@ function App() {
     }
   });
 
-  React.useEffect(() => {
-    if (!currentUser) {
-      getCurrentUser();
-    }
-  });
-
   async function loginAndRedirect(email, password) {
     try {
       const response = await Auth.login(email, password);
       if (response.status >= 400) {
-        console.log(response);
-      } else {
-        history.replace("/home");
+        const repsonseMessage = await response.json();
+        setErrorMessage(repsonseMessage);
+        return;
       }
+
+      history.replace("/home/dashboard");
     } catch (err) {
       console.log(err);
     }
@@ -63,10 +54,15 @@ function App() {
       password: form.password.value,
     };
 
-    const jsonResponse = await Auth.register(formData);
-    if (jsonResponse) {
-      loginAndRedirect(jsonResponse.email, formData.password);
+    const response = await Auth.register(formData);
+    if (!response) {
+      console.log("no register response");
+      return;
     }
+
+    let json = await response.json();
+
+    loginAndRedirect(json.email, formData.password);
   }
 
   function handleLogin(e) {
@@ -90,18 +86,23 @@ function App() {
             Auth.loggedIn() ? (
               <Redirect to="/home" />
             ) : (
-              <Register handleSubmit={(e) => handleRegistration(e)} />
+              <Register
+                errorMessage={errorMessage}
+                handleSubmit={(e) => handleRegistration(e)}
+              />
             )
           }
         />
         <Route
           path="/login"
-          render={() => <Login handleSubmit={(e) => handleLogin(e)} />}
+          render={() => (
+            <Login
+              errorMessage={errorMessage}
+              handleSubmit={(e) => handleLogin(e)}
+            />
+          )}
         />
-        <Route
-          path="/home"
-          render={() => <Home currentUser={currentUser} users={users} />}
-        />
+        <Route path="/home" render={() => <Home users={users} />} />
       </Switch>
     </div>
   );
