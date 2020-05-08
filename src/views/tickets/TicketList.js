@@ -4,7 +4,6 @@ import SimpleBar from "simplebar-react";
 import "simplebar/dist/simplebar.min.css";
 
 export default function TicketList(props) {
-  console.log(props.ticketList);
   return (
     <div className="ticket-list">
       <SimpleBar>

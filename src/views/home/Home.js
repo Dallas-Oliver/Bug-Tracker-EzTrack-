@@ -16,7 +16,7 @@ function Home(props) {
   }
 
   return (
-    <React.Fragment>
+    <>
       <div className="Home">
         <section className="side-bar">
           <div className="personal">
@@ -35,7 +35,12 @@ function Home(props) {
           <Route
             exact
             path="/home/dashboard"
-            render={() => <Dashboard formIsVisible={() => toggleForm()} />}
+            render={() => (
+              <Dashboard
+                toggle={() => toggleForm()}
+                formIsVisible={formIsVisible}
+              />
+            )}
           />
           <Route
             path="/home/projects"
@@ -44,7 +49,7 @@ function Home(props) {
           <Route path="/home/tickets" render={() => <AllTickets />} />
         </Switch>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

@@ -9,20 +9,21 @@ export default function Ticket(props) {
   const [ticketInfo, setTicketInfo] = useState();
 
   useEffect(() => {
-    getTicketData();
+    ticketAPICall(
+      `http://localhost:5000/projects/${projectId}/ticket/${props._id}`
+    );
   }, []);
 
   if (!ticketInfo) {
     return null;
   }
 
-  async function getTicketData() {
-    const response = await Auth.fetch(
-      `http://localhost:5000/projects/${projectId}/ticket/${props._id}`
-    );
+  async function ticketAPICall(url) {
+    const response = await Auth.fetch(url);
 
     if (!response) {
       console.log("no ticket info");
+      return;
     }
     const ticket = await response.json();
     setTicketInfo(ticket);
@@ -43,7 +44,11 @@ export default function Ticket(props) {
         description={ticketInfo.ticketDescription}
         priority={ticketInfo.priority}
         assignedTo={ticketInfo.assignedUser}
-        changeStatus={props.changeStatus}
+        changeStatus={() =>
+          ticketAPICall(
+            `http://localhost:5000/tickets/${ticketInfo._id}/change-status`
+          )
+        }
       />
     </div>
   );

@@ -19,24 +19,24 @@ function Project(props) {
   const { projectId } = useParams();
   const [assignedUser, setAssignedUser] = useState();
 
-  async function getProjectData() {
-    const response = await Auth.fetch(
-      `http://localhost:5000/projects/${projectId}`
-    );
-
-    if (!response) {
-      console.log("no project");
-    }
-    const json = await response.json();
-    setProjectInfo(json.project);
-    setTicketList(json.tickets);
-  }
-
   useEffect(() => {
-    if (!projectInfo) {
-      getProjectData();
+    async function getProjectData() {
+      const response = await Auth.fetch(
+        `http://localhost:5000/projects/${projectId}`
+      );
+
+      if (!response) {
+        console.log("no project");
+        return;
+      }
+      const json = await response.json();
+      console.log(json);
+      setProjectInfo(json.project);
+      setTicketList(json.tickets);
+      return json;
     }
-  });
+    getProjectData();
+  }, []);
 
   async function handleTicketSubmit(e) {
     e.preventDefault();
@@ -110,6 +110,7 @@ function Project(props) {
     }
 
     const project = await response.json();
+
     setProjectInfo(project);
   }
 
@@ -167,7 +168,6 @@ function Project(props) {
         <Ticket
           hideTicket={() => toggleTicket(false)}
           _id={currentTicketId}
-          changeStatus={() => changeStatus(currentTicketId)}
         />
       )}
     </div>

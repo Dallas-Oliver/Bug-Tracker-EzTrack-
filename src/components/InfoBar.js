@@ -20,7 +20,7 @@ function InfoBar(props) {
                 height="9"
                 viewBox="0 0 9 9"
               >
-                <circle cx="4.5" cy="4.5" r="4.5" fill="#f96767" />
+                <circle cx="4.5" cy="4.5" r="4.5" fill="#51CC74" />
               </svg>
             ) : (
               <svg
@@ -30,7 +30,7 @@ function InfoBar(props) {
                 height="9"
                 viewBox="0 0 9 9"
               >
-                <circle cx="4.5" cy="4.5" r="4.5" fill="#51CC74" />
+                <circle cx="4.5" cy="4.5" r="4.5" fill="#f96767" />
               </svg>
             )}
             <span className="status">{props.status}</span>

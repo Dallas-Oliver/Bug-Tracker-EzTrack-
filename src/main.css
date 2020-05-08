@@ -404,8 +404,7 @@ html {
 .App .Home .Dashboard .overview-card {
   -ms-grid-row: 2;
   grid-row: 2;
-  -ms-grid-column: 1;
-  grid-column: 1;
+  grid-column: 1 span 1;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -451,7 +450,7 @@ html {
 }
 
 .App .Home .Dashboard .overview-card .content .pie-graph .graph-legend .closed-count {
-  color: #56c556;
+  color: #51cc74;
   font-weight: bold;
 }
 
@@ -531,11 +530,11 @@ html {
 }
 
 .App .Home .project-manager .project-list .project-list-item .open {
-  color: #f96767;
+  color: #51cc74;
 }
 
 .App .Home .project-manager .project-list .project-list-item .closed {
-  color: #56c556;
+  color: #f96767;
 }
 
 .App .Home .project-manager .project {

@@ -13,4 +13,28 @@ router.get("/all", async (req, res) => {
   res.status(200).send(tickets);
 });
 
+router.get("/:ticketId/change-status", async (req, res) => {
+  const ticket = await Ticket.findOne({ _id: req.params.ticketId }).exec();
+
+  if (!ticket) {
+    res.status(404).send({ message: "no ticket found" });
+    return;
+  }
+
+  try {
+    if (ticket.status === "Open") {
+      ticket.status = "Closed";
+    } else if (ticket.status === "Closed") {
+      ticket.status = "Open";
+    }
+
+    await ticket.save();
+    res.status(200).send(ticket);
+  } catch (err) {
+    if (err) {
+      res.status(500).send({ message: "status not changed", err });
+    }
+  }
+});
+
 module.exports = router;

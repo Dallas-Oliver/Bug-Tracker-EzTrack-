@@ -4,7 +4,7 @@ const Ticket = require("../models/Ticket");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-router.post("/save-project", (req, res) => {
+router.post("/save-project", async (req, res) => {
   const body = req.body.newProject;
 
   const project = new Project({
@@ -19,25 +19,53 @@ router.post("/save-project", (req, res) => {
     dueDate: body.dueDate,
   });
 
-  User.findOne({ _id: req.body.currentUser._id })
-    .exec()
-    .then((user) => {
-      user.projectIds.push(project._id);
-      user.save().then(() => {
-        project
-          .save()
-          .then((project) => {
-            res.status(200).send(project);
-          })
-          .catch((err) => {
-            if (err) {
-              res
-                .status(400)
-                .send({ message: "project not saved", error: err });
-            }
-          });
-      });
-    });
+  try {
+    const user = await User.findOne({
+      _id: req.body.currentUser._id,
+    }).exec();
+
+    if (!user) {
+      res.status(404).send({ message: "user not found" });
+      return;
+    }
+
+    user.projectIds.push(project._id);
+    const userSaved = await user.save();
+    const projectSaved = await project.save();
+    if (!userSaved) {
+      res.status(400).send({ message: "user not saved" });
+      return;
+    }
+
+    if (!projectSaved) {
+      res.status(400).send({ message: "project not saved" });
+      return;
+    }
+
+    res.status(200).send(project);
+  } catch (err) {
+    res.status(500).send({ message: "project not saved", err });
+  }
+
+  // User.findOne({ _id: req.body.currentUser._id })
+  //   .exec()
+  //   .then((user) => {
+  //     user.projectIds.push(project._id);
+  //     user.save().then(() => {
+  //       project
+  //         .save()
+  //         .then((project) => {
+  //           res.status(200).send(project);
+  //         })
+  //         .catch((err) => {
+  //           if (err) {
+  //             res
+  //               .status(400)
+  //               .send({ message: "project not saved", error: err });
+  //           }
+  //         });
+  //     });
+  //   });
 });
 
 router.get("/all", (req, res) => {
@@ -82,14 +110,6 @@ router.get("/:projectId", async (req, res) => {
   }
 
   const tickets = await Ticket.find({ projectId: project._id }).exec();
-
-  if (!tickets) {
-    res.status(400).send({ message: "error obtaining tickets" });
-    return;
-  } else if (tickets.length <= 0) {
-    res.status(202).send({ message: "no tickets found" });
-    return;
-  }
 
   res.status(200).send({ project, tickets });
 });

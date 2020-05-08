@@ -67,6 +67,7 @@ function ProjectManager(props) {
 
     if (response) {
       const project = await response.json();
+      console.log(project);
       updateProjectList((projectList) => projectList.concat(project));
       handleTitleUpdate("");
       handleDescUpdate("");
