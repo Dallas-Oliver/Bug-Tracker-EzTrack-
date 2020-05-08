@@ -98,6 +98,21 @@ function Project(props) {
     }
   }
 
+  async function changeStatus(_id) {
+    console.log(_id);
+
+    const response = await Auth.fetch(
+      `http://localhost:5000/projects/${_id}/change-status`
+    );
+
+    if (!response) {
+      console.log("status not changed");
+    }
+
+    const project = await response.json();
+    setProjectInfo(project);
+  }
+
   return (
     <div className="project">
       {projectInfo ? (
@@ -118,6 +133,8 @@ function Project(props) {
             dateCreated={projectInfo.dateCreated}
             status={projectInfo.status}
             description={projectInfo.projectDescription}
+            _id={projectInfo._id}
+            changeStatus={(_id) => changeStatus(_id)}
           />
           <h4>All Tickets</h4>
 
@@ -149,7 +166,8 @@ function Project(props) {
       {!currentTicketId || ticketIsVisible === false ? null : (
         <Ticket
           hideTicket={() => toggleTicket(false)}
-          ticketId={currentTicketId}
+          _id={currentTicketId}
+          changeStatus={() => changeStatus(currentTicketId)}
         />
       )}
     </div>

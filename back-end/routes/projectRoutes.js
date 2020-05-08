@@ -44,13 +44,13 @@ router.get("/all", (req, res) => {
   const token = req.headers["authorization"].split(" ")[1];
 
   if (!token) {
-    res.status(400).send("Invald token");
+    res.status(401).send("Invald token");
     return;
   }
   try {
     jwt.verify(token, process.env.JWT_KEY, (err) => {
       if (err) {
-        res.status(400).send("Invalid token");
+        res.status(401).send("Invalid token");
       }
       Project.find()
         .exec()
@@ -59,150 +59,139 @@ router.get("/all", (req, res) => {
         });
     });
   } catch (err) {
-    res.status(400).send("Invalid token");
+    res.status(400).send("Invalid request for all projects");
   }
 });
 
-router.get("/:projectId", (req, res) => {
+router.get("/:projectId", async (req, res) => {
   const projectId = req.params.projectId;
 
   if (!projectId) {
-    res.status(400).send({ message: "Bad request" });
-  } else {
-    Project.findOne({ _id: projectId })
-      .exec()
-      .then((project) => {
-        Ticket.find({ projectId: project._id })
-          .exec()
-          .then((tickets) => {
-            res.status(200).send({ project, tickets });
-          });
-      })
-      .catch((err) => {
-        res.status(400).send({ message: err });
-      });
+    res.status(400).send({ message: "invalid request" });
+    return;
   }
+
+  try {
+  } catch (err) {
+    res.status(400);
+  }
+  const project = await Project.findOne({ _id: projectId }).exec();
+
+  if (!project) {
+    res.status(404).send({ message: "No project found" });
+  }
+
+  const tickets = await Ticket.find({ projectId: project._id }).exec();
+
+  if (!tickets) {
+    res.status(400).send({ message: "error obtaining tickets" });
+    return;
+  } else if (tickets.length <= 0) {
+    res.status(202).send({ message: "no tickets found" });
+    return;
+  }
+
+  res.status(200).send({ project, tickets });
 });
 
-router.post("/save-ticket/:projectId", (req, res) => {
+router.post("/save-ticket/:projectId", async (req, res) => {
   const projectId = req.params.projectId;
   const token = req.headers["authorization"].split(" ")[1];
   const newTicket = req.body.newTicket;
 
   if (!projectId) {
     res.status(400).send({ message: "Bad request" });
-  } else {
-    try {
-      jwt.verify(token, process.env.JWT_KEY, (err) => {
-        User.findById(req.body.newTicket.assignedUser, function (
-          err,
-          user
-        ) {
-          if (err) {
-            console.log("Error, no user found");
-            res.status(400).send({ message: "no user found" });
-          } else {
-            const ticket = new Ticket({
-              name: newTicket.name,
-              _id: newTicket.uid,
-              dateCreated: newTicket.dateCreated,
-              createdBy: req.body.currentUser.name,
-              ticketDescription: newTicket.description,
-              projectId: projectId,
-              priority: newTicket.priority,
-              status: newTicket.status,
-              assignedUser: user.name,
-            });
-
-            ticket.save().then((ticket) => {
-              console.log(ticket);
-              Project.findOne({ _id: projectId })
-                .exec()
-                .then((project) => {
-                  project.tickets.push(ticket._id);
-                  project.save();
-                });
-              res.status(200).send(ticket);
-            });
-          }
-        });
-      });
-    } catch (err) {
-      console.log("error boi");
-    }
+    return;
   }
-});
 
-router.get("/:projectId/ticket/:ticketId", (req, res) => {
-  Ticket.findOne({ _id: req.params.ticketId })
-    .exec()
-    .then((ticket) => {
-      if (!ticket) {
-        res.status(400).send({ message: "No ticket found error 2!" });
-      } else {
-        res.status(200).send(ticket);
-      }
-    })
-    .catch((err) => {
-      if (err) {
-        res.status(400).send({ message: "No ticket found error 1!" });
-      }
+  try {
+    const userVerified = await jwt.verify(token, process.env.JWT_KEY);
+    if (!userVerified) {
+      res.status(401).send({ message: "Not authorized" });
+      return;
+    }
+
+    const user = await User.findById(
+      req.body.newTicket.assignedUser
+    ).exec();
+
+    if (!user) {
+      res.status(404).send({ message: "No user found" });
+      return;
+    }
+
+    const ticket = new Ticket({
+      name: newTicket.name,
+      _id: newTicket.uid,
+      dateCreated: newTicket.dateCreated,
+      createdBy: req.body.currentUser.name,
+      ticketDescription: newTicket.description,
+      projectId: projectId,
+      priority: newTicket.priority,
+      status: newTicket.status,
+      assignedUser: user.name,
     });
-});
 
-router.get("/tickets/all-tickets", (req, res) => {
-  const token = req.headers["authorization"].split(" ")[1];
-  const ticketList = {
-    open: [],
-    closed: [],
-  };
+    const savedTicket = await ticket.save();
 
-  if (!token) {
-    res.status(400).send("Invald token");
-    console.log("no token");
-  } else {
-    try {
-      jwt.verify(token, process.env.JWT_KEY, (err) => {
-        if (err) {
-          res.status(400).send("Invalid token");
-        } else {
-          Ticket.find()
-            .exec()
-            .then((tickets) => {
-              for (let ticket of tickets) {
-                if (ticket.status === "Open") {
-                  ticketList.open.push(ticket);
-                } else if (ticket.status === "Closed") {
-                  ticketList.closed.push(ticket);
-                }
-              }
-              res.status(200).send(ticketList);
-            });
-        }
-      });
-    } catch (err) {
-      res.status(400).send("Invalid token");
+    if (!savedTicket) {
+      res.status(400).send({ message: "Ticket not saved" });
+      return;
     }
+
+    const project = await Project.findOne({ _id: projectId }).exec();
+    if (!project) {
+      res.status(404).send({ message: "No project found" });
+      return;
+    }
+
+    project.tickets.push(ticket._id);
+    project.save();
+    res.status(201).send(ticket);
+  } catch (err) {
+    res.status(500).send({ message: "Ticket not saved" });
   }
 });
 
-router.post("/:projectId/add-user/:userId", (req, res) => {
-  const projectId = req.params.projectId;
-  const userId = req.params.user_id;
+router.get("/:projectId/ticket/:ticketId", async (req, res) => {
+  try {
+    const ticket = await Ticket.findOne({
+      _id: req.params.ticketId,
+    }).exec();
 
-  if (!projectId || !userId) {
-    res.status(400).send({ message: "user not added!" });
-  } else {
-    Project.findOne({ _id: projectId })
-      .exec()
-      .then((project) => {
-        if (!project) {
-          res.status(400).send({ message: "no project found!" });
-        } else {
-          console.log(project);
-          // res.status(200).send()
-        }
-      });
+    if (!ticket) {
+      res.status(404).send({ message: "No ticket found!" });
+      return;
+    }
+
+    res.status(200).send(ticket);
+  } catch (err) {
+    res.status(500).send({
+      message: "An error occurred while trying to retrieve ticket data",
+      err,
+    });
+    return;
+  }
+});
+
+router.get("/:projectId/change-status", async (req, res) => {
+  const project = await Project.findOne({
+    _id: req.params.projectId,
+  }).exec();
+
+  try {
+    if (project.status === "Open") {
+      project.status = "Closed";
+    } else if (project.status === "Closed") {
+      project.status = "Open";
+    }
+
+    await project.save();
+    res.status(200).send(project);
+  } catch (err) {
+    if (err) {
+      res.status(500).send({ message: "status not changed", err });
+    }
   }
 });
 

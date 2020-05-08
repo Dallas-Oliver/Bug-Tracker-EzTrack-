@@ -29,10 +29,8 @@ function ProjectManager(props) {
   }
 
   useEffect(() => {
-    if (projectList.length <= 0) {
-      getAllProjects();
-    }
-  });
+    getAllProjects();
+  }, []);
 
   function handleInput(e) {
     const elementName = e.target.name;

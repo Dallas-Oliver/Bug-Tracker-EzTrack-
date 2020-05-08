@@ -13,15 +13,6 @@ router.get("/all-users", async (req, res) => {
   }
 
   res.status(200).send(users);
-  // User.find()
-  //   .exec()
-  //   .then((users) => {
-  //     if (!users || users.length <= 0) {
-  //       res.status(400).send({ message: "no users registered" });
-  //     } else {
-  //       res.status(200).send(users);
-  //     }
-  //   });
 });
 
 router.post("/register", async (req, res) => {
@@ -121,50 +112,5 @@ router.get("/:userId", async (req, res) => {
 
   res.status(200).send({ projectList, ticketList, user });
 });
-
-// router.get("/current-user", (req, res) => {
-//   const token = req.headers["authorization"].split(" ")[1];
-
-//   if (!token) {
-//     res.status(400).send("Invald token");
-//   } else {
-//     try {
-//       jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
-//         if (err) {
-//           res.status(400).send("Invalid token");
-//         }
-
-//         User.findOne({ email: decoded.email })
-//           .exec()
-//           .then((user) => {
-//             res.status(200).send(user);
-//           })
-//           .catch((err) => {
-//             if (err) {
-//               res.status(400).send({ message: "No user found!" });
-//             }
-//           });
-//       });
-//     } catch (err) {
-//       res.status(400).send("Invalid token");
-//     }
-//   }
-// });
-
-// router.get('/assign/:userId', (req, res) => {
-//   const userId = req.params.userId;
-
-//   if(!userId) {
-//     res.status(400).send({message: 'no user found'})
-//   } else {
-//     User.findOne({_id: userId}).exec().then(user => {
-//       if(!user) {
-//         res.status(400).send({message: 'no user found'})
-//       } else {
-
-//       }
-//     })
-//   }
-// })
 
 module.exports = router;

@@ -397,6 +397,9 @@ html {
       position: relative;
       padding: 0 5em 0 2em;
 
+      h4 {
+        padding: 0 1em;
+      }
       .project-list {
         position: relative;
         width: 100%;
@@ -519,7 +522,20 @@ html {
       width: 90vw;
       position: relative;
       padding: 0 5em 0 2em;
-      margin-top: 1em;
+      margin-top: 3.6em;
+
+      .ticket {
+        position: absolute;
+        top: 3em;
+        left: 3em;
+        height: 90vh;
+        width: 90%;
+        padding: 2em;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        box-shadow: -1px 0 10px rgba(0, 0, 0, 0.1);
+        background: white;
+      }
 
       .ticket-list {
         position: relative;
@@ -532,6 +548,12 @@ html {
         color: $main-black;
 
         transition: opacity 0.3s ease-in-out;
+
+        .blur {
+          filter: blur(1px);
+          opacity: 0.3;
+          pointer-events: none;
+        }
 
         .ticket-link {
           cursor: pointer;
@@ -553,9 +575,6 @@ html {
                 padding-bottom: 0.6em;
               }
             }
-          }
-
-          tbody {
           }
 
           td {
@@ -657,7 +676,7 @@ html {
     justify-content: space-between;
     align-items: center;
     margin-top: 1em;
-    padding: 1em;
+    padding: 1em 0;
     h1 {
       margin: 0 3em 0 0;
     }
@@ -687,6 +706,11 @@ html {
     }
     .status-bar {
       margin-right: 1em;
+      padding: 0.2em 0.4em;
+      cursor: pointer;
+      border: 1px solid black;
+      border-radius: 4px;
+      width: 90px;
 
       .status {
         margin-left: 0.3em;

@@ -8,7 +8,10 @@ function InfoBar(props) {
         <span className="date-created">{props.dateCreated}</span>
         <br />
         <p>
-          <span className="status-bar">
+          <span
+            onClick={() => props.changeStatus(props._id)}
+            className="status-bar"
+          >
             {props.status === "Open" ? (
               <svg
                 className="open-status indicator"
@@ -27,7 +30,7 @@ function InfoBar(props) {
                 height="9"
                 viewBox="0 0 9 9"
               >
-                <circle cx="4.5" cy="4.5" r="4.5" fill="#f96767" />
+                <circle cx="4.5" cy="4.5" r="4.5" fill="#51CC74" />
               </svg>
             )}
             <span className="status">{props.status}</span>

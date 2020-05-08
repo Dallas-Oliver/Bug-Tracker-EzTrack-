@@ -84,7 +84,7 @@ function App() {
           path="/"
           render={() =>
             Auth.loggedIn() ? (
-              <Redirect to="/home" />
+              <Redirect to="/home/dashboard" />
             ) : (
               <Register
                 errorMessage={errorMessage}

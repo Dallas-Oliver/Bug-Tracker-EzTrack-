@@ -495,6 +495,10 @@ html {
   padding: 0 5em 0 2em;
 }
 
+.App .Home .project-manager h4 {
+  padding: 0 1em;
+}
+
 .App .Home .project-manager .project-list {
   position: relative;
   width: 100%;
@@ -607,7 +611,21 @@ html {
   width: 90vw;
   position: relative;
   padding: 0 5em 0 2em;
-  margin-top: 1em;
+  margin-top: 3.6em;
+}
+
+.App .Home .all-tickets .ticket {
+  position: absolute;
+  top: 3em;
+  left: 3em;
+  height: 90vh;
+  width: 90%;
+  padding: 2em;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  -webkit-box-shadow: -1px 0 10px rgba(0, 0, 0, 0.1);
+          box-shadow: -1px 0 10px rgba(0, 0, 0, 0.1);
+  background: white;
 }
 
 .App .Home .all-tickets .ticket-list {
@@ -621,6 +639,13 @@ html {
   color: #141414;
   -webkit-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
+}
+
+.App .Home .all-tickets .ticket-list .blur {
+  -webkit-filter: blur(1px);
+          filter: blur(1px);
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 .App .Home .all-tickets .ticket-list .ticket-link {
@@ -773,7 +798,7 @@ html {
       -ms-flex-align: center;
           align-items: center;
   margin-top: 1em;
-  padding: 1em;
+  padding: 1em 0;
 }
 
 .App .header-bar h1 {
@@ -808,6 +833,11 @@ html {
 
 .App .info-bar .status-bar {
   margin-right: 1em;
+  padding: 0.2em 0.4em;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 4px;
+  width: 90px;
 }
 
 .App .info-bar .status-bar .status {

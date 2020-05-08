@@ -18,7 +18,7 @@ export default function Ticket(props) {
 
   async function getTicketData() {
     const response = await Auth.fetch(
-      `http://localhost:5000/projects/${projectId}/ticket/${props.ticketId}`
+      `http://localhost:5000/projects/${projectId}/ticket/${props._id}`
     );
 
     if (!response) {
@@ -43,6 +43,7 @@ export default function Ticket(props) {
         description={ticketInfo.ticketDescription}
         priority={ticketInfo.priority}
         assignedTo={ticketInfo.assignedUser}
+        changeStatus={props.changeStatus}
       />
     </div>
   );
