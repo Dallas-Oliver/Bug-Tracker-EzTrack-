@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Doughnut } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import "chart.js";
 
 function Chart(props) {
@@ -7,7 +7,7 @@ function Chart(props) {
   const [closedTickets, setClosedTickets] = useState([]);
 
   const chartData = {
-    type: "doughnut",
+    type: "pie",
     labels: ["Open", "Closed"],
     datasets: [
       {
@@ -36,7 +36,7 @@ function Chart(props) {
   return (
     <div className="pie-graph">
       {openTickets || closedTickets ? (
-        <Doughnut
+        <Pie
           data={chartData}
           width={200}
           height={200}

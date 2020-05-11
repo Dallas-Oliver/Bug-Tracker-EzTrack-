@@ -51,7 +51,10 @@ function Dashboard(props) {
             openTicket={(userId) => openTicket(userId)}
             tickets={userInfo.ticketList}
           />
-          <Calendar className="dashboard-calendar" value={date} />
+          <Calendar
+            className="dashboard-calendar dash-card"
+            value={date}
+          />
           {!currentTicketId || ticketIsVisible === false ? null : (
             <Ticket
               hideTicket={() => toggleTicket(false)}
