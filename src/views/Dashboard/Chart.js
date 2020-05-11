@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
+import "chart.js";
 
 function Chart(props) {
   const [openTickets, setOpenTickets] = useState([]);
   const [closedTickets, setClosedTickets] = useState([]);
 
   const chartData = {
+    type: "doughnut",
     labels: ["Open", "Closed"],
     datasets: [
       {
         label: "Tickets",
-        data: [openTickets, closedTickets],
-        backgroundColor: ["#F96767", "#56C556"],
+        data: [openTickets.length, closedTickets.length],
+        backgroundColor: ["#56C556", "#F96767"],
         borderWidth: 0,
         hoverBorderWidth: 2,
       },
@@ -27,26 +29,31 @@ function Chart(props) {
       }
     }
   }
-
   useEffect(() => {
     setUserData();
   }, []);
 
   return (
     <div className="pie-graph">
-      <Doughnut
-        data={chartData}
-        options={{
-          legend: {
-            display: false,
-            position: "bottom",
-            labels: {
-              fontFamily: "Montserrat",
+      {openTickets || closedTickets ? (
+        <Doughnut
+          data={chartData}
+          width={200}
+          height={200}
+          options={{
+            legend: {
+              display: false,
+              position: "bottom",
+              labels: {
+                fontFamily: "Montserrat",
+              },
             },
-          },
-          responsive: true,
-        }}
-      />
+            responsive: true,
+          }}
+        />
+      ) : (
+        <p>loading...</p>
+      )}
 
       <div className="graph-legend">
         <p>

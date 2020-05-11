@@ -40,7 +40,7 @@ function AllTickets(props) {
       {!currentTicketId || ticketIsVisible === false ? null : (
         <Ticket
           hideTicket={() => toggleTicket(false)}
-          ticketId={currentTicketId}
+          _id={currentTicketId}
         />
       )}
     </div>

@@ -12,6 +12,7 @@
     "node-sass": "^4.13.1",
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0",
+    "react-calendar": "^3.0.1",
     "react-chartjs-2": "^2.5.0",
     "react-dom": "^16.13.0",
     "react-router": "^5.1.2",
