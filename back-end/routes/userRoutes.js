@@ -43,6 +43,7 @@ router.post("/register", async (req, res) => {
       res.status(400).send({ message: "user not saved!" });
       return;
     }
+    console.log(savedUser);
     res.status(201).send({
       message: "New user created!",
       email: savedUser.email,
@@ -116,33 +117,33 @@ router.get("/:userId", async (req, res) => {
   res.status(200).send({ projectList, ticketList, user });
 });
 
-router.post("/preferences/sidebarColor", async (req, res) => {
-  const userId = req.body.userId;
-  const color = req.body.color;
+// router.post("/preferences/sidebarColor", async (req, res) => {
+//   const userId = req.body.userId;
+//   const color = req.body.color;
 
-  try {
-    const user = await User.findOne({ _id: userId }).exec();
+//   try {
+//     const user = await User.findOne({ _id: userId }).exec();
 
-    if (!user) {
-      res.status(404).send({ message: "No user found!" });
-      return;
-    }
-    user.preferences.sidebarColor = color;
-    const savedUser = user.save();
+//     if (!user) {
+//       res.status(404).send({ message: "No user found!" });
+//       return;
+//     }
+//     user.preferences.sidebarColor = color;
+//     const savedUser = user.save();
 
-    if (!savedUser) {
-      res.status(500).send({ message: "User not saved" });
-      return;
-    }
+//     if (!savedUser) {
+//       res.status(500).send({ message: "User not saved" });
+//       return;
+//     }
 
-    res.status(200).send(user);
-    return;
-  } catch (err) {
-    res
-      .status(500)
-      .send({ message: "whoops something went wrong on our end!", err });
-  }
-});
+//     res.status(200).send(user);
+//     return;
+//   } catch (err) {
+//     res
+//       .status(500)
+//       .send({ message: "whoops something went wrong on our end!", err });
+//   }
+// });
 
 router.get("/:userId/preferences", async (req, res) => {
   try {
@@ -159,11 +160,40 @@ router.get("/:userId/preferences", async (req, res) => {
       res.status(404).send({ message: "This user has no preferences" });
       return;
     }
+
     res.status(200).send(userPreferences);
   } catch (err) {
     res
       .status(500)
       .send({ message: "Something went wrong on our end!", err });
+  }
+});
+
+router.post("/:userId/updatePreferences", async (req, res) => {
+  const newPreferences = req.body;
+
+  if (!newPreferences) {
+    res.status(404).send({ message: "No new preferences" });
+    return;
+  }
+
+  try {
+    const user = await User.findOne({ _id: req.params.userId }).exec();
+    if (!user) {
+      res.status(404).send({ message: "No user found" });
+      return;
+    }
+
+    user.preferences = newPreferences;
+    const savedUser = await user.save();
+    if (!savedUser) {
+      res.status(500).send({ message: "Something went wrong" });
+      return;
+    }
+
+    res.status(200).send(user.preferences);
+  } catch (err) {
+    res.status(500).send({ message: "something went wrong", err });
   }
 });
 

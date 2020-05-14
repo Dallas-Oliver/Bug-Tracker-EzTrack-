@@ -23,8 +23,7 @@ function Home(props) {
   ];
 
   async function getUserPreferences() {
-    const userId = await Auth.getUserData()._id;
-    const userPreferences = await Auth.getUserPreferences(userId);
+    const userPreferences = await Auth.getUserPreferences();
 
     if (!userPreferences) {
       console.log("no preferences found");
@@ -32,12 +31,12 @@ function Home(props) {
     }
     console.log(userPreferences);
 
-    if (userPreferences.sideBarColor === "") {
-      setSideBarColor("#fefefe");
+    if (userPreferences.sidebarColor === "") {
+      setSideBarColor("#4D7D94");
       return;
     }
 
-    setSideBarColor(userPreferences.sideBarColor);
+    setSideBarColor(userPreferences.sidebarColor);
     return;
   }
 
@@ -51,25 +50,22 @@ function Home(props) {
   }
 
   async function changeSideBarColor(color) {
-    const user = await Auth.getUserData();
+    const hexValue = color.hex;
+    const newPreferences = {
+      sidebarColor: hexValue,
+    };
+    console.log(newPreferences);
 
-    const response = await Auth.fetch(
-      `http://localhost:5000/users/preferences/sidebarColor`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          color: color.hex,
-          userId: user._id,
-        }),
-      }
+    const updatedPreferences = await Auth.updateUserPreferences(
+      newPreferences
     );
-    // if (!response) {
-    //   console.log("color not saved!");
-    //   return;
-    // }
-    const json = await response.json();
-    console.log(json);
-    setSideBarColor(color.hex);
+
+    if (!updatedPreferences) {
+      console.log("color not saved!");
+      return;
+    }
+
+    setSideBarColor(updatedPreferences.sidebarColor);
   }
 
   return (

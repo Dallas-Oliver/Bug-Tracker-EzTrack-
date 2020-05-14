@@ -8,7 +8,7 @@ const UserSchema = new Schema({
   companyName: { type: String, required: false },
   password: { type: String, required: true },
   projectIds: [],
-  preferences: { type: {} },
+  preferences: Schema.Types.Mixed,
 });
 
 const User = mongoose.model("users", UserSchema);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import HeaderBar from "../../components/HeaderBar";
 import { Redirect } from "react-router-dom";
 // import { AuthService as Auth } from "../../auth/AuthService";

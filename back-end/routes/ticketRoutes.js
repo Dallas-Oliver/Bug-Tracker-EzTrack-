@@ -5,8 +5,13 @@ const router = require("express").Router();
 router.get("/all", async (req, res) => {
   const tickets = await Ticket.find().exec();
 
-  if (!tickets || tickets.length <= 0) {
-    res.status(400).send({ message: "no tickets found" });
+  if (!tickets) {
+    res.status(500).send({ message: "something went wrong" });
+    return;
+  }
+
+  if (tickets.length <= 0) {
+    res.status(200).send({ message: "no tickets found" });
     return;
   }
 

@@ -16,25 +16,4 @@ export default class Ticket {
     this.possibleStatuses = ["Open", "Closed", "Reopened"];
     this.possiblePriorityLevels = ["High", "Medium", "Low"];
   }
-
-  updateStatus(newStatus) {
-    if (this.possibleStatuses.indexOf(newStatus) !== -1) {
-      this.status = newStatus;
-    } else {
-      throw "Not a valid status!";
-    }
-  }
-
-  updatePriority(newPriority) {
-    if (this.possiblePriorityLevels.indexOf(newPriority) !== -1) {
-      this.priority = newPriority;
-    } else {
-      throw "Not a valid prioritry level!";
-    }
-  }
-
-  // addComment(newComment) {
-  //   let comment = new Comment(newComment);
-  //   return comment;
-  // }
 }

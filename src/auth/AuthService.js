@@ -95,7 +95,8 @@ export class AuthService {
     }
   }
 
-  static async getUserPreferences(userId) {
+  static async getUserPreferences() {
+    const userId = this.getUserData()._id;
     try {
       const response = await this.fetch(`/users/${userId}/preferences`);
 
@@ -109,6 +110,30 @@ export class AuthService {
     } catch (err) {
       console.log(err);
       return;
+    }
+  }
+
+  static async updateUserPreferences(newPreferences) {
+    const userId = this.getUserData()._id;
+    console.log(newPreferences);
+    try {
+      const response = await this.fetch(
+        `/users/${userId}/updatePreferences`,
+        {
+          method: "POST",
+          body: JSON.stringify(newPreferences),
+        }
+      );
+
+      if (!response) {
+        console.log("preferences not set, something went wrong!");
+        return;
+      }
+
+      const updatedPreferences = await response.json();
+      return updatedPreferences;
+    } catch (err) {
+      console.log(err);
     }
   }
 }
