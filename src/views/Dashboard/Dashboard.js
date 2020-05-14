@@ -5,10 +5,11 @@ import Ticket from "../tickets/Ticket";
 import { AuthService as Auth } from "../../auth/AuthService";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import DashboardProjectList from "./DashboardProjectList";
 
 function Dashboard(props) {
   const [userInfo, setUserInfo] = useState();
-  const [date, setDate] = useState(new Date());
+  const [date] = useState(new Date());
   const [currentTicketId, setTicketId] = useState();
   const [ticketIsVisible, toggleTicket] = useState(false);
 
@@ -16,15 +17,18 @@ function Dashboard(props) {
     const user = await Auth.getUserData();
     if (!user) {
       console.log("no user");
+      return;
     }
 
-    if (user) {
-      const response = await Auth.fetch(
-        `http://localhost:5000/users/${user._id}`
-      );
-      const userData = await response.json();
-      setUserInfo(userData);
+    const response = await Auth.fetch(
+      `http://localhost:5000/users/${user._id}`
+    );
+    if (!response) {
+      console.log("no user info available");
+      return;
     }
+    const userData = await response.json();
+    setUserInfo(userData);
   }
 
   useEffect(() => {
@@ -48,9 +52,11 @@ function Dashboard(props) {
             projects={userInfo.projectList}
           />
           <DashboardTicketList
-            openTicket={(userId) => openTicket(userId)}
+            openTicket={(_id) => openTicket(_id)}
             tickets={userInfo.ticketList}
+            projects={userInfo.projectList}
           />
+          <DashboardProjectList projects={userInfo.projectList} />
           <Calendar
             className="dashboard-calendar dash-card"
             value={date}

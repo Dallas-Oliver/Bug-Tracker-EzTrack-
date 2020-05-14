@@ -14,8 +14,8 @@ function Chart(props) {
         label: "Tickets",
         data: [openTickets.length, closedTickets.length],
         backgroundColor: ["#56C556", "#F96767"],
-        borderWidth: 0,
-        hoverBorderWidth: 2,
+        borderWidth: 3,
+        hoverBorderWidth: 1,
       },
     ],
   };

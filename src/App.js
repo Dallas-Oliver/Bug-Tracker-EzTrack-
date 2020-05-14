@@ -52,6 +52,9 @@ function App() {
       email: form.email.value,
       companyName: form.companyName.value,
       password: form.password.value,
+      preferences: {
+        sidebarColor: "#fefef",
+      },
     };
 
     const response = await Auth.register(formData);

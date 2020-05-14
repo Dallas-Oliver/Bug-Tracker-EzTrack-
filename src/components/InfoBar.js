@@ -46,7 +46,8 @@ function InfoBar(props) {
         </p>
       </div>
       <hr></hr>
-      <p>{props.description}</p>
+      <p className="description">{props.description}</p>
+      <hr></hr>
     </section>
   );
 }

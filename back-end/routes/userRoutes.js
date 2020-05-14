@@ -33,6 +33,9 @@ router.post("/register", async (req, res) => {
       companyName: userInfo.companyName,
       password: hash,
       projectIds: [],
+      preferences: {
+        sidebarColor: "",
+      },
     });
 
     const savedUser = await newUser.save();
@@ -111,6 +114,57 @@ router.get("/:userId", async (req, res) => {
   }).exec();
 
   res.status(200).send({ projectList, ticketList, user });
+});
+
+router.post("/preferences/sidebarColor", async (req, res) => {
+  const userId = req.body.userId;
+  const color = req.body.color;
+
+  try {
+    const user = await User.findOne({ _id: userId }).exec();
+
+    if (!user) {
+      res.status(404).send({ message: "No user found!" });
+      return;
+    }
+    user.preferences.sidebarColor = color;
+    const savedUser = user.save();
+
+    if (!savedUser) {
+      res.status(500).send({ message: "User not saved" });
+      return;
+    }
+
+    res.status(200).send(user);
+    return;
+  } catch (err) {
+    res
+      .status(500)
+      .send({ message: "whoops something went wrong on our end!", err });
+  }
+});
+
+router.get("/:userId/preferences", async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.params.userId }).exec();
+
+    if (!user) {
+      req.status(404).send({ message: "No user found!" });
+      return;
+    }
+
+    const userPreferences = user.preferences;
+
+    if (!userPreferences) {
+      res.status(404).send({ message: "This user has no preferences" });
+      return;
+    }
+    res.status(200).send(userPreferences);
+  } catch (err) {
+    res
+      .status(500)
+      .send({ message: "Something went wrong on our end!", err });
+  }
 });
 
 module.exports = router;

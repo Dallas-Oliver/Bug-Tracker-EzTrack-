@@ -46,26 +46,6 @@ router.post("/save-project", async (req, res) => {
   } catch (err) {
     res.status(500).send({ message: "project not saved", err });
   }
-
-  // User.findOne({ _id: req.body.currentUser._id })
-  //   .exec()
-  //   .then((user) => {
-  //     user.projectIds.push(project._id);
-  //     user.save().then(() => {
-  //       project
-  //         .save()
-  //         .then((project) => {
-  //           res.status(200).send(project);
-  //         })
-  //         .catch((err) => {
-  //           if (err) {
-  //             res
-  //               .status(400)
-  //               .send({ message: "project not saved", error: err });
-  //           }
-  //         });
-  //     });
-  //   });
 });
 
 router.get("/all", (req, res) => {
@@ -166,6 +146,7 @@ router.post("/save-ticket/:projectId", async (req, res) => {
     }
 
     project.tickets.push(ticket._id);
+    project.numberOfTickets = project.numberOfTickets + 1;
     project.save();
     res.status(201).send(ticket);
   } catch (err) {

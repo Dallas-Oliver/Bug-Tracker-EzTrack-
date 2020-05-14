@@ -94,4 +94,21 @@ export class AuthService {
       return;
     }
   }
+
+  static async getUserPreferences(userId) {
+    try {
+      const response = await this.fetch(`/users/${userId}/preferences`);
+
+      if (!response) {
+        console.log("something went wrong");
+        return;
+      }
+
+      const userPreferences = await response.json();
+      return userPreferences;
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  }
 }

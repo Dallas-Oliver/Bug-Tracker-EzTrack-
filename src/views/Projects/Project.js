@@ -138,14 +138,13 @@ function Project(props) {
             changeStatus={(_id) => changeStatus(_id)}
           />
           <h4>All Tickets</h4>
-
           <TicketList
             ticketList={ticketList}
             openTicket={(userId) => openTicket(userId)}
           />
         </div>
       ) : (
-        "Create a ticket"
+        <h4 className="loading-msg">Loading...</h4>
       )}
       {formIsVisible ? (
         <AddForm

@@ -7,7 +7,6 @@ export default function ProjectListItem(props) {
   return (
     <tr className="project-list-item">
       <td>
-        {" "}
         <NavLink className="project-link" to={`${url}/${props.id}`}>
           {props.name}
         </NavLink>

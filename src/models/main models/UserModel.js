@@ -9,5 +9,8 @@ export default class User {
     this.userId = uuidv4();
     this.roles = roles;
     this.assignedTickets = [];
+    this.preferences = {
+      sidebarColor: "",
+    };
   }
 }

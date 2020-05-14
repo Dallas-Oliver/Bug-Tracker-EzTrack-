@@ -2,7 +2,7 @@
 // @import "~bootstrap/scss/bootstrap";
 $background-grey: #f8f8f8;
 $form-grey: #ffffff;
-$nav-background: #a5ebfd;
+$nav-background: #427f8f;
 $border-grey: #707070;
 $main-black: #141414;
 $dark-blue: #0b486b;
@@ -242,7 +242,7 @@ html {
       align-items: center;
       justify-content: space-between;
       height: 100%;
-      width: 10vw;
+      width: 8vw;
       background: $nav-background;
 
       .personal {
@@ -271,7 +271,7 @@ html {
         .dashboard-link,
         .projects-link,
         .tickets-link {
-          color: $main-black;
+          color: white;
           text-decoration: none;
           text-align: center;
           font-family: $main-font;
@@ -279,23 +279,39 @@ html {
           font-size: medium;
           opacity: 0.8;
           padding: 1.5em 0px;
-          width: 10vw;
+          width: 8vw;
         }
 
         .selected {
           background: #fff;
           opacity: 1;
+          color: $main-black;
         }
       }
 
-      .logout-link {
-        text-decoration: none;
-        position: relative;
-        font-family: $main-font;
-        font-size: 1em;
-        text-align: center;
-        opacity: 0.6;
-        cursor: pointer;
+      &__footer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 0.5em;
+
+        .logout-link {
+          margin: 0px 0px 0px 1em;
+          text-decoration: none;
+          position: relative;
+          font-family: $main-font;
+          font-size: 1em;
+          text-align: center;
+          opacity: 0.6;
+          cursor: pointer;
+        }
+
+        .color-picker-icon {
+          opacity: 0.6;
+          cursor: pointer;
+        }
       }
     }
 
@@ -368,6 +384,25 @@ html {
         justify-self: start;
       }
 
+      .dash-list {
+        position: relative;
+        grid-row: 3;
+        grid-column: 1;
+        overflow: auto;
+        transition: opacity 0.2s ease-in-out;
+
+        table {
+          width: 100%;
+
+          .ticket-list-item {
+            .ticket-link {
+              color: $dark-blue;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
       .ticket-list {
         position: relative;
         grid-row: 3;
@@ -375,15 +410,30 @@ html {
         overflow: auto;
         transition: opacity 0.2s ease-in-out;
 
-        .header-bar {
-          position: sticky;
-        }
-
         table {
-          width: 80%;
+          width: 100%;
 
           .ticket-list-item {
             .ticket-link {
+              color: $dark-blue;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+      .project-list {
+        position: relative;
+        grid-row: 3;
+        grid-column: 2;
+        overflow: auto;
+        transition: opacity 0.2s ease-in-out;
+
+        table {
+          width: 100%;
+          .project-list-item {
+            .project-link {
+              color: $dark-blue;
               cursor: pointer;
             }
           }
@@ -731,5 +781,12 @@ html {
     .priority {
       margin-right: 1em;
     }
+  }
+
+  .loading-msg {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    margin-top: 25%;
   }
 }
