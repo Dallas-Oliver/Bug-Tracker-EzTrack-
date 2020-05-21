@@ -33,7 +33,7 @@ export default function TicketList(props) {
             </tbody>
           </table>
         ) : (
-          <p>No tickets in this project!</p>
+          <p>No tickets!</p>
         )}
       </SimpleBar>
     </div>

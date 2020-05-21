@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 
 function AddForm(props) {
   const [userAdded, setUserAdded] = React.useState(false);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   function addUser(userId) {
     if (userId) {
@@ -20,6 +25,7 @@ function AddForm(props) {
       >
         <label htmlFor="title">{props.formType} Title</label>
         <input
+          ref={inputRef}
           onChange={props.onTitleChange}
           value={props.titleValue}
           name="title"

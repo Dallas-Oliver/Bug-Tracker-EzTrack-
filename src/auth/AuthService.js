@@ -94,46 +94,4 @@ export class AuthService {
       return;
     }
   }
-
-  static async getUserPreferences() {
-    const userId = this.getUserData()._id;
-    try {
-      const response = await this.fetch(`/users/${userId}/preferences`);
-
-      if (!response) {
-        console.log("something went wrong");
-        return;
-      }
-
-      const userPreferences = await response.json();
-      return userPreferences;
-    } catch (err) {
-      console.log(err);
-      return;
-    }
-  }
-
-  static async updateUserPreferences(newPreferences) {
-    const userId = this.getUserData()._id;
-    console.log(newPreferences);
-    try {
-      const response = await this.fetch(
-        `/users/${userId}/updatePreferences`,
-        {
-          method: "POST",
-          body: JSON.stringify(newPreferences),
-        }
-      );
-
-      if (!response) {
-        console.log("preferences not set, something went wrong!");
-        return;
-      }
-
-      const updatedPreferences = await response.json();
-      return updatedPreferences;
-    } catch (err) {
-      console.log(err);
-    }
-  }
 }

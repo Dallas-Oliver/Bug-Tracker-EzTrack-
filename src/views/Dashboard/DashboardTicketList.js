@@ -5,7 +5,6 @@ import { Redirect } from "react-router-dom";
 import TicketListItem from "../tickets/TicketListItem";
 
 function DashboardTicketList(props) {
-  console.log(props);
   const [redirect, setRedirect] = useState(false);
 
   function redirectToTicketView() {

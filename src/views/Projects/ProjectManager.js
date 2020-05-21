@@ -7,6 +7,7 @@ import Project from "./Project";
 import { AuthService as Auth } from "../../auth/AuthService";
 
 function ProjectManager(props) {
+  console.log(props);
   const [titleInput, handleTitleUpdate] = useState("");
   const [descInput, handleDescUpdate] = useState("");
   const [projectList, updateProjectList] = useState([]);

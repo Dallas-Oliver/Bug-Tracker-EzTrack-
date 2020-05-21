@@ -253,6 +253,7 @@ html {
         .avatar {
           height: 7vh;
           border-radius: 50%;
+          cursor: pointer;
         }
 
         .side-bar-name {
@@ -647,7 +648,7 @@ html {
   .add-form {
     font-family: $main-font;
     position: absolute;
-    right: 0em;
+    right: 0;
     top: 0;
     box-shadow: -1px 0 12px $border-grey;
     height: 100%;
