@@ -73,6 +73,15 @@ function ProjectManager(props) {
     }
   }
 
+  const handleStatusChange = (projectId, status) => {
+    let newProjectList = [...projectList];
+    let projectIndex = newProjectList
+      .map((project) => project._id)
+      .indexOf(projectId);
+    newProjectList[projectIndex].status = status;
+    updateProjectList(newProjectList);
+  };
+
   if (projectList.length <= 0) {
     return null;
   }
@@ -102,6 +111,9 @@ function ProjectManager(props) {
           path="/home/projects/:projectId"
           render={() => (
             <Project
+              handleStatusChange={(projectId, status) =>
+                handleStatusChange(projectId, status)
+              }
               validateInputs={validateInputs}
               titleInput={titleInput}
               hideForm={() => toggleForm(false)}

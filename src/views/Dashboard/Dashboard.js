@@ -7,8 +7,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import DashboardProjectList from "./DashboardProjectList";
 
-function Dashboard(props) {
-  console.log(props);
+function Dashboard() {
   const [userInfo, setUserInfo] = useState();
   const [date] = useState(new Date());
   const [currentTicketId, setTicketId] = useState();

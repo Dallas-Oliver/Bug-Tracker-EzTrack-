@@ -110,7 +110,7 @@ function Project(props) {
     }
 
     const project = await response.json();
-
+    props.handleStatusChange(projectId, project.status);
     setProjectInfo(project);
   }
 
