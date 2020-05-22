@@ -2,6 +2,7 @@ const Ticket = require("../models/Ticket");
 const Project = require("../models/Project");
 const router = require("express").Router();
 
+//returns a list of all tickets saved in the DB.
 router.get("/all", async (req, res) => {
   const tickets = await Ticket.find().exec();
 
@@ -18,6 +19,8 @@ router.get("/all", async (req, res) => {
   res.status(200).send(tickets);
 });
 
+//recieves a ticket id in the req.body and changes the saved status of that ticket.
+// responds with that ticket.
 router.get("/:ticketId/change-status", async (req, res) => {
   const ticket = await Ticket.findOne({ _id: req.params.ticketId }).exec();
 

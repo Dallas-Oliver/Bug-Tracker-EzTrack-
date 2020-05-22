@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Navigation from "./Navigation";
 import Dashboard from "../Dashboard/Dashboard";
 import ProjectManager from "../Projects/ProjectManager";
 import AllTickets from "../tickets/AllTickets";
-import { Tooltip } from "react-tippy";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { AuthService as Auth } from "../../auth/AuthService";
-import { GithubPicker } from "react-color";
 import { Utils } from "../../utils";
 import Sidebar from "./Sidebar";
 
@@ -14,7 +11,7 @@ function Home(props) {
   const history = useHistory();
   const [formIsVisible, toggleForm] = useState(false);
   const [sidebarColor, setSidebarColor] = useState("");
-  const [avatarImage, setAvatarImage] = useState();
+  // const [avatarImage, setAvatarImage] = useState();
 
   async function getUserPreferences() {
     const userPreferences = await Utils.getUserPreferences();
@@ -56,18 +53,18 @@ function Home(props) {
     setSidebarColor(updatedPreferences.sidebarColor);
   }
 
-  async function handleFileSelect() {
-    let fileSelector = Utils.buildFileSelector();
-    fileSelector.click();
+  // async function handleFileSelect() {
+  //   let fileSelector = Utils.buildFileSelector();
+  //   fileSelector.click();
 
-    const response = await Auth.fetch("http://localhost:5000/users/");
-  }
+  //   const response = await Auth.fetch("http://localhost:5000/users/");
+  // }
   return (
     <div className="Home">
       <Sidebar
         sidebarColor={sidebarColor}
-        handleFileSelect={() => handleFileSelect()}
-        avatarImage={avatarImage}
+        // handleFileSelect={() => handleFileSelect()}
+        // avatarImage={avatarImage}
         handleLogout={() => handleLogout()}
         changeSideBarColor={(color) => changeSidebarColor(color)}
       />

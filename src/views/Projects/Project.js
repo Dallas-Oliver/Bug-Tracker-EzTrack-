@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import { useParams } from "react-router-dom";
 import { AuthService as Auth } from "../../auth/AuthService";
 import TicketList from "../tickets/TicketList";
@@ -30,13 +31,12 @@ function Project(props) {
         return;
       }
       const json = await response.json();
-      console.log(json);
       setProjectInfo(json.project);
       setTicketList(json.tickets);
       return json;
     }
     getProjectData();
-  }, []);
+  }, [projectId]);
 
   async function handleTicketSubmit(e) {
     e.preventDefault();

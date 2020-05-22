@@ -7,7 +7,6 @@ import Project from "./Project";
 import { AuthService as Auth } from "../../auth/AuthService";
 
 function ProjectManager(props) {
-  console.log(props);
   const [titleInput, handleTitleUpdate] = useState("");
   const [descInput, handleDescUpdate] = useState("");
   const [projectList, updateProjectList] = useState([]);
@@ -18,18 +17,17 @@ function ProjectManager(props) {
     return titleInput.length > 0 && descInput.length > 0;
   }
 
-  async function getAllProjects() {
-    const response = await Auth.fetch(
-      "http://localhost:5000/projects/all"
-    );
-    if (!response) {
-      console.log("no projects");
-    }
-    const projects = await response.json();
-    updateProjectList(projects);
-  }
-
   useEffect(() => {
+    async function getAllProjects() {
+      const response = await Auth.fetch(
+        "http://localhost:5000/projects/all"
+      );
+      if (!response) {
+        console.log("no projects");
+      }
+      const projects = await response.json();
+      updateProjectList(projects);
+    }
     getAllProjects();
   }, []);
 
@@ -68,12 +66,15 @@ function ProjectManager(props) {
 
     if (response) {
       const project = await response.json();
-      console.log(project);
       updateProjectList((projectList) => projectList.concat(project));
       handleTitleUpdate("");
       handleDescUpdate("");
       toggleForm(false);
     }
+  }
+
+  if (projectList.length <= 0) {
+    return null;
   }
 
   return (

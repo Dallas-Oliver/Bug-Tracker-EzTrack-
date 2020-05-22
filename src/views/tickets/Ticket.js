@@ -12,7 +12,7 @@ export default function Ticket(props) {
     ticketAPICall(
       `http://localhost:5000/projects/${projectId}/ticket/${props._id}`
     );
-  }, []);
+  }, [projectId, props._id]);
 
   if (!ticketInfo) {
     return null;

@@ -4,6 +4,9 @@ const Ticket = require("../models/Ticket");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
+//recieves a project object in the req.body and creates a new instance of the Project model and saves it in the DB.
+//Also saves the project._id in the current users projectIds array.
+//responds with the newly created project.
 router.post("/save-project", async (req, res) => {
   const body = req.body.newProject;
 
@@ -48,6 +51,8 @@ router.post("/save-project", async (req, res) => {
   }
 });
 
+//recives a token in the request headers and checks its validity.
+//if the token is valid, responds with a list of all projects saved in the DB.
 router.get("/all", (req, res) => {
   const token = req.headers["authorization"].split(" ")[1];
 
@@ -71,6 +76,7 @@ router.get("/all", (req, res) => {
   }
 });
 
+//recieves a projectId in the req.body and responds with that particular project.
 router.get("/:projectId", async (req, res) => {
   const projectId = req.params.projectId;
 

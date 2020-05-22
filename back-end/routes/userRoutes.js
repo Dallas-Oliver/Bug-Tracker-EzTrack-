@@ -5,6 +5,7 @@ const Ticket = require("../models/Ticket");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+//returns a list of all registered users.
 router.get("/all-users", async (req, res) => {
   const users = await User.find().exec();
   if (!users) {
@@ -15,6 +16,8 @@ router.get("/all-users", async (req, res) => {
   res.status(200).send(users);
 });
 
+//creates a new user instance and saves it in the DB.
+//responds with that users email address
 router.post("/register", async (req, res) => {
   const userInfo = req.body;
 
@@ -57,6 +60,8 @@ router.post("/register", async (req, res) => {
   }
 });
 
+//recieves an Email and password in the req.body which is used to check for an existing corresponding user in the DB.
+//if a user is found, responds with a JWT token for that user.
 router.post("/login", async (req, res) => {
   // use email to get data from mongo on that user
 
@@ -98,6 +103,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//responds with the user object, list of assigned tickets, and list of asssigned projects for the currently logged in user
 router.get("/:userId", async (req, res) => {
   const user = await User.findById(req.params.userId).exec();
 
@@ -117,34 +123,7 @@ router.get("/:userId", async (req, res) => {
   res.status(200).send({ projectList, ticketList, user });
 });
 
-// router.post("/preferences/sidebarColor", async (req, res) => {
-//   const userId = req.body.userId;
-//   const color = req.body.color;
-
-//   try {
-//     const user = await User.findOne({ _id: userId }).exec();
-
-//     if (!user) {
-//       res.status(404).send({ message: "No user found!" });
-//       return;
-//     }
-//     user.preferences.sidebarColor = color;
-//     const savedUser = user.save();
-
-//     if (!savedUser) {
-//       res.status(500).send({ message: "User not saved" });
-//       return;
-//     }
-
-//     res.status(200).send(user);
-//     return;
-//   } catch (err) {
-//     res
-//       .status(500)
-//       .send({ message: "whoops something went wrong on our end!", err });
-//   }
-// });
-
+//responds with the user.preferences object for the currently logged in user
 router.get("/:userId/preferences", async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.userId }).exec();
@@ -169,6 +148,8 @@ router.get("/:userId/preferences", async (req, res) => {
   }
 });
 
+//recieves an object in the req.body which replaces the prefernces object for the currently logged in user,
+// responds with that new preferences object.
 router.post("/:userId/updatePreferences", async (req, res) => {
   const newPreferences = req.body;
 

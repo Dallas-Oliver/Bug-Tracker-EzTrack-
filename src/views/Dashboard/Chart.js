@@ -20,18 +20,20 @@ function Chart(props) {
     ],
   };
 
-  function setUserData() {
-    for (let ticket of props.tickets) {
-      if (ticket.status === "Open") {
-        setOpenTickets((openTickets) => openTickets.concat(ticket));
-      } else if (ticket.status === "Closed") {
-        setClosedTickets((closedTickets) => closedTickets.concat(ticket));
+  useEffect(() => {
+    function setUserData() {
+      for (let ticket of props.tickets) {
+        if (ticket.status === "Open") {
+          setOpenTickets((openTickets) => openTickets.concat(ticket));
+        } else if (ticket.status === "Closed") {
+          setClosedTickets((closedTickets) =>
+            closedTickets.concat(ticket)
+          );
+        }
       }
     }
-  }
-  useEffect(() => {
     setUserData();
-  }, []);
+  }, [props.tickets]);
 
   return (
     <div className="pie-graph">
