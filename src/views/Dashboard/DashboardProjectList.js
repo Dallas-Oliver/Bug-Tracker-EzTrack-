@@ -6,9 +6,9 @@ import ProjectListItem from "../Projects/ProjectListItem";
 function DashboardProjectList(props) {
   const [redirect, setRedirect] = useState(false);
 
-  function redirectToProjectView() {
+  const redirectToProjectView = () => {
     setRedirect(!redirect);
-  }
+  };
 
   return (
     <div className="dash-card dash-list project-list">

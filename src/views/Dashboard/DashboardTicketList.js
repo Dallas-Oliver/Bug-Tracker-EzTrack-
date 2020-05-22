@@ -7,9 +7,9 @@ import TicketListItem from "../tickets/TicketListItem";
 function DashboardTicketList(props) {
   const [redirect, setRedirect] = useState(false);
 
-  function redirectToTicketView() {
+  const redirectToTicketView = () => {
     setRedirect(!redirect);
-  }
+  };
   return (
     <div className="dash-card dash-list ticket-list">
       {!redirect ? null : <Redirect to="/home/tickets" />}

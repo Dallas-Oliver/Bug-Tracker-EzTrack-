@@ -11,10 +11,10 @@ function Home(props) {
   const history = useHistory();
   const [formIsVisible, toggleForm] = useState(false);
 
-  function handleLogout() {
+  const handleLogout = () => {
     Auth.logout();
     history.replace("/login");
-  }
+  };
 
   return (
     <div className="Home">

@@ -13,7 +13,7 @@ function Dashboard() {
   const [currentTicketId, setTicketId] = useState();
   const [ticketIsVisible, toggleTicket] = useState(false);
 
-  async function getUserData() {
+  const getUserData = async () => {
     const user = await Auth.getUserData();
     if (!user) {
       console.log("no user");
@@ -29,18 +29,18 @@ function Dashboard() {
     }
     const userData = await response.json();
     setUserInfo(userData);
-  }
+  };
 
   useEffect(() => {
     getUserData();
   }, []);
 
-  function openTicket(_id) {
+  const openTicket = (_id) => {
     if (_id) {
       setTicketId(_id);
       toggleTicket(true);
     }
-  }
+  };
 
   return (
     <React.Fragment>

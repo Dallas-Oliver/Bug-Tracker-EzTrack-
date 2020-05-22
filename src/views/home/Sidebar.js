@@ -7,7 +7,7 @@ import { Utils } from "../../utils";
 function Sidebar(props) {
   const [sidebarColor, setSidebarColor] = React.useState("");
 
-  async function changeSidebarColor(color) {
+  const changeSidebarColor = async (color) => {
     const hexValue = color.hex;
 
     const updatedPreferences = await Utils.updateSidebarColorPreference(
@@ -20,9 +20,9 @@ function Sidebar(props) {
     }
 
     setSidebarColor(updatedPreferences.sidebarColor);
-  }
+  };
 
-  async function getUserPreferences() {
+  const getUserPreferences = async () => {
     const userPreferences = await Utils.getUserPreferences();
 
     if (!userPreferences) {
@@ -37,7 +37,7 @@ function Sidebar(props) {
 
     setSidebarColor(userPreferences.sidebarColor);
     return;
-  }
+  };
 
   React.useEffect(() => {
     getUserPreferences();

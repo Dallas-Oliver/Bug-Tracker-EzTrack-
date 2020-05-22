@@ -12,14 +12,14 @@ function App() {
   const [users, setUserList] = React.useState([]);
   const [errorMessage, setErrorMessage] = useState();
 
-  async function getUserList() {
+  const getUserList = async () => {
     const response = await Auth.fetch("/users/all-users");
     if (!response) {
       console.log("no users");
     }
     const userList = await response.json();
     setUserList(userList);
-  }
+  };
 
   React.useEffect(() => {
     if (users.length <= 0) {
@@ -27,7 +27,7 @@ function App() {
     }
   });
 
-  async function loginAndRedirect(email, password) {
+  const loginAndRedirect = async (email, password) => {
     try {
       const response = await Auth.login(email, password);
       if (response.status >= 400) {
@@ -40,9 +40,9 @@ function App() {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
-  async function handleRegistration(e) {
+  const handleRegistration = async (e) => {
     e.preventDefault();
 
     const form = e.target;
@@ -63,9 +63,9 @@ function App() {
     let json = await response.json();
 
     loginAndRedirect(json.email, formData.password);
-  }
+  };
 
-  function handleLogin(e) {
+  const handleLogin = (e) => {
     e.preventDefault();
 
     const formData = {
@@ -74,7 +74,7 @@ function App() {
     };
 
     loginAndRedirect(formData.email, formData.password);
-  }
+  };
 
   return (
     <div className="App">

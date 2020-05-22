@@ -18,7 +18,7 @@ export default function Ticket(props) {
     return null;
   }
 
-  async function ticketAPICall(url) {
+  const ticketAPICall = async (url) => {
     const response = await Auth.fetch(url);
 
     if (!response) {
@@ -27,7 +27,7 @@ export default function Ticket(props) {
     }
     const ticket = await response.json();
     setTicketInfo(ticket);
-  }
+  };
 
   return (
     <div className="ticket">

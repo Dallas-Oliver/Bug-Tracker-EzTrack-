@@ -21,7 +21,7 @@ function Project(props) {
   const [assignedUser, setAssignedUser] = useState();
 
   useEffect(() => {
-    async function getProjectData() {
+    const getProjectData = async () => {
       const response = await Auth.fetch(
         `http://localhost:5000/projects/${projectId}`
       );
@@ -34,11 +34,11 @@ function Project(props) {
       setProjectInfo(json.project);
       setTicketList(json.tickets);
       return json;
-    }
+    };
     getProjectData();
   }, [projectId]);
 
-  async function handleTicketSubmit(e) {
+  const handleTicketSubmit = async (e) => {
     e.preventDefault();
 
     let newTicket = new TicketModel(titleInput, descInput, assignedUser);
@@ -63,9 +63,9 @@ function Project(props) {
     handleTitleUpdate("");
     handleDescUpdate("");
     toggleForm(false);
-  }
+  };
 
-  function handleInput(e) {
+  const handleInput = (e) => {
     const elementName = e.target.name;
     const value = e.target.value;
 
@@ -79,26 +79,26 @@ function Project(props) {
       default:
         break;
     }
-  }
+  };
 
-  function validateInputs() {
+  const validateInputs = () => {
     return titleInput.length > 0 && descInput.length > 0;
-  }
+  };
 
-  function openTicket(_id) {
+  const openTicket = (_id) => {
     if (_id) {
       setTicketId(_id);
       toggleTicket(true);
     }
-  }
+  };
 
-  async function addUser(userId) {
+  const addUser = async (userId) => {
     if (userId) {
       setAssignedUser(userId);
     }
-  }
+  };
 
-  async function changeStatus(_id) {
+  const changeStatus = async (_id) => {
     console.log(_id);
 
     const response = await Auth.fetch(
@@ -112,7 +112,7 @@ function Project(props) {
     const project = await response.json();
     props.handleStatusChange(projectId, project.status);
     setProjectInfo(project);
-  }
+  };
 
   return (
     <div className="project">

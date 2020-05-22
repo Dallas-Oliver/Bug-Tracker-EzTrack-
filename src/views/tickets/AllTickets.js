@@ -8,15 +8,15 @@ function AllTickets(props) {
   const [currentTicketId, setTicketId] = useState();
   const [ticketIsVisible, toggleTicket] = useState(false);
 
-  function openTicket(_id) {
+  const openTicket = (_id) => {
     if (_id) {
       setTicketId(_id);
       toggleTicket(true);
     }
-  }
+  };
 
   useEffect(() => {
-    async function getTicketData() {
+    const getTicketData = async () => {
       const response = await Auth.fetch(
         "http://localhost:5000/tickets/all"
       );
@@ -28,9 +28,10 @@ function AllTickets(props) {
       const tickets = await response.json();
       console.log(tickets);
       setTicketList(tickets);
-    }
+    };
     getTicketData();
   }, [ticketList]);
+
   return (
     <div className={`all-tickets ${ticketIsVisible ? "blur" : ""}`}>
       <h3>All Tickets</h3>

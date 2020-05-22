@@ -21,7 +21,7 @@ function Chart(props) {
   };
 
   useEffect(() => {
-    function setUserData() {
+    const setUserData = () => {
       for (let ticket of props.tickets) {
         if (ticket.status === "Open") {
           setOpenTickets((openTickets) => openTickets.concat(ticket));
@@ -31,7 +31,7 @@ function Chart(props) {
           );
         }
       }
-    }
+    };
     setUserData();
   }, [props.tickets]);
 

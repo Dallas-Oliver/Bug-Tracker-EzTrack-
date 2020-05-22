@@ -13,9 +13,9 @@ function ProjectManager(props) {
   const [formIsVisible, toggleForm] = useState(false);
   const { path } = useRouteMatch();
 
-  function validateInputs() {
+  const validateInputs = () => {
     return titleInput.length > 0 && descInput.length > 0;
-  }
+  };
 
   useEffect(() => {
     async function getAllProjects() {
@@ -31,7 +31,7 @@ function ProjectManager(props) {
     getAllProjects();
   }, []);
 
-  function handleInput(e) {
+  const handleInput = (e) => {
     const elementName = e.target.name;
     const value = e.target.value;
 
@@ -45,9 +45,9 @@ function ProjectManager(props) {
       default:
         break;
     }
-  }
+  };
 
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let newProject = new ProjectModel(titleInput, descInput);
@@ -71,7 +71,7 @@ function ProjectManager(props) {
       handleDescUpdate("");
       toggleForm(false);
     }
-  }
+  };
 
   const handleStatusChange = (projectId, status) => {
     let newProjectList = [...projectList];
