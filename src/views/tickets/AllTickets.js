@@ -26,11 +26,10 @@ function AllTickets(props) {
         return;
       }
       const tickets = await response.json();
-      console.log(tickets);
       setTicketList(tickets);
     };
     getTicketData();
-  }, [ticketList]);
+  }, []);
 
   return (
     <div className={`all-tickets ${ticketIsVisible ? "blur" : ""}`}>

@@ -8,16 +8,6 @@ export default function Ticket(props) {
   const { projectId } = useParams();
   const [ticketInfo, setTicketInfo] = useState();
 
-  useEffect(() => {
-    ticketAPICall(
-      `http://localhost:5000/projects/${projectId}/ticket/${props._id}`
-    );
-  }, [projectId, props._id]);
-
-  if (!ticketInfo) {
-    return null;
-  }
-
   const ticketAPICall = async (url) => {
     const response = await Auth.fetch(url);
 
@@ -28,6 +18,16 @@ export default function Ticket(props) {
     const ticket = await response.json();
     setTicketInfo(ticket);
   };
+
+  useEffect(() => {
+    ticketAPICall(
+      `http://localhost:5000/projects/${projectId}/ticket/${props._id}`
+    );
+  }, [projectId, props._id]);
+
+  if (!ticketInfo) {
+    return null;
+  }
 
   return (
     <div className="ticket">
