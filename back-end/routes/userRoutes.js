@@ -37,7 +37,7 @@ router.post("/register", async (req, res) => {
       password: hash,
       projectIds: [],
       preferences: {
-        sidebarColor: "",
+        colorScheme: "",
       },
     });
 

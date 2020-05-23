@@ -29,10 +29,11 @@ function ProjectList(props) {
                 return (
                   <ProjectListItem
                     key={project._id}
-                    id={project._id}
+                    _id={project._id}
                     name={project.name}
                     status={project.status}
                     numberOfTickets={project.numberOfTickets}
+                    redirectToProject={props.redirectToProject}
                   />
                 );
               })

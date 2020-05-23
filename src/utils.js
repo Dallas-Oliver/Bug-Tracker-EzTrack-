@@ -30,7 +30,7 @@ export class Utils {
     }
   }
 
-  static async updateSidebarColorPreference(hexValue) {
+  static async updateColorPreference(hexValue) {
     let preferences = await this.getUserPreferences();
 
     if (!hexValue || typeof hexValue !== "string" || !preferences) {
@@ -38,7 +38,7 @@ export class Utils {
       return;
     }
 
-    preferences.sidebarColor = hexValue;
+    preferences.colorScheme = hexValue;
     return this.updateUserPreferences(preferences);
   }
 

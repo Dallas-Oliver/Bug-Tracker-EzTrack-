@@ -598,6 +598,7 @@ html {
   color: #0b486b;
   text-decoration: none;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .App .Home .project-manager .project-list .project-list-item .open {
@@ -688,7 +689,7 @@ html {
   position: absolute;
   top: 3em;
   left: 3em;
-  height: 90vh;
+  height: 90%;
   width: 90%;
   padding: 2em;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -709,13 +710,6 @@ html {
   color: #141414;
   -webkit-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
-}
-
-.App .Home .all-tickets .ticket-list .blur {
-  -webkit-filter: blur(1px);
-          filter: blur(1px);
-  opacity: 0.3;
-  pointer-events: none;
 }
 
 .App .Home .all-tickets .ticket-list .ticket-link {
@@ -739,6 +733,13 @@ html {
 
 .App .Home .all-tickets .ticket-list table td {
   padding: 0.3em 0;
+}
+
+.App .Home .all-tickets .blur {
+  -webkit-filter: blur(1px);
+          filter: blur(1px);
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 .App .add-form {

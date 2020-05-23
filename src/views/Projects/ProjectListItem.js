@@ -1,15 +1,15 @@
 import React from "react";
-import { NavLink, useRouteMatch } from "react-router-dom";
 
 export default function ProjectListItem(props) {
-  const { url } = useRouteMatch();
-
   return (
     <tr className="project-list-item">
       <td>
-        <NavLink className="project-link" to={`${url}/${props.id}`}>
+        <p
+          className="project-link"
+          onClick={() => props.redirectToProject(props._id)}
+        >
           {props.name}
-        </NavLink>
+        </p>
       </td>
 
       <td

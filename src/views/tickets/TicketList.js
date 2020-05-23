@@ -5,7 +5,8 @@ import "simplebar/dist/simplebar.min.css";
 
 export default function TicketList(props) {
   return (
-    <div className="ticket-list">
+    <div className={`ticket-list  ${props.ticketIsVisible ? "blur" : ""}`}>
+      <h4>All Tickets</h4>
       <SimpleBar>
         {props.ticketList.length >= 1 ? (
           <table>

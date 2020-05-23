@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Route, useRouteMatch, Switch } from "react-router-dom";
+import {
+  Route,
+  useRouteMatch,
+  Switch,
+  useHistory,
+} from "react-router-dom";
 import ProjectModel from "../../models/main models/ProjectModel";
 import ProjectList from "./ProjectList";
 import Project from "./Project";
@@ -12,6 +17,7 @@ function ProjectManager(props) {
   const [projectList, updateProjectList] = useState([]);
   const [formIsVisible, toggleForm] = useState(false);
   const { path } = useRouteMatch();
+  const history = useHistory();
 
   const validateInputs = () => {
     return titleInput.length > 0 && descInput.length > 0;
@@ -82,6 +88,14 @@ function ProjectManager(props) {
     updateProjectList(newProjectList);
   };
 
+  const redirectToProject = (_id) => {
+    if (!_id) {
+      return;
+    }
+    console.log(_id);
+    history.push(`/home/projects/${_id}`);
+  };
+
   if (projectList.length <= 0) {
     return null;
   }
@@ -103,6 +117,7 @@ function ProjectManager(props) {
                 showForm={() => toggleForm(true)}
                 formIsVisible={formIsVisible}
                 projectList={projectList}
+                redirectToProject={(_id) => redirectToProject(_id)}
               />
             );
           }}

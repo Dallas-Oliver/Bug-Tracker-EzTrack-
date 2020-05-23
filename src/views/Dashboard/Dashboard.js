@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import DashboardOverviewCard from "./DashboardOverviewCard";
 import DashboardTicketList from "./DashboardTicketList";
 import Ticket from "../tickets/Ticket";
@@ -10,6 +11,7 @@ import DashboardProjectList from "./DashboardProjectList";
 function Dashboard() {
   const [userInfo, setUserInfo] = useState();
   const [date] = useState(new Date());
+  const history = useHistory();
   const [currentTicketId, setTicketId] = useState();
   const [ticketIsVisible, toggleTicket] = useState(false);
 
@@ -42,6 +44,14 @@ function Dashboard() {
     }
   };
 
+  const redirectToProject = (_id) => {
+    if (!_id) {
+      return;
+    }
+    console.log(_id);
+    history.push(`/home/projects/${_id}`);
+  };
+
   return (
     <React.Fragment>
       {userInfo ? (
@@ -56,7 +66,10 @@ function Dashboard() {
             tickets={userInfo.ticketList}
             projects={userInfo.projectList}
           />
-          <DashboardProjectList projects={userInfo.projectList} />
+          <DashboardProjectList
+            redirectToProject={(_id) => redirectToProject(_id)}
+            projects={userInfo.projectList}
+          />
           <Calendar
             className="dashboard-calendar dash-card"
             value={date}

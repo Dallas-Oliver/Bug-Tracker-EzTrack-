@@ -5,21 +5,19 @@ import { GithubPicker } from "react-color";
 import { Utils } from "../../utils";
 
 function Sidebar(props) {
-  const [sidebarColor, setSidebarColor] = React.useState("");
+  const [colorScheme, setColorScheme] = React.useState("");
 
-  const changeSidebarColor = async (color) => {
+  const changeColorScheme = async (color) => {
     const hexValue = color.hex;
 
-    const updatedPreferences = await Utils.updateSidebarColorPreference(
-      hexValue
-    );
+    const updatedPreferences = await Utils.updateColorPreference(hexValue);
 
     if (!updatedPreferences) {
       console.log("color not saved!");
       return;
     }
 
-    setSidebarColor(updatedPreferences.sidebarColor);
+    setColorScheme(updatedPreferences.colorScheme);
   };
 
   const getUserPreferences = async () => {
@@ -30,12 +28,12 @@ function Sidebar(props) {
       return;
     }
 
-    if (userPreferences.sidebarColor === "") {
-      setSidebarColor("#4D7D94");
+    if (userPreferences.colorScheme === "") {
+      setColorScheme("#4D7D94");
       return;
     }
 
-    setSidebarColor(userPreferences.sidebarColor);
+    setColorScheme(userPreferences.colorScheme);
     return;
   };
 
@@ -44,7 +42,7 @@ function Sidebar(props) {
   }, []);
 
   return (
-    <section style={{ background: sidebarColor }} className="side-bar">
+    <section style={{ background: colorScheme }} className="side-bar">
       <div className="personal">
         <img
           onClick={props.handleFileSelect}
@@ -67,8 +65,8 @@ function Sidebar(props) {
         <Tooltip
           html={
             <GithubPicker
-              onChangeComplete={(color) => changeSidebarColor(color)}
-              color={sidebarColor}
+              onChangeComplete={(color) => changeColorScheme(color)}
+              color={colorScheme}
               colors={[
                 "#518763",
                 "#8A8A4B",

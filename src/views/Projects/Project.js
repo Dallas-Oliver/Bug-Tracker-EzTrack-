@@ -137,7 +137,7 @@ function Project(props) {
             _id={projectInfo._id}
             changeStatus={(_id) => changeStatus(_id)}
           />
-          <h4>All Tickets</h4>
+
           <TicketList
             ticketList={ticketList}
             openTicket={(userId) => openTicket(userId)}

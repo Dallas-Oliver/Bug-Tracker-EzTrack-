@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HeaderBar from "../../components/HeaderBar";
 import { Redirect } from "react-router-dom";
 // import { AuthService as Auth } from "../../auth/AuthService";
 import TicketListItem from "../tickets/TicketListItem";
 
 function DashboardTicketList(props) {
+  console.log(props.tickets);
   const [redirect, setRedirect] = useState(false);
 
   const redirectToTicketView = () => {
     setRedirect(!redirect);
   };
+
+  // useEffect(() => {
+  //   const getProjectNames = async () => {
+
+  //   }
+  //   getProjectNames()
+  // },[]);
+
   return (
     <div className="dash-card dash-list ticket-list">
       {!redirect ? null : <Redirect to="/home/tickets" />}

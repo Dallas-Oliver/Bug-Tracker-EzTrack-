@@ -10,7 +10,7 @@ export default class User {
     this.roles = roles;
     this.assignedTickets = [];
     this.preferences = {
-      sidebarColor: "",
+      colorScheme: "",
     };
   }
 }

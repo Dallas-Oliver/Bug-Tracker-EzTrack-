@@ -496,6 +496,7 @@ html {
             color: $dark-blue;
             text-decoration: none;
             font-weight: 500;
+            cursor: pointer;
           }
 
           .open {
@@ -589,7 +590,7 @@ html {
         position: absolute;
         top: 3em;
         left: 3em;
-        height: 90vh;
+        height: 90%;
         width: 90%;
         padding: 2em;
         border: 1px solid rgba(0, 0, 0, 0.1);
@@ -607,14 +608,7 @@ html {
         width: auto;
         height: 40vh;
         color: $main-black;
-
         transition: opacity 0.3s ease-in-out;
-
-        .blur {
-          filter: blur(1px);
-          opacity: 0.3;
-          pointer-events: none;
-        }
 
         .ticket-link {
           cursor: pointer;
@@ -642,6 +636,11 @@ html {
             padding: 0.3em 0;
           }
         }
+      }
+      .blur {
+        filter: blur(1px);
+        opacity: 0.3;
+        pointer-events: none;
       }
     }
   }

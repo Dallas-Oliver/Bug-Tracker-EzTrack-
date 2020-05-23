@@ -32,9 +32,9 @@ function AllTickets(props) {
   }, []);
 
   return (
-    <div className={`all-tickets ${ticketIsVisible ? "blur" : ""}`}>
-      <h3>All Tickets</h3>
+    <div className="all-tickets">
       <TicketList
+        ticketIsVisible={ticketIsVisible}
         ticketList={ticketList}
         openTicket={(userId) => openTicket(userId)}
       />
