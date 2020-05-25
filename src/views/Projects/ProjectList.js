@@ -4,6 +4,7 @@ import HeaderBar from "../../components/HeaderBar";
 import AddForm from "../../components/AddForm";
 
 function ProjectList(props) {
+  console.log(props);
   return (
     <div className="project-list">
       <HeaderBar
@@ -12,6 +13,7 @@ function ProjectList(props) {
         toggle={props.showForm}
         buttonText="New Project"
       />
+
       {props.projectList.length >= 1 ? (
         <table
           className={`project-table ${props.formIsVisible ? "blur" : ""}`}

@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navigation from "./Navigation";
 import { Tooltip } from "react-tippy";
 import { GithubPicker } from "react-color";
 import { Utils } from "../../utils";
+import { ThemeContext } from "../../Contexts/ThemeContext";
 
 function Sidebar(props) {
-  const [colorScheme, setColorScheme] = React.useState("");
+  // const [colorScheme, setColorScheme] = React.useState("");
+  const { colorScheme, setColorScheme } = useContext(ThemeContext);
 
   const changeColorScheme = async (color) => {
     const hexValue = color.hex;
@@ -65,16 +67,27 @@ function Sidebar(props) {
         <Tooltip
           html={
             <GithubPicker
+              triangle="hide"
+              direction="vertical"
               onChangeComplete={(color) => changeColorScheme(color)}
               color={colorScheme}
               colors={[
-                "#518763",
-                "#8A8A4B",
-                "#B0834C",
-                "#B34C42",
-                "#94358C",
-                "#455194",
-                "#4D7D94",
+                "#B80000",
+                "#DB3E00",
+                "#FCCB00",
+                "#008B02",
+                "#006B76",
+                "#1273DE",
+                "#004DCF",
+                "#5300EB",
+                "#EB9694",
+                "#FAD0C3",
+                "#FEF3BD",
+                "#C1E1C5",
+                "#BEDADC",
+                "#C4DEF6",
+                "#BED3F3",
+                "#D4C4FB",
               ]}
             />
           }
@@ -87,6 +100,7 @@ function Sidebar(props) {
               width="22"
               height="22"
               viewBox="0 0 48 48"
+              fill="white"
             >
               <path d="M24 6C14.06 6 6 14.06 6 24s8.06 18 18 18c1.66 0 3-1.34 3-3 0-.78-.29-1.48-.78-2.01-.47-.53-.75-1.22-.75-1.99 0-1.66 1.34-3 3-3H32c5.52 0 10-4.48 10-10 0-8.84-8.06-16-18-16zM13 24c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6-8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm10 0c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z" />
             </svg>

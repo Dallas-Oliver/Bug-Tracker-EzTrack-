@@ -8,7 +8,6 @@ import {
 import ProjectModel from "../../models/main models/ProjectModel";
 import ProjectList from "./ProjectList";
 import Project from "./Project";
-
 import { AuthService as Auth } from "../../auth/AuthService";
 
 function ProjectManager(props) {
@@ -92,13 +91,8 @@ function ProjectManager(props) {
     if (!_id) {
       return;
     }
-    console.log(_id);
     history.push(`/home/projects/${_id}`);
   };
-
-  if (projectList.length <= 0) {
-    return null;
-  }
 
   return (
     <div className="project-manager">

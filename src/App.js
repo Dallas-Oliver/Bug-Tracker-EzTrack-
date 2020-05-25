@@ -6,7 +6,6 @@ import Home from "./views/home/Home";
 import Register from "./views/register/Register";
 import Login from "./views/login/Login";
 import { Route, Switch, useHistory, Redirect } from "react-router-dom";
-import ThemeProvider from "./Contexts/ThemeContext";
 
 function App() {
   const history = useHistory();
@@ -78,36 +77,34 @@ function App() {
   };
 
   return (
-    <ThemeProvider>
-      <div className="App">
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() =>
-              Auth.loggedIn() ? (
-                <Redirect to="/home/dashboard" />
-              ) : (
-                <Register
-                  errorMessage={errorMessage}
-                  handleSubmit={(e) => handleRegistration(e)}
-                />
-              )
-            }
-          />
-          <Route
-            path="/login"
-            render={() => (
-              <Login
+    <div className="App">
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={() =>
+            Auth.loggedIn() ? (
+              <Redirect to="/home/dashboard" />
+            ) : (
+              <Register
                 errorMessage={errorMessage}
-                handleSubmit={(e) => handleLogin(e)}
+                handleSubmit={(e) => handleRegistration(e)}
               />
-            )}
-          />
-          <Route path="/home" render={() => <Home users={users} />} />
-        </Switch>
-      </div>
-    </ThemeProvider>
+            )
+          }
+        />
+        <Route
+          path="/login"
+          render={() => (
+            <Login
+              errorMessage={errorMessage}
+              handleSubmit={(e) => handleLogin(e)}
+            />
+          )}
+        />
+        <Route path="/home" render={() => <Home users={users} />} />
+      </Switch>
+    </div>
   );
 }
 

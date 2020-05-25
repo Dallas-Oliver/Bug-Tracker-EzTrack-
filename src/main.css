@@ -377,6 +377,7 @@ html {
 
 .App .Home .side-bar__footer .logout-link {
   margin: 0px 0px 0px 1em;
+  color: white;
   text-decoration: none;
   position: relative;
   font-family: "Montserrat";

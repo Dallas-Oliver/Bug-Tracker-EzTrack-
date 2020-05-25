@@ -1,8 +1,10 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
+import { ThemeContext } from "../Contexts/ThemeContext";
 import Dropdown from "react-bootstrap/Dropdown";
 
 function AddForm(props) {
   const [userAdded, setUserAdded] = React.useState(false);
+  const { colorScheme, setColorScheme } = useContext(ThemeContext);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -65,6 +67,7 @@ function AddForm(props) {
         {!userAdded ? null : <p>user added</p>}
         <div className="buttons">
           <button
+            style={{ background: colorScheme, color: "white" }}
             disabled={!props.validateInputs()}
             className="button add"
             type="submit"
