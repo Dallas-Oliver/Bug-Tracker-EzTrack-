@@ -1,10 +1,8 @@
+This is a work in progress. The goal in making this web app is to learn, and push myself to make bigger and more complex programs.
 
-This is a work in progress. The goal in making this web app is to learn, and push myself to make bigger and more complex programs. 
+As of 5/24/2020, A user can create an account, log in and out and have their data persist. They can create 'Projects" and in those projects they can create "tickets". these tickets may be assigned to a certain user. the tickets and projects can both be set to either an open or closed status.
 
-As of 5/24/2020, A user can create an account, for which they can have a preffered color scheme that will persist upon logout. They can create 'Projects" and in those projects they can create "tickets". these tickets may be assigned to a certain user. the tickets and projects can both be set to either an open or closed status.
-
-The use case of this app would be for a team of developers to keep track of all known bugs in the software they are developing. 
-
+The use case of this app would be for a team of developers to keep track of all known bugs in the software they are developing.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

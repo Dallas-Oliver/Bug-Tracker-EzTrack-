@@ -385,8 +385,7 @@ html {
   cursor: pointer;
 }
 
-.App .Home .side-bar__footer .color-picker-icon {
-  opacity: 0.6;
+.App .Home .side-bar__footer .theme-icon {
   cursor: pointer;
 }
 
