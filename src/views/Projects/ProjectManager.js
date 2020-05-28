@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Route,
   useRouteMatch,
@@ -9,12 +9,14 @@ import ProjectModel from "../../models/main models/ProjectModel";
 import ProjectList from "./ProjectList";
 import Project from "./Project";
 import { AuthService as Auth } from "../../auth/AuthService";
+import { ThemeContext } from "../../Contexts/ThemeContext";
 
 function ProjectManager(props) {
   const [titleInput, handleTitleUpdate] = useState("");
   const [descInput, handleDescUpdate] = useState("");
   const [projectList, updateProjectList] = useState([]);
   const [formIsVisible, toggleForm] = useState(false);
+  const { theme } = useContext(ThemeContext);
   const { path } = useRouteMatch();
   const history = useHistory();
 
@@ -95,7 +97,10 @@ function ProjectManager(props) {
   };
 
   return (
-    <div className="project-manager">
+    <div
+      style={{ background: theme.background, color: theme.colorText }}
+      className="project-manager"
+    >
       <Switch>
         <Route
           exact

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import DashboardOverviewCard from "./DashboardOverviewCard";
 import DashboardTicketList from "./DashboardTicketList";
@@ -7,6 +7,7 @@ import { AuthService as Auth } from "../../auth/AuthService";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import DashboardProjectList from "./DashboardProjectList";
+import { ThemeContext } from "../../Contexts/ThemeContext";
 
 function Dashboard() {
   const [userInfo, setUserInfo] = useState();
@@ -14,6 +15,7 @@ function Dashboard() {
   const history = useHistory();
   const [currentTicketId, setTicketId] = useState();
   const [ticketIsVisible, toggleTicket] = useState(false);
+  const { theme } = useContext(ThemeContext);
 
   const getUserData = async () => {
     const user = await Auth.getUserData();
@@ -52,10 +54,14 @@ function Dashboard() {
     history.push(`/home/projects/${_id}`);
   };
 
+  console.log(theme.background);
   return (
     <React.Fragment>
       {userInfo ? (
-        <div className="Dashboard">
+        <div
+          style={{ background: theme.background, color: theme.textColor }}
+          className="Dashboard"
+        >
           <h2>Welcome, {userInfo.user.name}</h2>
           <DashboardOverviewCard
             tickets={userInfo.ticketList}
@@ -71,7 +77,9 @@ function Dashboard() {
             projects={userInfo.projectList}
           />
           <Calendar
-            className="dashboard-calendar dash-card"
+            className={`dashboard-calendar dash-card dash-card__${
+              theme.background === "#F5F5F5" ? "light" : "dark"
+            }`}
             value={date}
           />
           {!currentTicketId || ticketIsVisible === false ? null : (

@@ -341,21 +341,20 @@ html {
 .App .Home .side-bar .nav .dashboard-link,
 .App .Home .side-bar .nav .projects-link,
 .App .Home .side-bar .nav .tickets-link {
-  color: white;
+  color: inherit;
   text-decoration: none;
   text-align: center;
   font-family: "Montserrat";
   font-weight: bold;
   font-size: medium;
-  opacity: 0.8;
+  opacity: 0.6;
   padding: 1.5em 0px;
   width: 8vw;
 }
 
 .App .Home .side-bar .nav .selected {
-  background: #fff;
   opacity: 1;
-  color: #141414;
+  color: "#FEF3BD";
 }
 
 .App .Home .side-bar__footer {
@@ -377,7 +376,6 @@ html {
 
 .App .Home .side-bar__footer .logout-link {
   margin: 0px 0px 0px 1em;
-  color: white;
   text-decoration: none;
   position: relative;
   font-family: "Montserrat";
@@ -533,6 +531,7 @@ html {
   overflow: auto;
   -webkit-transition: opacity 0.2s ease-in-out;
   transition: opacity 0.2s ease-in-out;
+  color: inherit;
 }
 
 .App .Home .Dashboard .project-list table {
@@ -627,7 +626,6 @@ html {
   border-radius: 4px;
   width: auto;
   height: 40vh;
-  color: #141414;
   padding: 0 1em;
   -webkit-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;

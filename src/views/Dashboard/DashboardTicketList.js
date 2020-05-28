@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import HeaderBar from "../../components/HeaderBar";
 import { Redirect } from "react-router-dom";
-// import { AuthService as Auth } from "../../auth/AuthService";
 import TicketListItem from "../tickets/TicketListItem";
-
+import { ThemeContext } from "../../Contexts/ThemeContext";
 function DashboardTicketList(props) {
   const [redirect, setRedirect] = useState(false);
+  const { theme } = useContext(ThemeContext);
 
   const redirectToTicketView = () => {
     setRedirect(!redirect);
   };
 
-  // useEffect(() => {
-  //   const getProjectNames = async () => {
-
-  //   }
-  //   getProjectNames()
-  // },[]);
-
   return (
-    <div className="dash-card dash-list ticket-list">
+    <div
+      style={{
+        background: theme.dashboardTheme.background,
+        color: theme.textColor,
+      }}
+      className="dash-card dash-list ticket-list"
+    >
       {!redirect ? null : <Redirect to="/home/tickets" />}
       <HeaderBar
         title="Open Tickets"

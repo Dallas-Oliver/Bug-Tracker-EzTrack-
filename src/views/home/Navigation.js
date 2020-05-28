@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { ThemeContext } from "../../Contexts/ThemeContext";
 
 function Navigation(props) {
+  const { theme } = useContext(ThemeContext);
+  console.log(theme);
   return (
-    <div className={props.className}>
+    <div
+      style={{ background: theme.background, color: theme.textColor }}
+      className={props.className}
+    >
       <NavLink
         activeClassName="selected"
         className="dashboard-link"
@@ -20,8 +26,8 @@ function Navigation(props) {
         Projects
       </NavLink>
       <NavLink
-        className="tickets-link"
         activeClassName="selected"
+        className="tickets-link"
         to="/home/tickets"
         exact
       >

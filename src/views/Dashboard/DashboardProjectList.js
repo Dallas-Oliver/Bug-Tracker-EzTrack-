@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import HeaderBar from "../../components/HeaderBar";
 import ProjectListItem from "../Projects/ProjectListItem";
+import { ThemeContext } from "../../Contexts/ThemeContext";
 
 function DashboardProjectList(props) {
   const [redirect, setRedirect] = useState(false);
+  const { theme } = useContext(ThemeContext);
 
   const redirectToProjectView = () => {
     setRedirect(!redirect);
   };
 
   return (
-    <div className="dash-card dash-list project-list">
+    <div
+      style={{
+        background: theme.dashboardTheme.background,
+        color: theme.textColor,
+      }}
+      className="dash-card dash-list project-list"
+    >
       {!redirect ? null : <Redirect to="/home/projects" />}
       <HeaderBar
         title="Open Projects"
