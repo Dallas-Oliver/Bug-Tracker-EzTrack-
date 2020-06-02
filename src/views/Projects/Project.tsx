@@ -30,9 +30,7 @@ function Project(props: IProjectProps) {
 
   useEffect(() => {
     const getProjectData = async () => {
-      const response = await Auth.fetch(
-        `http://localhost:5000/projects/${projectId}`
-      );
+      const response = await Auth.fetch(`/projects/${projectId}`);
 
       if (!response) {
         console.log("no project");
@@ -47,12 +45,11 @@ function Project(props: IProjectProps) {
   }, [projectId]);
 
   const handleTicketSubmit = async () => {
-    let newTicket = new TicketModel(titleInput, descInput, assignedUser);
-
     const user: User = await Auth.getUserData();
+    let newTicket = new TicketModel(titleInput, descInput, user);
 
     const response = await Auth.fetch(
-      `http://localhost:5000/projects/save-ticket/${projectId}`,
+      `/projects/save-ticket/${projectId}`,
       {
         body: JSON.stringify({ newTicket, user }),
         method: "POST",
@@ -83,9 +80,7 @@ function Project(props: IProjectProps) {
   };
 
   const changeStatus = async (_id: string) => {
-    const response = await Auth.fetch(
-      `http://localhost:5000/projects/${_id}/change-status`
-    );
+    const response = await Auth.fetch(`/projects/${_id}/change-status`);
 
     if (!response) {
       console.log("status not changed");

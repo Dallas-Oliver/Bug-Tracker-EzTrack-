@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const ProjectSchema = new Schema({
   name: { type: String, required: true },
-  _id: { type: String, required: true },
   dateCreated: String,
   createdBy: { type: String },
   numberOfTickets: Number,

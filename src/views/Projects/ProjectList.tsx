@@ -4,18 +4,20 @@ import { Project } from "../../models/main models/ProjectModel";
 import HeaderBar from "../../components/HeaderBar";
 import AddForm from "../../components/AddForm";
 import { ThemeContext } from "../../Contexts/ThemeContext";
+import User from "../../models/main models/UserModel";
 
 interface IProjectListProps {
   formIsVisible: boolean;
   showForm: () => void;
   projectList: Project[];
   titleInput: string;
-  handleTitleChange: () => void;
-  handleDescChange: () => void;
+  handleTitleChange: (title: string) => void;
+  handleDescChange: (description: string) => void;
   handleSubmit: () => void;
   hideForm: () => void;
   redirectToProject: (_id: string) => void;
   descInput: string;
+  users: User[];
 }
 
 function ProjectList(props: IProjectListProps) {
@@ -71,11 +73,12 @@ function ProjectList(props: IProjectListProps) {
           header="New Project"
           formType="Project"
           titleValue={props.titleInput}
+          descValue={props.descInput}
           onTitleChange={props.handleTitleChange}
+          onDescChange={props.handleDescChange}
           onSubmit={props.handleSubmit}
           hideForm={props.hideForm}
-          descValue={props.descInput}
-          onDescChange={props.handleDescChange}
+          users={props.users}
         />
       ) : null}
     </div>

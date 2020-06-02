@@ -20,9 +20,7 @@ export default function Ticket(props) {
   };
 
   useEffect(() => {
-    ticketAPICall(
-      `http://localhost:5000/projects/${projectId}/ticket/${props._id}`
-    );
+    ticketAPICall(`/projects/${projectId}/ticket/${props._id}`);
   }, [projectId, props._id]);
 
   if (!ticketInfo) {

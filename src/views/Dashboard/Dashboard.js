@@ -24,14 +24,12 @@ function Dashboard() {
       return;
     }
 
-    const response = await Auth.fetch(
-      `http://localhost:5000/users/${user._id}`
-    );
+    const response = await Auth.fetch(`/users/${user._id}`);
     if (!response) {
       console.log("no user info available");
       return;
     }
-    console.log(response);
+
     const userData = await response.json();
     setUserInfo(userData);
   };

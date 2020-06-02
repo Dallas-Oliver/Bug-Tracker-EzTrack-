@@ -27,9 +27,7 @@ function ProjectManager(props: IProjectMangerProps) {
 
   useEffect(() => {
     async function getAllProjects() {
-      const response = await Auth.fetch(
-        "http://localhost:5000/projects/all"
-      );
+      const response = await Auth.fetch("/projects/all");
       if (!response) {
         console.log("no projects");
       }
@@ -44,17 +42,15 @@ function ProjectManager(props: IProjectMangerProps) {
 
     const newProject = new ProjectModel(titleInput, descInput, user);
 
-    const response = await Auth.fetch(
-      "http://localhost:5000/projects/save-project",
-      {
-        body: JSON.stringify(newProject),
-        method: "POST",
-      }
-    );
+    const response = await Auth.fetch("/projects/save-project", {
+      body: JSON.stringify({ newProject, currentUser: user }),
+      method: "POST",
+    });
 
     if (response) {
       const project: ProjectModel = await response.json();
       updateProjectList((projectList) => projectList.concat(project));
+
       handleTitleChange("");
       handleDescChange("");
       toggleForm(false);
@@ -91,14 +87,17 @@ function ProjectManager(props: IProjectMangerProps) {
               <ProjectList
                 titleInput={titleInput}
                 descInput={descInput}
-                handleTitleChange={() => handleTitleChange}
-                handleDescChange={() => handleDescChange}
+                handleTitleChange={(title) => {
+                  handleTitleChange(title);
+                }}
+                handleDescChange={(title) => handleDescChange(title)}
                 handleSubmit={() => handleSubmit()}
                 hideForm={() => toggleForm(false)}
                 showForm={() => toggleForm(true)}
                 formIsVisible={formIsVisible}
                 projectList={projectList}
                 redirectToProject={(_id) => redirectToProject(_id)}
+                users={props.users}
               />
             );
           }}

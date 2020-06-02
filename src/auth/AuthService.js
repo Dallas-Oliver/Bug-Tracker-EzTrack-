@@ -96,8 +96,8 @@ export class AuthService {
         return;
       }
 
-      const user = await response.json().user;
-      console.log(user_id);
+      const json = await response.json();
+      const user = json.user;
       return user;
     } catch (err) {
       console.log("no user logged in!");

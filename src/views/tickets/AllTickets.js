@@ -17,9 +17,7 @@ function AllTickets(props) {
 
   useEffect(() => {
     const getTicketData = async () => {
-      const response = await Auth.fetch(
-        "http://localhost:5000/tickets/all"
-      );
+      const response = await Auth.fetch("/tickets/all");
 
       if (!response) {
         console.log("no tickets");

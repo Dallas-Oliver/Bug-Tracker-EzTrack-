@@ -8,8 +8,9 @@ const jwt = require("jsonwebtoken");
 //Also saves the project._id in the current users projectIds array.
 //responds with the newly created project.
 router.post("/save-project", async (req, res) => {
-  const project = new Project(req.body);
+  const project = new Project(req.body.newProject);
 
+  console.log(project);
   try {
     const user = await User.findOne({
       _id: req.body.currentUser._id,
@@ -21,8 +22,6 @@ router.post("/save-project", async (req, res) => {
     }
 
     const projectSaved = await project.save();
-    await user.updateOne();
-
     user.projectIds.push(projectSaved._id);
     const userSaved = await user.save();
     if (!userSaved) {
@@ -94,6 +93,7 @@ router.post("/save-ticket/:projectId", async (req, res) => {
   const projectId = req.params.projectId;
   const token = req.headers["authorization"].split(" ")[1];
   const newTicket = req.body.newTicket;
+  console.log(req.body);
 
   if (!projectId) {
     res.status(400).send({ message: "Bad request" });
@@ -101,12 +101,6 @@ router.post("/save-ticket/:projectId", async (req, res) => {
   }
 
   try {
-    const userVerified = await jwt.verify(token, process.env.JWT_KEY);
-    if (!userVerified) {
-      res.status(401).send({ message: "Not authorized" });
-      return;
-    }
-
     const user = await User.findById(
       req.body.newTicket.assignedUser
     ).exec();

@@ -26,6 +26,7 @@ const AddForm: React.FC<IAddFormProps> = (props) => {
       setUserAdded(true);
     }
   }
+  console.log(props.users);
   return (
     <div className="add-form">
       <h3>{props.header}</h3>
@@ -64,12 +65,11 @@ const AddForm: React.FC<IAddFormProps> = (props) => {
             <Dropdown.Menu className="dropdown-menu">
               {props.users!.map((user: User) => {
                 return (
-                  <Dropdown.Item
-                    key={user.userId}
-                    onClick={() => addUser(user.userId)}
-                  >
-                    {user.name}
-                  </Dropdown.Item>
+                  <div key={user.userId}>
+                    <Dropdown.Item onClick={() => addUser(user.userId)}>
+                      {user.name}
+                    </Dropdown.Item>
+                  </div>
                 );
               })}
             </Dropdown.Menu>
