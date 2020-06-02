@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from "react";
-
 import { useParams } from "react-router-dom";
 import { AuthService as Auth } from "../../auth/AuthService";
+import User from "../../models/main models/UserModel";
 import TicketList from "../tickets/TicketList";
 import HeaderBar from "../../components/HeaderBar";
 import AddForm from "../../components/AddForm";
 import TicketModel from "../../models/main models/TicketModel";
-import Ticket from "../../views/tickets/Ticket";
+import Ticket from "../tickets/Ticket";
 import InfoBar from "../../components/InfoBar";
+import { Project as ProjectModel } from "../../models/main models/ProjectModel";
 
-function Project(props) {
-  const [projectInfo, setProjectInfo] = useState();
-  const [ticketList, setTicketList] = useState([]);
-  const [currentTicketId, setTicketId] = useState();
+interface IProjectProps {
+  handleStatusChange: (_id: string, status: string) => void;
+  users: User[];
+}
+interface IProjectId {
+  projectId: string;
+}
+function Project(props: IProjectProps) {
+  const [projectInfo, setProjectInfo] = useState<ProjectModel>();
+  const [ticketList, setTicketList] = useState<TicketModel[]>([]);
+  const [currentTicketId, setTicketId] = useState("");
   const [titleInput, handleTitleUpdate] = useState("");
   const [descInput, handleDescUpdate] = useState("");
   const [formIsVisible, toggleForm] = useState(false);
   const [ticketIsVisible, toggleTicket] = useState(false);
-  const { projectId } = useParams();
-  const [assignedUser, setAssignedUser] = useState();
+  const { projectId } = useParams<IProjectId>();
+  const [assignedUser, setAssignedUser] = useState<string>();
 
   useEffect(() => {
     const getProjectData = async () => {
@@ -38,19 +46,15 @@ function Project(props) {
     getProjectData();
   }, [projectId]);
 
-  const handleTicketSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleTicketSubmit = async () => {
     let newTicket = new TicketModel(titleInput, descInput, assignedUser);
-    const currentUser = {
-      name: Auth.getUserData().name,
-      _id: Auth.getUserData()._id,
-    };
+
+    const user: User = await Auth.getUserData();
 
     const response = await Auth.fetch(
       `http://localhost:5000/projects/save-ticket/${projectId}`,
       {
-        body: JSON.stringify({ newTicket, currentUser }),
+        body: JSON.stringify({ newTicket, user }),
         method: "POST",
       }
     );
@@ -65,42 +69,20 @@ function Project(props) {
     toggleForm(false);
   };
 
-  const handleInput = (e) => {
-    const elementName = e.target.name;
-    const value = e.target.value;
-
-    switch (elementName) {
-      case "title":
-        handleTitleUpdate(value);
-        break;
-      case "description":
-        handleDescUpdate(value);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const validateInputs = () => {
-    return titleInput.length > 0 && descInput.length > 0;
-  };
-
-  const openTicket = (_id) => {
+  const openTicket = (_id: string) => {
     if (_id) {
       setTicketId(_id);
       toggleTicket(true);
     }
   };
 
-  const addUser = async (userId) => {
+  const addUser = async (userId: string) => {
     if (userId) {
       setAssignedUser(userId);
     }
   };
 
-  const changeStatus = async (_id) => {
-    console.log(_id);
-
+  const changeStatus = async (_id: string) => {
     const response = await Auth.fetch(
       `http://localhost:5000/projects/${_id}/change-status`
     );
@@ -135,12 +117,12 @@ function Project(props) {
             status={projectInfo.status}
             description={projectInfo.projectDescription}
             _id={projectInfo._id}
-            changeStatus={(_id) => changeStatus(_id)}
+            changeStatus={(_id: string) => changeStatus(_id)}
           />
 
           <TicketList
             ticketList={ticketList}
-            openTicket={(userId) => openTicket(userId)}
+            openTicket={(userId: string) => openTicket(userId)}
           />
         </div>
       ) : (
@@ -150,16 +132,14 @@ function Project(props) {
         <AddForm
           header="New Ticket"
           formType="Ticket"
-          validateInputs={validateInputs}
           titleValue={titleInput}
-          onTitleChange={(e) => handleInput(e)}
-          onDevChange={(e) => handleInput(e)}
-          onSubmit={(e) => handleTicketSubmit(e)}
-          hideForm={() => toggleForm(false)}
           descValue={descInput}
-          onDescChange={(e) => handleInput(e)}
+          onTitleChange={handleTitleUpdate}
+          onDescChange={handleDescUpdate}
+          onSubmit={() => handleTicketSubmit()}
+          hideForm={() => toggleForm(false)}
           users={props.users}
-          addUser={(userId) => addUser(userId)}
+          addUser={(userId: string) => addUser(userId)}
         />
       ) : null}
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../src/main.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import User from "./models/main models/UserModel";
 import { AuthService as Auth } from "./auth/AuthService";
 import Home from "./views/home/Home";
 import Register from "./views/register/Register";
@@ -47,14 +48,21 @@ function App() {
 
     const form = e.target;
 
-    const formData = {
-      name: form.userName.value,
-      email: form.email.value,
-      companyName: form.companyName.value,
-      password: form.password.value,
-    };
+    const user = new User(
+      form.email.value,
+      form.userName.value,
+      form.companyName.value,
+      form.password.value
+    );
 
-    const response = await Auth.register(formData);
+    // const formData = {
+    //   name: form.userName.value,
+    //   email: form.email.value,
+    //   companyName: form.companyName.value,
+    //   password: form.password.value,
+    // };
+
+    const response = await Auth.register(user);
     if (!response) {
       console.log("no register response");
       return;
@@ -62,7 +70,7 @@ function App() {
 
     let json = await response.json();
 
-    loginAndRedirect(json.email, formData.password);
+    loginAndRedirect(json.email, json.password);
   };
 
   const handleLogin = (e) => {

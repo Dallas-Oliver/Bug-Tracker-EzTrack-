@@ -7,6 +7,7 @@ export const ThemeProvider = (props) => {
     lightTheme: {
       background: "#F5F5F5",
       textColor: "black",
+      linkTextColor: "#0b486b",
       dashboardTheme: {
         background: "#FFFFFF",
       },
@@ -15,6 +16,7 @@ export const ThemeProvider = (props) => {
     darkTheme: {
       background: "#363636",
       textColor: "white",
+      linkTextColor: "#19ABFF",
       dashboardTheme: {
         background: "#5C5C5C",
       },

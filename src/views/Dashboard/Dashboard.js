@@ -6,7 +6,7 @@ import Ticket from "../tickets/Ticket";
 import { AuthService as Auth } from "../../auth/AuthService";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import DashboardProjectList from "./DashboardProjectList";
+import DashboardProjectList from "./DashboardProjectList.tsx";
 import { ThemeContext } from "../../Contexts/ThemeContext";
 
 function Dashboard() {
@@ -31,6 +31,7 @@ function Dashboard() {
       console.log("no user info available");
       return;
     }
+    console.log(response);
     const userData = await response.json();
     setUserInfo(userData);
   };
@@ -54,7 +55,6 @@ function Dashboard() {
     history.push(`/home/projects/${_id}`);
   };
 
-  console.log(theme.background);
   return (
     <React.Fragment>
       {userInfo ? (
@@ -90,7 +90,12 @@ function Dashboard() {
           )}
         </div>
       ) : (
-        <h4 className="loading-msg">Loading...</h4>
+        <h4
+          style={{ background: theme.background, color: theme.textColor }}
+          className="loading-msg"
+        >
+          Loading...
+        </h4>
       )}
     </React.Fragment>
   );

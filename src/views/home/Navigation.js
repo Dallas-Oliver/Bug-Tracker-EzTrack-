@@ -4,7 +4,7 @@ import { ThemeContext } from "../../Contexts/ThemeContext";
 
 function Navigation(props) {
   const { theme } = useContext(ThemeContext);
-  console.log(theme);
+
   return (
     <div
       style={{ background: theme.background, color: theme.textColor }}

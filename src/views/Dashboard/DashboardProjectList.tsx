@@ -1,10 +1,16 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import HeaderBar from "../../components/HeaderBar";
-import ProjectListItem from "../Projects/ProjectListItem";
+import ProjectListItem from "../projects/ProjectListItem";
 import { ThemeContext } from "../../Contexts/ThemeContext";
+import { Project } from "../../models/main models/ProjectModel";
 
-function DashboardProjectList(props) {
+interface IDashboardProjectListProps {
+  projects: Project[];
+  redirectToProject: (_id: string) => void;
+}
+
+function DashboardProjectList(props: IDashboardProjectListProps) {
   const [redirect, setRedirect] = useState(false);
   const { theme } = useContext(ThemeContext);
 

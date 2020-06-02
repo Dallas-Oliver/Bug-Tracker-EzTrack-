@@ -50,6 +50,7 @@ router.post("/register", async (req, res) => {
     res.status(201).send({
       message: "New user created!",
       email: savedUser.email,
+      password: savedUser.password,
     });
   } catch (err) {
     if (err) {
@@ -84,9 +85,9 @@ router.post("/login", async (req, res) => {
 
     const token = await jwt.sign(
       {
+        _id: user._id,
         email: user.email,
         name: user.name,
-        _id: user._id,
       },
       process.env.JWT_KEY,
       { expiresIn: "2 days" }
@@ -112,15 +113,19 @@ router.get("/:userId", async (req, res) => {
     return;
   }
 
-  const projectList = await Project.find({
-    _id: { $in: user.projectIds },
-  }).exec();
+  try {
+    const projectList = await Project.find({
+      _id: { $in: user.projectIds },
+    }).exec();
 
-  const ticketList = await Ticket.find({
-    projectId: { $in: projectList.map((project) => project._id) },
-  }).exec();
+    const ticketList = await Ticket.find({
+      projectId: { $in: projectList.map((project) => project._id) },
+    }).exec();
 
-  res.status(200).send({ projectList, ticketList, user });
+    res.status(200).send({ projectList, ticketList, user });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 //responds with the user.preferences object for the currently logged in user

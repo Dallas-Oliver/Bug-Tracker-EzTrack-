@@ -8,19 +8,7 @@ const jwt = require("jsonwebtoken");
 //Also saves the project._id in the current users projectIds array.
 //responds with the newly created project.
 router.post("/save-project", async (req, res) => {
-  const body = req.body.newProject;
-
-  const project = new Project({
-    name: body.name,
-    _id: body.uid,
-    dateCreated: body.dateCreated,
-    createdBy: req.body.currentUser.name,
-    numberOfTickets: body.numberOfTickets,
-    projectDescription: body.projectDescription,
-    assignedUsers: req.body.currentUser,
-    status: body.status,
-    dueDate: body.dueDate,
-  });
+  const project = new Project(req.body);
 
   try {
     const user = await User.findOne({
@@ -32,9 +20,11 @@ router.post("/save-project", async (req, res) => {
       return;
     }
 
-    user.projectIds.push(project._id);
-    const userSaved = await user.save();
     const projectSaved = await project.save();
+    await user.updateOne();
+
+    user.projectIds.push(projectSaved._id);
+    const userSaved = await user.save();
     if (!userSaved) {
       res.status(400).send({ message: "user not saved" });
       return;
@@ -130,7 +120,7 @@ router.post("/save-ticket/:projectId", async (req, res) => {
       name: newTicket.name,
       _id: newTicket.uid,
       dateCreated: newTicket.dateCreated,
-      createdBy: req.body.currentUser.name,
+      createdBy: req.body.user.name,
       ticketDescription: newTicket.description,
       projectId: projectId,
       priority: newTicket.priority,

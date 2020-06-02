@@ -5,24 +5,25 @@ import {
   Switch,
   useHistory,
 } from "react-router-dom";
-import ProjectModel from "../../models/main models/ProjectModel";
+import { Project as ProjectModel } from "../../models/main models/ProjectModel";
+import User from "../../models/main models/UserModel";
 import ProjectList from "./ProjectList";
 import Project from "./Project";
 import { AuthService as Auth } from "../../auth/AuthService";
 import { ThemeContext } from "../../Contexts/ThemeContext";
 
-function ProjectManager(props) {
-  const [titleInput, handleTitleUpdate] = useState("");
-  const [descInput, handleDescUpdate] = useState("");
-  const [projectList, updateProjectList] = useState([]);
+interface IProjectMangerProps {
+  users: User[];
+}
+
+function ProjectManager(props: IProjectMangerProps) {
+  const [titleInput, handleTitleChange] = useState("");
+  const [descInput, handleDescChange] = useState("");
+  const [projectList, updateProjectList] = useState<ProjectModel[]>([]);
   const [formIsVisible, toggleForm] = useState(false);
   const { theme } = useContext(ThemeContext);
   const { path } = useRouteMatch();
   const history = useHistory();
-
-  const validateInputs = () => {
-    return titleInput.length > 0 && descInput.length > 0;
-  };
 
   useEffect(() => {
     async function getAllProjects() {
@@ -38,58 +39,38 @@ function ProjectManager(props) {
     getAllProjects();
   }, []);
 
-  const handleInput = (e) => {
-    const elementName = e.target.name;
-    const value = e.target.value;
+  const handleSubmit = async () => {
+    const user: User = await Auth.getUserData();
 
-    switch (elementName) {
-      case "title":
-        handleTitleUpdate(value);
-        break;
-      case "description":
-        handleDescUpdate(value);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    let newProject = new ProjectModel(titleInput, descInput);
-    const currentUser = {
-      name: Auth.getUserData().name,
-      _id: Auth.getUserData()._id,
-    };
+    const newProject = new ProjectModel(titleInput, descInput, user);
 
     const response = await Auth.fetch(
       "http://localhost:5000/projects/save-project",
       {
-        body: JSON.stringify({ newProject, currentUser }),
+        body: JSON.stringify(newProject),
         method: "POST",
       }
     );
 
     if (response) {
-      const project = await response.json();
+      const project: ProjectModel = await response.json();
       updateProjectList((projectList) => projectList.concat(project));
-      handleTitleUpdate("");
-      handleDescUpdate("");
+      handleTitleChange("");
+      handleDescChange("");
       toggleForm(false);
     }
   };
 
-  const handleStatusChange = (projectId, status) => {
-    let newProjectList = [...projectList];
+  const handleStatusChange = (projectId: string, status: string) => {
+    let newProjectList: ProjectModel[] = [...projectList];
     let projectIndex = newProjectList
-      .map((project) => project._id)
+      .map((project: ProjectModel) => project._id)
       .indexOf(projectId);
     newProjectList[projectIndex].status = status;
     updateProjectList(newProjectList);
   };
 
-  const redirectToProject = (_id) => {
+  const redirectToProject = (_id: string) => {
     if (!_id) {
       return;
     }
@@ -108,10 +89,11 @@ function ProjectManager(props) {
           render={() => {
             return (
               <ProjectList
-                validateInputs={validateInputs}
                 titleInput={titleInput}
-                handleInput={(e) => handleInput(e)}
-                handleSubmit={(e) => handleSubmit(e)}
+                descInput={descInput}
+                handleTitleChange={() => handleTitleChange}
+                handleDescChange={() => handleDescChange}
+                handleSubmit={() => handleSubmit()}
                 hideForm={() => toggleForm(false)}
                 showForm={() => toggleForm(true)}
                 formIsVisible={formIsVisible}
@@ -125,15 +107,9 @@ function ProjectManager(props) {
           path="/home/projects/:projectId"
           render={() => (
             <Project
-              handleStatusChange={(projectId, status) =>
+              handleStatusChange={(projectId: string, status: string) =>
                 handleStatusChange(projectId, status)
               }
-              validateInputs={validateInputs}
-              titleInput={titleInput}
-              hideForm={() => toggleForm(false)}
-              showForm={() => toggleForm(true)}
-              formIsVisible={formIsVisible}
-              handleInput={(e) => handleInput(e)}
               users={props.users}
             />
           )}

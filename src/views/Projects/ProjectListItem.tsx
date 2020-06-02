@@ -1,15 +1,23 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../Contexts/ThemeContext";
 
-function TicketListItem(props) {
+interface IProjectListItemProps {
+  _id: string;
+  status: string;
+  redirectToProject: (_id: string) => void;
+  numberOfTickets: number;
+  name: string;
+}
+
+export default function ProjectListItem(props: IProjectListItemProps) {
   const { theme } = useContext(ThemeContext);
   return (
-    <tr className="ticket-list-item">
+    <tr className="project-list-item">
       <td>
         <p
           style={{ color: theme.linkTextColor }}
-          className="ticket-link"
-          onClick={() => props.openTicket(props._id)}
+          className="project-link"
+          onClick={() => props.redirectToProject(props._id)}
         >
           {props.name}
         </p>
@@ -20,9 +28,7 @@ function TicketListItem(props) {
       >
         {props.status}
       </td>
-      <td className="assigned-user">{props.assignedUser}</td>
+      <td>{props.numberOfTickets}</td>
     </tr>
   );
 }
-
-export default TicketListItem;

@@ -19,10 +19,10 @@ export class AuthService {
     return response;
   }
 
-  static async register(formData) {
+  static async register(user) {
     return await this.fetch(`/users/register`, {
       method: "POST",
-      body: JSON.stringify(formData),
+      body: JSON.stringify(user),
     });
   }
 
@@ -37,7 +37,7 @@ export class AuthService {
     });
 
     if (response.status >= 400) {
-      console.log(response);
+      console.log(await response.json());
       return response;
     }
     const json = await response.json();
@@ -86,9 +86,19 @@ export class AuthService {
     }
   }
 
-  static getUserData() {
+  static async getUserData() {
     try {
-      return decode(this.getToken());
+      const user_id = decode(this.getToken())._id;
+      const response = await this.fetch(`/users/${user_id}`);
+
+      if (!response) {
+        console.log("no user info available");
+        return;
+      }
+
+      const user = await response.json().user;
+      console.log(user_id);
+      return user;
     } catch (err) {
       console.log("no user logged in!");
       return;

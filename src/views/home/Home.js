@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import Dashboard from "../Dashboard/Dashboard";
-import ProjectManager from "../Projects/ProjectManager";
+import ProjectManager from "../projects/ProjectManager";
 import AllTickets from "../tickets/AllTickets";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { AuthService as Auth } from "../../auth/AuthService";
@@ -14,7 +14,6 @@ function Home(props) {
   const [formIsVisible, toggleForm] = useState(false);
 
   const value = useMemo(() => ({ theme, setTheme }), [theme, setTheme]);
-  console.log(value);
 
   const handleLogout = () => {
     Auth.logout();

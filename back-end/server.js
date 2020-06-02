@@ -16,6 +16,12 @@ app.use("/users", userRoutes);
 app.use("/projects", projectRoutes);
 app.use("/tickets", ticketRoutes);
 
+// authentication middleware
+app.use(["/projects", "/"], function (req, res, next) {
+  // if authenticated then next() else return 403
+  next();
+});
+
 // connect to DB
 mongoose.connect(
   process.env.DB_CONNECTION,

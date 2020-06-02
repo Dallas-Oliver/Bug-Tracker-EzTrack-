@@ -3,7 +3,6 @@ import { ThemeContext } from "../Contexts/ThemeContext";
 
 export default function HeaderBar(props) {
   const { theme, toggleThemes } = useContext(ThemeContext);
-  console.log(theme);
 
   return (
     <div className="header-bar">
