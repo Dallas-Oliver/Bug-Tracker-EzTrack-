@@ -14,26 +14,31 @@ require("dotenv/config");
 
 // authentication middleware
 app.use("/", (req, res, next) => {
-  const token = req.headers["authorization"].split(" ")[1];
-
-  if (!token) {
-    console.log("invalid token");
-    res.status(403).send("Invald token");
-    return;
+  if (req.path === "/users/register" || req.path === "/users/login") {
+    //if we're hitting the /register or /login endpoints, we are not currently logged in, therefore don't have a token to verify yet.
+    return next();
   }
-
-  // if authenticated then next() else return 403
-  jwt.verify(token, process.env.JWT_KEY, (err) => {
-    if (err) {
+  const token = req.headers["authorization"].split(" ")[1];
+  try {
+    if (!token) {
       console.log("invalid token");
-      res.status(403).send("Invalid token");
+      res.status(403).send("Invald token");
+      return;
     }
-
-    next();
-  });
+    // if authenticated then next() else return 403
+    jwt.verify(token, process.env.JWT_KEY, (err) => {
+      if (err) {
+        console.log("invalid token");
+        res.status(403).send("Invalid token");
+      }
+      next();
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-//routes
+//route middlewares
 app.use(bodyParser.json());
 app.use(cors());
 app.use("/users", userRoutes);

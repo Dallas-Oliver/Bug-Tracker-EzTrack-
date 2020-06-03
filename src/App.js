@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../src/main.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import User from "./models/main models/UserModel";
@@ -10,30 +10,30 @@ import { Route, Switch, useHistory, Redirect } from "react-router-dom";
 
 function App() {
   const history = useHistory();
-  const [users, setUserList] = React.useState([]);
+  // const [users, setUserList] = useState([]);
   const [errorMessage, setErrorMessage] = useState();
 
-  const getUserList = async () => {
-    const response = await Auth.fetch("/users/all-users");
-    if (!response) {
-      console.log("no users");
-    }
-    const userList = await response.json();
-    setUserList(userList);
-  };
+  // const getUserList = async () => {
+  //   const response = await Auth.fetch("/users/all-users");
+  //   if (!response) {
+  //     console.log("no users");
+  //   }
+  //   const userList = await response.json();
+  //   setUserList(userList);
+  // };
 
-  React.useEffect(() => {
-    if (users.length <= 0) {
-      getUserList();
-    }
-  });
+  // useEffect(() => {
+  //   if (users.length <= 0) {
+  //     getUserList();
+  //   }
+  // });
 
   const loginAndRedirect = async (email, password) => {
     try {
       const response = await Auth.login(email, password);
       if (response.status >= 400) {
-        const repsonseMessage = await response.json();
-        setErrorMessage(repsonseMessage);
+        const responseMessage = await response.json();
+        setErrorMessage(responseMessage);
         return;
       }
 
@@ -110,7 +110,7 @@ function App() {
             />
           )}
         />
-        <Route path="/home" render={() => <Home users={users} />} />
+        <Route path="/home" render={() => <Home />} />
       </Switch>
     </div>
   );

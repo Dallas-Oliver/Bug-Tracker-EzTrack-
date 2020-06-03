@@ -26,7 +26,7 @@ const AddForm: React.FC<IAddFormProps> = (props) => {
       setUserAdded(true);
     }
   }
-  console.log(props.users);
+
   return (
     <div className="add-form">
       <h3>{props.header}</h3>

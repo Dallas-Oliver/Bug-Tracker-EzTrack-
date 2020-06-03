@@ -11,7 +11,7 @@ import InfoBar from "../../components/InfoBar";
 import { Project as ProjectModel } from "../../models/main models/ProjectModel";
 
 interface IProjectProps {
-  handleStatusChange: (_id: string, status: string) => void;
+  handleProjectStatusChange: (_id: string, status: string) => void;
   users: User[];
 }
 interface IProjectId {
@@ -79,7 +79,7 @@ function Project(props: IProjectProps) {
     }
   };
 
-  const changeStatus = async (_id: string) => {
+  const changeProjectStatus = async (_id: string) => {
     const response = await Auth.fetch(`/projects/${_id}/change-status`);
 
     if (!response) {
@@ -87,9 +87,11 @@ function Project(props: IProjectProps) {
     }
 
     const project = await response.json();
-    props.handleStatusChange(projectId, project.status);
+    props.handleProjectStatusChange(projectId, project.status);
     setProjectInfo(project);
   };
+
+  const changeTicketStatus = (_id: string, newStatus: string) => {};
 
   return (
     <div className="project">
@@ -112,7 +114,7 @@ function Project(props: IProjectProps) {
             status={projectInfo.status}
             description={projectInfo.projectDescription}
             _id={projectInfo._id}
-            changeStatus={(_id: string) => changeStatus(_id)}
+            changeStatus={(_id: string) => changeProjectStatus(_id)}
           />
 
           <TicketList
@@ -141,6 +143,9 @@ function Project(props: IProjectProps) {
       {!currentTicketId || ticketIsVisible === false ? null : (
         <Ticket
           hideTicket={() => toggleTicket(false)}
+          handleTicketStatusChange={() =>
+            changeTicketStatus(_id, newStatus)
+          }
           _id={currentTicketId}
         />
       )}

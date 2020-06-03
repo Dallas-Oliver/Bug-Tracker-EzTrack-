@@ -17,15 +17,28 @@ export default function Ticket(props) {
     }
     const ticket = await response.json();
     setTicketInfo(ticket);
+    return ticket;
   };
 
   useEffect(() => {
+    //request ticket information
     ticketAPICall(`/projects/${projectId}/ticket/${props._id}`);
   }, [projectId, props._id]);
 
   if (!ticketInfo) {
     return null;
   }
+
+  const changeStatus = async (_id) => {
+    //change ticket status
+    const response = await ticketAPICall(
+      `/tickets/${ticketInfo._id}/change-status`
+    );
+
+    const newStatus = response.status;
+
+    props.handleTicketStatusChange(_id, newStatus);
+  };
 
   return (
     <div className="ticket">
@@ -42,11 +55,7 @@ export default function Ticket(props) {
         description={ticketInfo.ticketDescription}
         priority={ticketInfo.priority}
         assignedTo={ticketInfo.assignedUser}
-        changeStatus={() =>
-          ticketAPICall(
-            `http://localhost:5000/tickets/${ticketInfo._id}/change-status`
-          )
-        }
+        changeStatus={() => changeStatus(ticketInfo._id)}
       />
     </div>
   );

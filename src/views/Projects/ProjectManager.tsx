@@ -57,7 +57,10 @@ function ProjectManager(props: IProjectMangerProps) {
     }
   };
 
-  const handleStatusChange = (projectId: string, status: string) => {
+  const handleProjectStatusChange = (
+    projectId: string,
+    status: string
+  ) => {
     let newProjectList: ProjectModel[] = [...projectList];
     let projectIndex = newProjectList
       .map((project: ProjectModel) => project._id)
@@ -106,9 +109,10 @@ function ProjectManager(props: IProjectMangerProps) {
           path="/home/projects/:projectId"
           render={() => (
             <Project
-              handleStatusChange={(projectId: string, status: string) =>
-                handleStatusChange(projectId, status)
-              }
+              handleProjectStatusChange={(
+                projectId: string,
+                status: string
+              ) => handleProjectStatusChange(projectId, status)}
               users={props.users}
             />
           )}

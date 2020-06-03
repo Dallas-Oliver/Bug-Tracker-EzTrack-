@@ -10,7 +10,6 @@ const jwt = require("jsonwebtoken");
 router.post("/save-project", async (req, res) => {
   const project = new Project(req.body.newProject);
 
-  console.log(project);
   try {
     const user = await User.findOne({
       _id: req.body.currentUser._id,
@@ -20,7 +19,6 @@ router.post("/save-project", async (req, res) => {
       res.status(404).send({ message: "user not found" });
       return;
     }
-
     const projectSaved = await project.save();
     user.projectIds.push(projectSaved._id);
     const userSaved = await user.save();
@@ -43,23 +41,12 @@ router.post("/save-project", async (req, res) => {
 //recives a token in the request headers and checks its validity.
 //if the token is valid, responds with a list of all projects saved in the DB.
 router.get("/all", (req, res) => {
-  const token = req.headers["authorization"].split(" ")[1];
-
-  if (!token) {
-    res.status(401).send("Invald token");
-    return;
-  }
   try {
-    jwt.verify(token, process.env.JWT_KEY, (err) => {
-      if (err) {
-        res.status(401).send("Invalid token");
-      }
-      Project.find()
-        .exec()
-        .then((projects) => {
-          res.status(200).send(projects);
-        });
-    });
+    Project.find()
+      .exec()
+      .then((projects) => {
+        res.status(200).send(projects);
+      });
   } catch (err) {
     res.status(400).send("Invalid request for all projects");
   }
@@ -91,7 +78,6 @@ router.get("/:projectId", async (req, res) => {
 
 router.post("/save-ticket/:projectId", async (req, res) => {
   const projectId = req.params.projectId;
-  const token = req.headers["authorization"].split(" ")[1];
   const newTicket = req.body.newTicket;
   console.log(req.body);
 

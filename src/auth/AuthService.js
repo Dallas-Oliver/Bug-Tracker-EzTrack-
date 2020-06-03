@@ -20,10 +20,14 @@ export class AuthService {
   }
 
   static async register(user) {
-    return await this.fetch(`/users/register`, {
+    console.log(this.getToken());
+    const response = await this.fetch(`/users/register`, {
       method: "POST",
       body: JSON.stringify(user),
     });
+
+    const json = await response.json();
+    console.log(json);
   }
 
   static async login(email, password) {
@@ -57,11 +61,7 @@ export class AuthService {
 
   static loggedIn() {
     const token = this.getToken();
-    if (token && !this.isTokenExpired(token)) {
-      return true;
-    } else {
-      return false;
-    }
+    return token && !this.isTokenExpired(token);
   }
 
   static isTokenExpired(token) {
