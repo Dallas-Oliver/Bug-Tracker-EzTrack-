@@ -10,23 +10,7 @@ import { Route, Switch, useHistory, Redirect } from "react-router-dom";
 
 function App() {
   const history = useHistory();
-  // const [users, setUserList] = useState([]);
   const [errorMessage, setErrorMessage] = useState();
-
-  // const getUserList = async () => {
-  //   const response = await Auth.fetch("/users/all-users");
-  //   if (!response) {
-  //     console.log("no users");
-  //   }
-  //   const userList = await response.json();
-  //   setUserList(userList);
-  // };
-
-  // useEffect(() => {
-  //   if (users.length <= 0) {
-  //     getUserList();
-  //   }
-  // });
 
   const loginAndRedirect = async (email, password) => {
     try {
@@ -54,13 +38,6 @@ function App() {
       form.companyName.value,
       form.password.value
     );
-
-    // const formData = {
-    //   name: form.userName.value,
-    //   email: form.email.value,
-    //   companyName: form.companyName.value,
-    //   password: form.password.value,
-    // };
 
     const response = await Auth.register(user);
     if (!response) {
