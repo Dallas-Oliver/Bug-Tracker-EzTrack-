@@ -16,11 +16,10 @@ function App() {
     try {
       const response = await Auth.login(email, password);
       if (response.status >= 400) {
-        const responseMessage = await response.json();
-        setErrorMessage(responseMessage);
+        setErrorMessage(response);
         return;
       }
-
+      console.log("redirecting");
       history.replace("/home/dashboard");
     } catch (err) {
       console.log(err);
@@ -45,9 +44,7 @@ function App() {
       return;
     }
 
-    let json = await response.json();
-
-    loginAndRedirect(json.email, json.password);
+    loginAndRedirect(response.email, response.password);
   };
 
   const handleLogin = (e) => {

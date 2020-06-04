@@ -1,15 +1,5 @@
 import User from "./UserModel";
 
-// export class User {
-//   _id: string;
-//   name: string;
-
-//   constructor(_id: string, name: string) {
-//     this._id = _id;
-//     this.name = name;
-//   }
-// }
-
 export class Project {
   _id!: string;
   name: string;

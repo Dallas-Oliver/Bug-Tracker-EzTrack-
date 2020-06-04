@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const TicketSchema = new Schema({
   name: { type: String, required: true },
-  _id: { type: String, required: true },
   dateCreated: String,
   createdBy: { type: String },
   ticketDescription: { type: String, required: true },

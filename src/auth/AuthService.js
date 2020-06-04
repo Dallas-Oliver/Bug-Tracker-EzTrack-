@@ -20,7 +20,6 @@ export class AuthService {
   }
 
   static async register(user) {
-    console.log(this.getToken());
     const response = await this.fetch(`/users/register`, {
       method: "POST",
       body: JSON.stringify(user),
@@ -28,6 +27,7 @@ export class AuthService {
 
     const json = await response.json();
     console.log(json);
+    return json;
   }
 
   static async login(email, password) {

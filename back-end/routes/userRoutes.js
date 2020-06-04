@@ -46,7 +46,7 @@ router.post("/register", async (req, res) => {
       res.status(400).send({ message: "user not saved!" });
       return;
     }
-    console.log(savedUser);
+
     res.status(201).send({
       message: "New user created!",
       email: savedUser.email,

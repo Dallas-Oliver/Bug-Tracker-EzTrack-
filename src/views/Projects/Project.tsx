@@ -91,7 +91,14 @@ function Project(props: IProjectProps) {
     setProjectInfo(project);
   };
 
-  const changeTicketStatus = (_id: string, newStatus: string) => {};
+  const changeTicketStatus = (ticketId: string, newStatus: string) => {
+    const newTicketList: TicketModel[] = [...ticketList];
+    const ticketIndex = newTicketList
+      .map((ticket: TicketModel) => ticket._id)
+      .indexOf(ticketId);
+    newTicketList[ticketIndex].status = newStatus;
+    setTicketList(newTicketList);
+  };
 
   return (
     <div className="project">
@@ -143,9 +150,7 @@ function Project(props: IProjectProps) {
       {!currentTicketId || ticketIsVisible === false ? null : (
         <Ticket
           hideTicket={() => toggleTicket(false)}
-          handleTicketStatusChange={() =>
-            changeTicketStatus(_id, newStatus)
-          }
+          handleTicketStatusChange={() => changeTicketStatus}
           _id={currentTicketId}
         />
       )}

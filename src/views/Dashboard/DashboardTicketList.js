@@ -10,6 +10,7 @@ function DashboardTicketList(props) {
   const redirectToTicketView = () => {
     setRedirect(!redirect);
   };
+  console.log(props.tickets);
 
   return (
     <div

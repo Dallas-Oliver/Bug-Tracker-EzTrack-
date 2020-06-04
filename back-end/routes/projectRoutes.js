@@ -98,7 +98,6 @@ router.post("/save-ticket/:projectId", async (req, res) => {
 
     const ticket = new Ticket({
       name: newTicket.name,
-      _id: newTicket.uid,
       dateCreated: newTicket.dateCreated,
       createdBy: req.body.user.name,
       ticketDescription: newTicket.description,

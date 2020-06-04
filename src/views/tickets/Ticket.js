@@ -29,15 +29,16 @@ export default function Ticket(props) {
     return null;
   }
 
-  const changeStatus = async (_id) => {
+  const changeStatus = async (ticketId) => {
     //change ticket status
-    const response = await ticketAPICall(
-      `/tickets/${ticketInfo._id}/change-status`
+    const ticket = await ticketAPICall(
+      `/tickets/${ticketId}/change-status`
     );
 
-    const newStatus = response.status;
+    setTicketInfo(ticket);
 
-    props.handleTicketStatusChange(_id, newStatus);
+    const newStatus = ticket.status;
+    props.handleTicketStatusChange(ticketId, newStatus);
   };
 
   return (
