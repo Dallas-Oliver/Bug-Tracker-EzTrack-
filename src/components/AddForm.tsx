@@ -65,8 +65,8 @@ const AddForm: React.FC<IAddFormProps> = (props) => {
             <Dropdown.Menu className="dropdown-menu">
               {props.users!.map((user: User) => {
                 return (
-                  <div key={user.userId}>
-                    <Dropdown.Item onClick={() => addUser(user.userId)}>
+                  <div key={user._id}>
+                    <Dropdown.Item onClick={() => addUser(user._id)}>
                       {user.name}
                     </Dropdown.Item>
                   </div>

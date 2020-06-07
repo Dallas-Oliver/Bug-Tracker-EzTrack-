@@ -3,15 +3,28 @@ import HeaderBar from "../../components/HeaderBar";
 import { Redirect } from "react-router-dom";
 import TicketListItem from "../tickets/TicketListItem";
 import { ThemeContext } from "../../Contexts/ThemeContext";
-function DashboardTicketList(props) {
+import Ticket from "../../models/main models/TicketModel";
+
+interface IDashboardTicketListProps {
+  tickets: Ticket[];
+  openTicket: (_id: string) => void;
+}
+
+function DashboardTicketList(props: IDashboardTicketListProps) {
   const [redirect, setRedirect] = useState(false);
+  const [openTickets, setOpenTickets] = useState<Ticket[]>([]);
   const { theme } = useContext(ThemeContext);
 
   const redirectToTicketView = () => {
     setRedirect(!redirect);
   };
-  console.log(props.tickets);
 
+  React.useEffect(() => {
+    const openTickets = props.tickets.filter(
+      (ticket) => ticket.status === "Open"
+    );
+    setOpenTickets(openTickets);
+  }, [props.tickets]);
   return (
     <div
       style={{
@@ -26,7 +39,7 @@ function DashboardTicketList(props) {
         buttonText="View All"
         toggle={() => redirectToTicketView()}
       />
-      {props.tickets.length <= 0 ? (
+      {openTickets.length <= 0 ? (
         <p>No Tickets!</p>
       ) : (
         <table>
@@ -39,7 +52,7 @@ function DashboardTicketList(props) {
           </thead>
 
           <tbody className="list-body">
-            {props.tickets.map((ticket) => {
+            {openTickets.map((ticket: Ticket) => {
               return ticket.status === "Open" ? (
                 <TicketListItem
                   key={ticket._id}

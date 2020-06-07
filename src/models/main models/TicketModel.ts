@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import User from "./UserModel";
+import moment from "moment";
 
 export default class Ticket {
   _id!: string;
@@ -16,7 +17,7 @@ export default class Ticket {
 
   constructor(title: string, description: string, assignedUser: User) {
     this.name = title;
-    this.dateCreated = `${new Date().toLocaleTimeString()} ${new Date().toLocaleDateString()}`;
+    this.dateCreated = moment().format("MMMM Do YYYY, h:mm:ss a");
     this.description = description;
     this.history = [];
     this.comments = [];

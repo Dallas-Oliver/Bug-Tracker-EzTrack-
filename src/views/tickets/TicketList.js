@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import TicketListItem from "./TicketListItem";
 import SimpleBar from "simplebar-react";
 import "simplebar/dist/simplebar.min.css";
+import { ThemeContext } from "../../Contexts/ThemeContext";
 
 export default function TicketList(props) {
+  const { theme } = useContext(ThemeContext);
   return (
-    <div className={`ticket-list  ${props.ticketIsVisible ? "blur" : ""}`}>
+    <div
+      style={{
+        background: theme.dashboardTheme.background,
+        color: theme.textColor,
+      }}
+      className={`ticket-list  ${props.ticketIsVisible ? "blur" : ""}`}
+    >
       <h4>All Tickets</h4>
       <SimpleBar>
         {props.ticketList.length >= 1 ? (

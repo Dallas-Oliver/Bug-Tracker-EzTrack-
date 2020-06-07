@@ -12,11 +12,19 @@ interface IDashboardProjectListProps {
 
 function DashboardProjectList(props: IDashboardProjectListProps) {
   const [redirect, setRedirect] = useState(false);
+  const [openProjects, setOpenProjects] = useState<Project[]>([]);
   const { theme } = useContext(ThemeContext);
 
   const redirectToProjectView = () => {
     setRedirect(!redirect);
   };
+
+  React.useEffect(() => {
+    let openProjects = props.projects.filter(
+      (project) => project.status === "Open"
+    );
+    setOpenProjects(openProjects);
+  }, [props.projects]);
 
   return (
     <div
@@ -32,7 +40,7 @@ function DashboardProjectList(props: IDashboardProjectListProps) {
         buttonText="View All"
         toggle={() => redirectToProjectView()}
       />
-      {props.projects.length <= 0 ? (
+      {openProjects.length === 0 ? (
         <p>No Projects!</p>
       ) : (
         <table>
@@ -45,9 +53,9 @@ function DashboardProjectList(props: IDashboardProjectListProps) {
           </thead>
 
           <tbody>
-            {props.projects.length >= 1 ? (
-              props.projects.map((project) => {
-                return (
+            {openProjects.length >= 1 ? (
+              openProjects.map((project) => {
+                return project.status === "Open" ? (
                   <ProjectListItem
                     key={project._id}
                     _id={project._id}
@@ -56,7 +64,7 @@ function DashboardProjectList(props: IDashboardProjectListProps) {
                     numberOfTickets={project.numberOfTickets}
                     redirectToProject={props.redirectToProject}
                   />
-                );
+                ) : null;
               })
             ) : (
               <p>Create a Project!</p>

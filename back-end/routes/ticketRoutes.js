@@ -36,7 +36,6 @@ router.get("/:ticketId/change-status", async (req, res) => {
       ticket.status = "Open";
     }
 
-    console.log(ticket);
     await ticket.save();
     res.status(200).send(ticket);
   } catch (err) {

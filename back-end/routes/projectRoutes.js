@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 //responds with the newly created project.
 router.post("/save-project", async (req, res) => {
   const project = new Project(req.body.newProject);
+  console.log(project);
 
   try {
     const user = await User.findOne({
@@ -52,7 +53,7 @@ router.get("/all", (req, res) => {
   }
 });
 
-//recieves a projectId in the req.body and responds with that particular project.
+//recieves a projectId in the req.body and responds with the project associated with that _id and its tickets.
 router.get("/:projectId", async (req, res) => {
   const projectId = req.params.projectId;
 
@@ -79,7 +80,6 @@ router.get("/:projectId", async (req, res) => {
 router.post("/save-ticket/:projectId", async (req, res) => {
   const projectId = req.params.projectId;
   const newTicket = req.body.newTicket;
-  console.log(req.body);
 
   if (!projectId) {
     res.status(400).send({ message: "Bad request" });

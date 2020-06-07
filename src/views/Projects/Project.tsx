@@ -150,7 +150,10 @@ function Project(props: IProjectProps) {
       {!currentTicketId || ticketIsVisible === false ? null : (
         <Ticket
           hideTicket={() => toggleTicket(false)}
-          handleTicketStatusChange={() => changeTicketStatus}
+          handleTicketStatusChange={(
+            ticketId: string,
+            newStatus: string
+          ) => changeTicketStatus(ticketId, newStatus)}
           _id={currentTicketId}
         />
       )}

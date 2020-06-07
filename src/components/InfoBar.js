@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "../Contexts/ThemeContext";
 
 function InfoBar(props) {
+  const { theme } = useContext(ThemeContext);
   return (
-    <section className={`info-bar`}>
+    <section
+      style={{
+        background: theme.dashboardTheme.background,
+        color: theme.textColor,
+      }}
+      className={`info-bar`}
+    >
       <div>
         <span className="created-by">Created by: {props.createdBy}</span>
         <span className="date-created">{props.dateCreated}</span>

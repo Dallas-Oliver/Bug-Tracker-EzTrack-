@@ -6,14 +6,23 @@ import Ticket from "../tickets/Ticket";
 import { AuthService as Auth } from "../../auth/AuthService";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import DashboardProjectList from "./DashboardProjectList.tsx";
+import DashboardProjectList from "./DashboardProjectList";
 import { ThemeContext } from "../../Contexts/ThemeContext";
+import { Project as ProjectModel } from "../../models/main models/ProjectModel";
+import TicketModel from "../../models/main models/TicketModel";
+import User from "../../models/main models/UserModel";
+
+interface IUserInfo {
+  projectList: ProjectModel[];
+  ticketList: TicketModel[];
+  user: User;
+}
 
 function Dashboard() {
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState<IUserInfo>();
   const [date] = useState(new Date());
   const history = useHistory();
-  const [currentTicketId, setTicketId] = useState();
+  const [currentTicketId, setTicketId] = useState<string>();
   const [ticketIsVisible, toggleTicket] = useState(false);
   const { theme } = useContext(ThemeContext);
 
@@ -38,14 +47,14 @@ function Dashboard() {
     getUserData();
   }, []);
 
-  const openTicket = (_id) => {
+  const openTicket = (_id: string) => {
     if (_id) {
       setTicketId(_id);
       toggleTicket(true);
     }
   };
 
-  const redirectToProject = (_id) => {
+  const redirectToProject = (_id: string) => {
     if (!_id) {
       return;
     }
@@ -68,14 +77,13 @@ function Dashboard() {
           <DashboardTicketList
             openTicket={(_id) => openTicket(_id)}
             tickets={userInfo.ticketList}
-            projects={userInfo.projectList}
           />
           <DashboardProjectList
             redirectToProject={(_id) => redirectToProject(_id)}
             projects={userInfo.projectList}
           />
           <Calendar
-            className={`dashboard-calendar dash-card dash-card__${
+            className={`${
               theme.background === "#F5F5F5" ? "light" : "dark"
             }`}
             value={date}

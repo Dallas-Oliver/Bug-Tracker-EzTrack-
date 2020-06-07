@@ -24,7 +24,10 @@ function ProjectList(props: IProjectListProps) {
   const { theme } = useContext(ThemeContext);
   return (
     <div
-      style={{ background: theme.background, color: theme.textColor }}
+      style={{
+        background: theme.dashboardTheme.background,
+        color: theme.textColor,
+      }}
       className="project-list"
     >
       <HeaderBar
@@ -36,7 +39,7 @@ function ProjectList(props: IProjectListProps) {
 
       {props.projectList.length >= 1 ? (
         <table
-          style={{ background: theme.background, color: theme.textColor }}
+          // style={{ background: theme.background, color: theme.textColor }}
           className={`project-table ${props.formIsVisible ? "blur" : ""}`}
         >
           <thead>

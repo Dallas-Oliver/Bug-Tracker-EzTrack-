@@ -19,7 +19,7 @@ function App() {
         setErrorMessage(response);
         return;
       }
-      console.log("redirecting");
+
       history.replace("/home/dashboard");
     } catch (err) {
       console.log(err);
@@ -43,8 +43,8 @@ function App() {
       console.log("no register response");
       return;
     }
-
-    loginAndRedirect(response.email, response.password);
+    console.log(response);
+    loginAndRedirect(response.email, user.password);
   };
 
   const handleLogin = (e) => {

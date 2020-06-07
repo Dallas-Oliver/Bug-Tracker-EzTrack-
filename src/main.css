@@ -470,7 +470,7 @@ html {
   font-weight: bold;
 }
 
-.App .Home .Dashboard .dashboard-calendar {
+.App .Home .Dashboard .react-calendar {
   -ms-grid-row: 2;
   grid-row: 2;
   -ms-grid-column: 2;
@@ -575,6 +575,9 @@ html {
   -webkit-transition: opacity 0.2s ease-in-out;
   transition: opacity 0.2s ease-in-out;
   margin-top: 3em;
+  padding: 2em;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .App .Home .project-manager .project-list table {
@@ -587,10 +590,6 @@ html {
 .App .Home .project-manager .project-list table thead tr th {
   text-align: left;
   padding-bottom: 0.6em;
-}
-
-.App .Home .project-manager .project-list table td {
-  padding: 0.3em 0;
 }
 
 .App .Home .project-manager .project-list .project-list-item .project-link {
@@ -625,9 +624,13 @@ html {
   border-radius: 4px;
   width: auto;
   height: 40vh;
-  padding: 0 1em;
+  padding: 1em 1em;
   -webkit-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
+}
+
+.App .Home .project-manager .project .project-content .ticket-list h4 {
+  padding: 0;
 }
 
 .App .Home .project-manager .project .project-content .ticket-list .ticket-link {
@@ -866,7 +869,6 @@ html {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-top: 1em;
   padding: 1em 0;
 }
 

@@ -39,6 +39,7 @@ function ProjectManager(props: IProjectMangerProps) {
 
   const handleSubmit = async () => {
     const user: User = await Auth.getUserData();
+    console.log(user);
 
     const newProject = new ProjectModel(titleInput, descInput, user);
 

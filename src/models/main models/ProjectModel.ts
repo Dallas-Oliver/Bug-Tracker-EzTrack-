@@ -1,9 +1,10 @@
 import User from "./UserModel";
+import moment from "moment";
 
 export class Project {
   _id!: string;
   name: string;
-  dateCreated: Date;
+  dateCreated: string;
   createdBy: User;
   numberOfTickets: number;
   projectDescription: string;
@@ -12,7 +13,7 @@ export class Project {
   dueDate: Date | null;
   constructor(name: string, description: string, assignedUser: User) {
     this.name = name;
-    this.dateCreated = new Date();
+    this.dateCreated = moment().format("MMMM Do YYYY, h:mm:ss a");
     this.createdBy = assignedUser;
     this.numberOfTickets = 0;
     this.projectDescription = description;
