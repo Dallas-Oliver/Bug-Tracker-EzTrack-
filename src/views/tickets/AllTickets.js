@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import TicketList from "./TicketList";
 import Ticket from "./Ticket";
 import { AuthService as Auth } from "../../auth/AuthService";
+import { ThemeContext } from "../../Contexts/ThemeContext";
 
 function AllTickets(props) {
   const [ticketList, setTicketList] = useState([]);
   const [currentTicketId, setTicketId] = useState();
   const [ticketIsVisible, toggleTicket] = useState(false);
+  const { theme } = useContext(ThemeContext);
 
   const openTicket = (_id) => {
     if (_id) {
@@ -30,7 +32,13 @@ function AllTickets(props) {
   }, []);
 
   return (
-    <div className="all-tickets">
+    <div
+      style={{
+        background: theme.background,
+        color: theme.textColor,
+      }}
+      className="all-tickets"
+    >
       <TicketList
         ticketIsVisible={ticketIsVisible}
         ticketList={ticketList}

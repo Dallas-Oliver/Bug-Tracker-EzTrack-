@@ -398,6 +398,13 @@ html {
               color: $dark-blue;
               cursor: pointer;
             }
+            .open {
+              color: $main-green;
+            }
+
+            .closed {
+              color: $main-red;
+            }
           }
         }
       }
@@ -416,6 +423,13 @@ html {
             .ticket-link {
               color: $dark-blue;
               cursor: pointer;
+            }
+            .open {
+              color: $main-green;
+            }
+
+            .closed {
+              color: $main-red;
             }
           }
         }
@@ -438,6 +452,14 @@ html {
             }
           }
         }
+
+        .open {
+          color: $main-green;
+        }
+
+        .closed {
+          color: $main-red;
+        }
       }
 
       .ticket {
@@ -457,7 +479,7 @@ html {
     .project-manager {
       font-family: $main-font;
       font-size: 1.1em;
-      width: 90vw;
+      width: 100%;
       position: relative;
       padding: 0 5em 0 2em;
 
@@ -487,9 +509,6 @@ html {
                 padding-bottom: 0.6em;
               }
             }
-          }
-
-          td {
           }
         }
 
@@ -559,6 +578,14 @@ html {
                 padding: 0.3em 0;
               }
             }
+
+            .open {
+              color: $main-green;
+            }
+
+            .closed {
+              color: $main-red;
+            }
           }
         }
 
@@ -586,10 +613,9 @@ html {
     .all-tickets {
       font-family: $main-font;
       font-size: 1.1em;
-      width: 90vw;
+      width: 100%;
       position: relative;
       padding: 0 5em 0 2em;
-      margin-top: 3.6em;
 
       .ticket {
         position: absolute;
@@ -606,21 +632,13 @@ html {
 
       .ticket-list {
         position: relative;
-        margin-top: 1em;
-        background: white;
-        font-family: $main-font;
-        border-radius: 4px;
-        width: auto;
-        height: 40vh;
-        color: $main-black;
-        transition: opacity 0.3s ease-in-out;
-
-        .ticket-link {
-          cursor: pointer;
-          margin: 0;
-          color: $dark-blue;
-          font-weight: 500;
-        }
+        width: 100%;
+        height: 90vh;
+        transition: opacity 0.2s ease-in-out;
+        margin-top: 3em;
+        padding: 2em;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
 
         table {
           width: 85%;
@@ -636,12 +654,72 @@ html {
               }
             }
           }
+        }
 
-          td {
-            padding: 0.3em 0;
+        .ticket-list-item {
+          .ticket-link {
+            color: $dark-blue;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+          }
+
+          .open {
+            color: $main-green;
+          }
+
+          .closed {
+            color: $main-red;
           }
         }
       }
+
+      // .ticket-list {
+      //   position: relative;
+      //   margin-top: 1em;
+      //   background: white;
+      //   font-family: $main-font;
+      //   border-radius: 4px;
+      //   width: auto;
+      //   height: 40vh;
+      //   color: $main-black;
+      //   transition: opacity 0.3s ease-in-out;
+
+      //   .ticket-link {
+      //     cursor: pointer;
+      //     margin: 0;
+      //     color: $dark-blue;
+      //     font-weight: 500;
+      //   }
+
+      //   table {
+      //     width: 85%;
+      //     height: auto;
+      //     margin-top: 4em;
+      //     padding: 1em;
+
+      //     thead {
+      //       tr {
+      //         th {
+      //           text-align: left;
+      //           padding-bottom: 0.6em;
+      //         }
+      //       }
+      //     }
+
+      //     td {
+      //       padding: 0.3em 0;
+      //     }
+      //   }
+
+      //   .open {
+      //     color: $main-green;
+      //   }
+
+      //   .closed {
+      //     color: $main-red;
+      //   }
+      // }
       .blur {
         filter: blur(1px);
         opacity: 0.3;

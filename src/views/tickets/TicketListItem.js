@@ -3,6 +3,7 @@ import { ThemeContext } from "../../Contexts/ThemeContext";
 
 function TicketListItem(props) {
   const { theme } = useContext(ThemeContext);
+  console.log(props);
   return (
     <tr className="ticket-list-item">
       <td>

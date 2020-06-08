@@ -501,6 +501,14 @@ html {
   cursor: pointer;
 }
 
+.App .Home .Dashboard .dash-list table .ticket-list-item .open {
+  color: #51cc74;
+}
+
+.App .Home .Dashboard .dash-list table .ticket-list-item .closed {
+  color: #f96767;
+}
+
 .App .Home .Dashboard .ticket-list {
   position: relative;
   -ms-grid-row: 3;
@@ -519,6 +527,14 @@ html {
 .App .Home .Dashboard .ticket-list table .ticket-list-item .ticket-link {
   color: #0b486b;
   cursor: pointer;
+}
+
+.App .Home .Dashboard .ticket-list table .ticket-list-item .open {
+  color: #51cc74;
+}
+
+.App .Home .Dashboard .ticket-list table .ticket-list-item .closed {
+  color: #f96767;
 }
 
 .App .Home .Dashboard .project-list {
@@ -542,6 +558,14 @@ html {
   cursor: pointer;
 }
 
+.App .Home .Dashboard .project-list .open {
+  color: #51cc74;
+}
+
+.App .Home .Dashboard .project-list .closed {
+  color: #f96767;
+}
+
 .App .Home .Dashboard .ticket {
   position: absolute;
   top: 3em;
@@ -559,7 +583,7 @@ html {
 .App .Home .project-manager {
   font-family: "Montserrat";
   font-size: 1.1em;
-  width: 90vw;
+  width: 100%;
   position: relative;
   padding: 0 5em 0 2em;
 }
@@ -656,6 +680,14 @@ html {
   padding: 0.3em 0;
 }
 
+.App .Home .project-manager .project .project-content .ticket-list .open {
+  color: #51cc74;
+}
+
+.App .Home .project-manager .project .project-content .ticket-list .closed {
+  color: #f96767;
+}
+
 .App .Home .project-manager .project .ticket {
   position: absolute;
   top: 3em;
@@ -680,10 +712,9 @@ html {
 .App .Home .all-tickets {
   font-family: "Montserrat";
   font-size: 1.1em;
-  width: 90vw;
+  width: 100%;
   position: relative;
   padding: 0 5em 0 2em;
-  margin-top: 3.6em;
 }
 
 .App .Home .all-tickets .ticket {
@@ -702,22 +733,14 @@ html {
 
 .App .Home .all-tickets .ticket-list {
   position: relative;
-  margin-top: 1em;
-  background: white;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  width: auto;
-  height: 40vh;
-  color: #141414;
-  -webkit-transition: opacity 0.3s ease-in-out;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.App .Home .all-tickets .ticket-list .ticket-link {
-  cursor: pointer;
-  margin: 0;
-  color: #0b486b;
-  font-weight: 500;
+  width: 100%;
+  height: 90vh;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+  margin-top: 3em;
+  padding: 2em;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .App .Home .all-tickets .ticket-list table {
@@ -732,8 +755,19 @@ html {
   padding-bottom: 0.6em;
 }
 
-.App .Home .all-tickets .ticket-list table td {
-  padding: 0.3em 0;
+.App .Home .all-tickets .ticket-list .ticket-list-item .ticket-link {
+  color: #0b486b;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.App .Home .all-tickets .ticket-list .ticket-list-item .open {
+  color: #51cc74;
+}
+
+.App .Home .all-tickets .ticket-list .ticket-list-item .closed {
+  color: #f96767;
 }
 
 .App .Home .all-tickets .blur {
