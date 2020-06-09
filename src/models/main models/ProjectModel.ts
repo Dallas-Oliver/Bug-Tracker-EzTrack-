@@ -5,7 +5,7 @@ export class Project {
   _id!: string;
   name: string;
   dateCreated: string;
-  createdBy: User;
+  createdBy: string;
   numberOfTickets: number;
   projectDescription: string;
   assignedUsers: User[];
@@ -14,7 +14,7 @@ export class Project {
   constructor(name: string, description: string, assignedUser: User) {
     this.name = name;
     this.dateCreated = moment().format("MMMM Do YYYY, h:mm:ss a");
-    this.createdBy = assignedUser;
+    this.createdBy = assignedUser.name;
     this.numberOfTickets = 0;
     this.projectDescription = description;
     this.assignedUsers = [assignedUser];

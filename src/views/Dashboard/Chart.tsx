@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Pie } from "react-chartjs-2";
 import "chart.js";
+import TicketModel from "../../models/main models/TicketModel";
+import { Project as ProjectModel } from "../../models/main models/ProjectModel";
 
-function Chart(props) {
-  const [openTickets, setOpenTickets] = useState([]);
-  const [closedTickets, setClosedTickets] = useState([]);
+type TicketOrProject = (TicketModel | ProjectModel)[];
+
+interface IChartProps {
+  items: TicketOrProject;
+}
+
+function Chart(props: IChartProps) {
+  const [openItems, setOpenItems] = useState<TicketOrProject>([]);
+  const [closedItems, setClosedItems] = useState<TicketOrProject>([]);
 
   const chartData = {
     type: "pie",
@@ -12,7 +20,7 @@ function Chart(props) {
     datasets: [
       {
         label: "Tickets",
-        data: [openTickets.length, closedTickets.length],
+        data: [openItems.length, closedItems.length],
         backgroundColor: ["#56C556", "#F96767"],
         borderWidth: 3,
         hoverBorderWidth: 1,
@@ -22,22 +30,20 @@ function Chart(props) {
 
   useEffect(() => {
     const setUserData = () => {
-      for (let ticket of props.tickets) {
+      for (let ticket of props.items) {
         if (ticket.status === "Open") {
-          setOpenTickets((openTickets) => openTickets.concat(ticket));
+          setOpenItems((openItems) => openItems.concat(ticket));
         } else if (ticket.status === "Closed") {
-          setClosedTickets((closedTickets) =>
-            closedTickets.concat(ticket)
-          );
+          setClosedItems((closedItems) => closedItems.concat(ticket));
         }
       }
     };
     setUserData();
-  }, [props.tickets]);
+  }, [props.items]);
 
   return (
     <div className="pie-graph">
-      {openTickets || closedTickets ? (
+      {openItems || closedItems ? (
         <Pie
           data={chartData}
           width={200}
@@ -59,11 +65,10 @@ function Chart(props) {
 
       <div className="graph-legend">
         <p>
-          Open: <span className="open-count">{openTickets.length}</span>
+          Open: <span className="open-count">{openItems.length}</span>
         </p>
         <p>
-          Closed:{" "}
-          <span className="closed-count">{closedTickets.length}</span>
+          Closed: <span className="closed-count">{closedItems.length}</span>
         </p>
       </div>
     </div>

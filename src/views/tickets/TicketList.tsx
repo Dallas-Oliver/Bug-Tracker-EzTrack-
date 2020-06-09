@@ -3,8 +3,15 @@ import TicketListItem from "./TicketListItem";
 import SimpleBar from "simplebar-react";
 import "simplebar/dist/simplebar.min.css";
 import { ThemeContext } from "../../Contexts/ThemeContext";
+import TicketModel from "../../models/main models/TicketModel";
 
-export default function TicketList(props) {
+interface ITicketListProps {
+  ticketIsVisible?: boolean;
+  ticketList: TicketModel[];
+  openTicket: (_id: string) => void;
+}
+
+export default function TicketList(props: ITicketListProps) {
   const { theme } = useContext(ThemeContext);
   return (
     <div

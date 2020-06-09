@@ -100,7 +100,7 @@ router.post("/save-ticket/:projectId", async (req, res) => {
       name: newTicket.name,
       dateCreated: newTicket.dateCreated,
       createdBy: req.body.user.name,
-      ticketDescription: newTicket.description,
+      description: newTicket.description,
       projectId: projectId,
       priority: newTicket.priority,
       status: newTicket.status,

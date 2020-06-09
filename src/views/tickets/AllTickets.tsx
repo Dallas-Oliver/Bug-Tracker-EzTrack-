@@ -3,14 +3,15 @@ import TicketList from "./TicketList";
 import Ticket from "./Ticket";
 import { AuthService as Auth } from "../../auth/AuthService";
 import { ThemeContext } from "../../Contexts/ThemeContext";
+import TicketModel from "../../models/main models/TicketModel";
 
-function AllTickets(props) {
-  const [ticketList, setTicketList] = useState([]);
-  const [currentTicketId, setTicketId] = useState();
+function AllTickets() {
+  const [ticketList, setTicketList] = useState<TicketModel[]>([]);
+  const [currentTicketId, setTicketId] = useState<string>();
   const [ticketIsVisible, toggleTicket] = useState(false);
   const { theme } = useContext(ThemeContext);
 
-  const openTicket = (_id) => {
+  const openTicket = (_id: string) => {
     if (_id) {
       setTicketId(_id);
       toggleTicket(true);
@@ -42,7 +43,7 @@ function AllTickets(props) {
       <TicketList
         ticketIsVisible={ticketIsVisible}
         ticketList={ticketList}
-        openTicket={(userId) => openTicket(userId)}
+        openTicket={(_id) => openTicket(_id)}
       />
       {!currentTicketId || ticketIsVisible === false ? null : (
         <Ticket

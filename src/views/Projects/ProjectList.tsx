@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import ProjectListItem from "./ProjectListItem";
 import { Project } from "../../models/main models/ProjectModel";
 import HeaderBar from "../../components/HeaderBar";
-import AddForm from "../../components/AddForm";
+
 import { ThemeContext } from "../../Contexts/ThemeContext";
 import User from "../../models/main models/UserModel";
 
@@ -28,20 +28,11 @@ function ProjectList(props: IProjectListProps) {
         background: theme.dashboardTheme.background,
         color: theme.textColor,
       }}
-      className="project-list"
-    >
-      <HeaderBar
-        title="All Projects"
-        formIsVisible={props.formIsVisible}
-        toggle={props.showForm}
-        buttonText="New Project"
-      />
+      className="project-list">
+      <HeaderBar title="All Projects" formIsVisible={props.formIsVisible} toggle={props.showForm} buttonText="New Project" />
 
       {props.projectList.length >= 1 ? (
-        <table
-          // style={{ background: theme.background, color: theme.textColor }}
-          className={`project-table ${props.formIsVisible ? "blur" : ""}`}
-        >
+        <table className={`project-table ${props.formIsVisible ? "blur" : ""}`}>
           <thead>
             <tr>
               <th>Project Name</th>
@@ -71,19 +62,6 @@ function ProjectList(props: IProjectListProps) {
       ) : (
         <p>Create a Project!</p>
       )}
-      {props.formIsVisible ? (
-        <AddForm
-          header="New Project"
-          formType="Project"
-          titleValue={props.titleInput}
-          descValue={props.descInput}
-          onTitleChange={props.handleTitleChange}
-          onDescChange={props.handleDescChange}
-          onSubmit={props.handleSubmit}
-          hideForm={props.hideForm}
-          users={props.users}
-        />
-      ) : null}
     </div>
   );
 }

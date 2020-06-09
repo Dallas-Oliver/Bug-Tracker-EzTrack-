@@ -1,16 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  Route,
-  useRouteMatch,
-  Switch,
-  useHistory,
-} from "react-router-dom";
+import { Route, useRouteMatch, Switch, useHistory } from "react-router-dom";
 import { Project as ProjectModel } from "../../models/main models/ProjectModel";
 import User from "../../models/main models/UserModel";
 import ProjectList from "./ProjectList";
 import Project from "./Project";
 import { AuthService as Auth } from "../../auth/AuthService";
 import { ThemeContext } from "../../Contexts/ThemeContext";
+import AddForm from "../../components/AddForm";
 
 interface IProjectMangerProps {
   users: User[];
@@ -58,14 +54,9 @@ function ProjectManager(props: IProjectMangerProps) {
     }
   };
 
-  const handleProjectStatusChange = (
-    projectId: string,
-    status: string
-  ) => {
+  const handleProjectStatusChange = (projectId: string, status: string) => {
     let newProjectList: ProjectModel[] = [...projectList];
-    let projectIndex = newProjectList
-      .map((project: ProjectModel) => project._id)
-      .indexOf(projectId);
+    let projectIndex = newProjectList.map((project: ProjectModel) => project._id).indexOf(projectId);
     newProjectList[projectIndex].status = status;
     updateProjectList(newProjectList);
   };
@@ -78,10 +69,7 @@ function ProjectManager(props: IProjectMangerProps) {
   };
 
   return (
-    <div
-      style={{ background: theme.background, color: theme.colorText }}
-      className="project-manager"
-    >
+    <div style={{ background: theme.background, color: theme.colorText }} className="project-manager">
       <Switch>
         <Route
           exact
@@ -110,15 +98,27 @@ function ProjectManager(props: IProjectMangerProps) {
           path="/home/projects/:projectId"
           render={() => (
             <Project
-              handleProjectStatusChange={(
-                projectId: string,
-                status: string
-              ) => handleProjectStatusChange(projectId, status)}
+              handleProjectStatusChange={(projectId: string, status: string) => handleProjectStatusChange(projectId, status)}
               users={props.users}
             />
           )}
         />
       </Switch>
+      {formIsVisible ? (
+        <AddForm
+          header="New Project"
+          formType="Project"
+          titleValue={titleInput}
+          descValue={descInput}
+          onTitleChange={(title) => {
+            handleTitleChange(title);
+          }}
+          onDescChange={(title) => handleDescChange(title)}
+          onSubmit={() => handleSubmit()}
+          hideForm={() => toggleForm(false)}
+          users={props.users}
+        />
+      ) : null}
     </div>
   );
 }
