@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../src/main.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import User from "./models/main models/UserModel";
@@ -16,7 +16,7 @@ function App() {
     try {
       const response = await Auth.login(email, password);
       if (response.status >= 400) {
-        setErrorMessage(response);
+        setErrorMessage(response.message);
         return;
       }
 
@@ -26,17 +26,8 @@ function App() {
     }
   };
 
-  const handleRegistration = async (e) => {
-    e.preventDefault();
-
-    const form = e.target;
-
-    const user = new User(
-      form.email.value,
-      form.userName.value,
-      form.companyName.value,
-      form.password.value
-    );
+  const handleRegistration = async (email, name, companyName, password) => {
+    const user = new User(email, name, companyName, password);
 
     const response = await Auth.register(user);
     if (!response) {
@@ -45,17 +36,6 @@ function App() {
     }
     console.log(response);
     loginAndRedirect(response.email, user.password);
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    const formData = {
-      email: e.target.userEmail.value,
-      password: e.target.password.value,
-    };
-
-    loginAndRedirect(formData.email, formData.password);
   };
 
   return (
@@ -70,7 +50,9 @@ function App() {
             ) : (
               <Register
                 errorMessage={errorMessage}
-                handleSubmit={(e) => handleRegistration(e)}
+                handleSubmit={(email, name, companyName, password) =>
+                  handleRegistration(email, name, companyName, password)
+                }
               />
             )
           }
@@ -80,7 +62,9 @@ function App() {
           render={() => (
             <Login
               errorMessage={errorMessage}
-              handleSubmit={(e) => handleLogin(e)}
+              handleSubmit={(userEmail, password) =>
+                loginAndRedirect(userEmail, password)
+              }
             />
           )}
         />

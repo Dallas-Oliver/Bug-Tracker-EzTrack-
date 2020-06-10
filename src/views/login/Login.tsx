@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import svg from "./walking.svg";
 import { Link } from "react-router-dom";
 
-export default function Login(props) {
+interface ILoginProps {
+  handleSubmit: (userEmail: string, password: string) => void;
+  errorMessage?: string;
+}
+
+export default function Login(props: ILoginProps) {
   const [userEmail, setUserEmail] = useState("dallas.oliver91@gmail.com");
   const [password, setPassword] = useState("pass");
 
@@ -17,18 +22,17 @@ export default function Login(props) {
           <h1>Welcome Back!</h1>
         </div>
 
-        <img
-          className="svg-image"
-          alt="slady walking outdoors"
-          src={svg}
-        />
+        <img className="svg-image" alt="slady walking outdoors" src={svg} />
       </section>
       <div className="form-container">
         <h1>Login</h1>
-        <form onSubmit={props.handleSubmit} className="form">
-          {props.errorMessage ? (
-            <span>{props.errorMessage.message}</span>
-          ) : null}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            props.handleSubmit(userEmail, password);
+          }}
+          className="form">
+          {props.errorMessage ? <span>{props.errorMessage}</span> : null}
           <input
             type="text"
             name="userEmail"

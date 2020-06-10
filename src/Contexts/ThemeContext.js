@@ -24,10 +24,16 @@ export const ThemeProvider = (props) => {
   };
   const [theme, setTheme] = useState(themes.lightTheme);
 
+  // const getTheme = () => {
+
+  // }
+
+  // React.useEffect(() => {
+  //   getTheme(`users/`)
+  // })
+
   const toggleThemes = () => {
-    setTheme(
-      theme.textColor === "black" ? themes.darkTheme : themes.lightTheme
-    );
+    setTheme(theme.textColor === "black" ? themes.darkTheme : themes.lightTheme);
   };
 
   return (

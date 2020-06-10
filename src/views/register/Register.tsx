@@ -2,19 +2,24 @@ import React, { useState } from "react";
 import svg from "./bugfixing.svg";
 import { Link } from "react-router-dom";
 
-export default function Register(props) {
-  const [userName, setUsername] = useState("Dallas Oliver");
+interface IRegisterProps {
+  handleSubmit: (
+    email: string,
+    name: string,
+    companyName: string,
+    password: string
+  ) => void;
+}
+
+export default function Register(props: IRegisterProps) {
+  const [name, setname] = useState("Dallas Oliver");
   const [email, setEmail] = useState("dallas.oliver91@gmail.com");
   const [companyName, setCompanyName] = useState("company");
   const [password, setPassword] = useState("pass");
   const [passwordConfirm, setPasswordConfirm] = useState("pass");
 
   function validateForm() {
-    return (
-      email.length > 0 &&
-      password.length > 0 &&
-      passwordConfirm === password
-    );
+    return email.length > 0 && password.length > 0 && passwordConfirm === password;
   }
 
   return (
@@ -33,13 +38,18 @@ export default function Register(props) {
       </section>
       <div className="form-container">
         <h1>Create an Account</h1>
-        <form onSubmit={props.handleSubmit} className="form">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            props.handleSubmit(email, name, companyName, password);
+          }}
+          className="form">
           <input
             type="text"
             placeholder="Full Name..."
             name="userName"
-            onChange={(e) => setUsername(e.target.value)}
-            value={userName}
+            onChange={(e) => setname(e.target.value)}
+            value={name}
           />
           <input
             type="text"
@@ -70,11 +80,7 @@ export default function Register(props) {
             onChange={(e) => setPasswordConfirm(e.target.value)}
           />
 
-          <button
-            disabled={!validateForm()}
-            type="submit"
-            name="submitButton"
-          >
+          <button disabled={!validateForm()} type="submit" name="submitButton">
             Get Started
           </button>
         </form>

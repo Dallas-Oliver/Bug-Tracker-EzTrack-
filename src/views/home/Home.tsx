@@ -4,15 +4,13 @@ import ProjectManager from "../projects/ProjectManager";
 import AllTickets from "../tickets/AllTickets";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { AuthService as Auth } from "../../auth/AuthService";
-
 import Sidebar from "./Sidebar";
 import { ThemeProvider } from "../../Contexts/ThemeContext";
+import User from "../../models/main models/UserModel";
 
-function Home(props) {
+function Home() {
   const history = useHistory();
-  const [theme, setTheme] = useState();
-  const [users, setUserList] = useState([]);
-  const [formIsVisible, toggleForm] = useState(false);
+  const [users, setUserList] = useState<User[]>([]);
 
   const getUserList = async () => {
     const response = await Auth.fetch("/users/all-users");
@@ -29,8 +27,6 @@ function Home(props) {
     }
   });
 
-  const value = useMemo(() => ({ theme, setTheme }), [theme, setTheme]);
-
   const handleLogout = () => {
     Auth.logout();
     history.replace("/login");
@@ -40,21 +36,16 @@ function Home(props) {
     <ThemeProvider>
       <div className="Home">
         <Sidebar
+          //still need to implement this feature
           // handleFileSelect={() => handleFileSelect()}
           // avatarImage={avatarImage}
           handleLogout={() => handleLogout()}
         />
         <Switch>
           <Route exact path="/home/dashboard">
-            <Dashboard
-              toggle={() => toggleForm()}
-              formIsVisible={formIsVisible}
-            />
+            <Dashboard />
           </Route>
-          <Route
-            path="/home/projects"
-            render={() => <ProjectManager users={users} />}
-          />
+          <Route path="/home/projects" render={() => <ProjectManager users={users} />} />
           <Route path="/home/tickets" render={() => <AllTickets />} />
         </Switch>
       </div>

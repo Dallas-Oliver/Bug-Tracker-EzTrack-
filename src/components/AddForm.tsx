@@ -43,12 +43,23 @@ const AddForm: React.FC<IAddFormProps> = (props) => {
           props.onSubmit();
         }}>
         <label htmlFor="title">{props.formType} Title</label>
-        <input autoFocus={true} onChange={(e) => props.onTitleChange(e.target.value)} value={props.titleValue} name="title" type="text"></input>
+        <input
+          autoFocus={true}
+          onChange={(e) => props.onTitleChange(e.target.value)}
+          value={props.titleValue}
+          name="title"
+          type="text"></input>
         <label htmlFor="description">{props.formType} Description</label>
-        <textarea name="description" value={props.descValue} onChange={(e) => props.onDescChange(e.target.value)}></textarea>
+        <textarea
+          name="description"
+          value={props.descValue}
+          onChange={(e) => props.onDescChange(e.target.value)}></textarea>
         {props.formType === "Ticket" && !userAdded ? (
           <Dropdown className="dropdown">
-            <Dropdown.Toggle className="dropdown-button" variant="light" id="dropdown-basic">
+            <Dropdown.Toggle
+              className="dropdown-button"
+              variant="light"
+              id="dropdown-basic">
               Assign User
             </Dropdown.Toggle>
 
@@ -56,7 +67,9 @@ const AddForm: React.FC<IAddFormProps> = (props) => {
               {props.users!.map((user: User) => {
                 return (
                   <div key={user._id}>
-                    <Dropdown.Item onClick={() => addUser(user._id)}>{user.name}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => addUser(user._id)}>
+                      {user.name}
+                    </Dropdown.Item>
                   </div>
                 );
               })}
