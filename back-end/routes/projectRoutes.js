@@ -8,8 +8,8 @@ const jwt = require("jsonwebtoken");
 //Also saves the project._id in the current users projectIds array.
 //responds with the newly created project.
 router.post("/save-project", async (req, res) => {
+  console.log(req.body.newProject);
   const project = new Project(req.body.newProject);
-  console.log(project);
 
   try {
     const user = await User.findOne({
@@ -87,9 +87,7 @@ router.post("/save-ticket/:projectId", async (req, res) => {
   }
 
   try {
-    const user = await User.findById(
-      req.body.newTicket.assignedUser
-    ).exec();
+    const user = await User.findById(req.body.newTicket.assignedUser).exec();
 
     if (!user) {
       res.status(404).send({ message: "No user found" });

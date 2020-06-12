@@ -1,3 +1,12 @@
+interface ITheme {
+  background: string;
+  textColor: string;
+  linkTextColor: string;
+  dashboardTheme: {
+    background: string;
+  };
+}
+
 export default class User {
   _id!: string;
   email: string;
@@ -5,21 +14,14 @@ export default class User {
   companyName: string;
   password: string;
   assignedTickets: [];
-  preferences: {};
+  theme?: ITheme;
 
-  constructor(
-    email: string,
-    name: string,
-    companyName: string,
-    password: string
-  ) {
+  constructor(email: string, name: string, companyName: string, password: string) {
     this.email = email;
     this.name = name;
     this.companyName = companyName;
     this.password = password;
     this.assignedTickets = [];
-    this.preferences = {
-      colorScheme: "",
-    };
+    this.theme = undefined;
   }
 }

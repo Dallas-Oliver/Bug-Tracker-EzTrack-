@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 interface ILoginProps {
   handleSubmit: (userEmail: string, password: string) => void;
-  errorMessage?: string;
 }
 
 export default function Login(props: ILoginProps) {
@@ -32,7 +31,6 @@ export default function Login(props: ILoginProps) {
             props.handleSubmit(userEmail, password);
           }}
           className="form">
-          {props.errorMessage ? <span>{props.errorMessage}</span> : null}
           <input
             type="text"
             name="userEmail"

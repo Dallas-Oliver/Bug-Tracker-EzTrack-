@@ -67,8 +67,7 @@ function Dashboard() {
       {userInfo ? (
         <div
           style={{ background: theme.background, color: theme.textColor }}
-          className="Dashboard"
-        >
+          className="Dashboard">
           <h2>Welcome, {userInfo.user.name}</h2>
           <DashboardOverviewCard
             tickets={userInfo.ticketList}
@@ -83,25 +82,21 @@ function Dashboard() {
             projects={userInfo.projectList}
           />
           <Calendar
-            className={`${
-              theme.background === "#F5F5F5" ? "light" : "dark"
-            }`}
+            className={`${theme.background === "#F5F5F5" ? "light" : "dark"}`}
             value={date}
           />
           {!currentTicketId || ticketIsVisible === false ? null : (
-            <Ticket
-              hideTicket={() => toggleTicket(false)}
-              _id={currentTicketId}
-            />
+            <Ticket hideTicket={() => toggleTicket(false)} _id={currentTicketId} />
           )}
         </div>
       ) : (
-        <h4
-          style={{ background: theme.background, color: theme.textColor }}
-          className="loading-msg"
-        >
-          Loading...
-        </h4>
+        <div className="loading-container">
+          <h4
+            style={{ background: theme.background, color: theme.textColor }}
+            className="loading-msg">
+            Loading...
+          </h4>
+        </div>
       )}
     </React.Fragment>
   );

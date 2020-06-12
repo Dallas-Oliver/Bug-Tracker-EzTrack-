@@ -51,6 +51,8 @@ export default function Ticket(props: ITicketProps) {
     }
   };
 
+  console.log(ticketInfo);
+
   return (
     <div
       style={{
@@ -58,10 +60,14 @@ export default function Ticket(props: ITicketProps) {
         color: theme.textColor,
       }}
       className="ticket">
-      <HeaderBar title={ticketInfo.name} buttonText="< back" toggle={props.hideTicket} />
+      <HeaderBar
+        title={ticketInfo.name}
+        buttonText="< back"
+        toggle={props.hideTicket}
+      />
       <InfoBar
         barType="ticket"
-        createdBy={ticketInfo.createdBy}
+        createdBy={ticketInfo.createdBy.name}
         dateCreated={ticketInfo.dateCreated}
         status={ticketInfo.status}
         description={ticketInfo.description}

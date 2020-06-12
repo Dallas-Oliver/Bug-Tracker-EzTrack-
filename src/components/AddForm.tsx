@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { ThemeContext } from "../Contexts/ThemeContext";
 import Dropdown from "react-bootstrap/Dropdown";
 import User from "../models/main models/UserModel";
+import { IContext } from "../Contexts/ThemeContext";
 
 interface IAddFormProps {
   addUser?: (userId: string) => void;
@@ -18,7 +19,7 @@ interface IAddFormProps {
 
 const AddForm: React.FC<IAddFormProps> = (props) => {
   const [userAdded, setUserAdded] = React.useState(false);
-  const { theme } = useContext(ThemeContext);
+  const theme = useContext(ThemeContext);
 
   function addUser(userId: string) {
     if (userId) {
@@ -30,8 +31,8 @@ const AddForm: React.FC<IAddFormProps> = (props) => {
   return (
     <div
       style={{
-        background: theme.dashboardTheme.background,
-        color: theme.textColor,
+        background: theme.theme.dashboardTheme.background,
+        color: theme.theme.textColor,
       }}
       className="add-form">
       <h3>{props.header}</h3>

@@ -1,7 +1,14 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../Contexts/ThemeContext";
 
-export default function HeaderBar(props) {
+interface IHeaderBarProps {
+  title: string;
+  formIsVisible?: boolean;
+  toggle: () => void;
+  buttonText: string;
+}
+
+export default function HeaderBar(props: IHeaderBarProps) {
   const { theme, toggleThemes } = useContext(ThemeContext);
 
   return (
@@ -11,8 +18,7 @@ export default function HeaderBar(props) {
         <button
           style={{ background: theme.background, color: theme.textColor }}
           className="add-project-button"
-          onClick={props.toggle}
-        >
+          onClick={props.toggle}>
           {props.buttonText}
         </button>
       )}

@@ -48,13 +48,10 @@ function Project(props: IProjectProps) {
     const user: User = await Auth.getUserData();
     let newTicket = new TicketModel(titleInput, descInput, user);
 
-    const response = await Auth.fetch(
-      `/projects/save-ticket/${projectId}`,
-      {
-        body: JSON.stringify({ newTicket, user }),
-        method: "POST",
-      }
-    );
+    const response = await Auth.fetch(`/projects/save-ticket/${projectId}`, {
+      body: JSON.stringify({ newTicket, user }),
+      method: "POST",
+    });
 
     if (!response) {
       console.log("no ticket");
@@ -106,17 +103,16 @@ function Project(props: IProjectProps) {
         <div
           className={`project-content ${
             formIsVisible || ticketIsVisible ? "blur" : ""
-          }`}
-        >
+          }`}>
           <HeaderBar
             title={projectInfo.name}
-            formIsVIsible={formIsVisible}
+            formIsVisible={formIsVisible}
             buttonText="New Ticket +"
             toggle={() => toggleForm(true)}
           />
           <InfoBar
             barType="project"
-            createdBy={projectInfo.createdBy}
+            createdBy={projectInfo.createdBy.name}
             dateCreated={projectInfo.dateCreated}
             status={projectInfo.status}
             description={projectInfo.projectDescription}
@@ -143,17 +139,16 @@ function Project(props: IProjectProps) {
           onSubmit={() => handleTicketSubmit()}
           hideForm={() => toggleForm(false)}
           users={props.users}
-          addUser={(userId: string) => addUser(userId)}
+          addUser={(_id) => addUser(_id)}
         />
       ) : null}
 
       {!currentTicketId || ticketIsVisible === false ? null : (
         <Ticket
           hideTicket={() => toggleTicket(false)}
-          handleTicketStatusChange={(
-            ticketId: string,
-            newStatus: string
-          ) => changeTicketStatus(ticketId, newStatus)}
+          handleTicketStatusChange={(ticketId: string, newStatus: string) =>
+            changeTicketStatus(ticketId, newStatus)
+          }
           _id={currentTicketId}
         />
       )}

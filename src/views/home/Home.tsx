@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import Dashboard from "../Dashboard/Dashboard";
 import ProjectManager from "../projects/ProjectManager";
 import AllTickets from "../tickets/AllTickets";
@@ -45,7 +45,10 @@ function Home() {
           <Route exact path="/home/dashboard">
             <Dashboard />
           </Route>
-          <Route path="/home/projects" render={() => <ProjectManager users={users} />} />
+          <Route
+            path="/home/projects"
+            render={() => <ProjectManager users={users} />}
+          />
           <Route path="/home/tickets" render={() => <AllTickets />} />
         </Switch>
       </div>

@@ -36,9 +36,7 @@ router.post("/register", async (req, res) => {
       companyName: userInfo.companyName,
       password: hash,
       projectIds: [],
-      preferences: {
-        colorScheme: "",
-      },
+      theme: undefined,
     });
 
     const savedUser = await newUser.save();
@@ -147,40 +145,56 @@ router.get("/:userId/preferences", async (req, res) => {
 
     res.status(200).send(userPreferences);
   } catch (err) {
-    res
-      .status(500)
-      .send({ message: "Something went wrong on our end!", err });
+    res.status(500).send({ message: "Something went wrong on our end!", err });
   }
 });
 
 //recieves an object in the req.body which replaces the prefernces object for the currently logged in user,
 // responds with that new preferences object.
-router.post("/:userId/updatePreferences", async (req, res) => {
-  const newPreferences = req.body;
+// router.post("/:userId/updatePreferences", async (req, res) => {
+//   const newPreferences = req.body;
 
-  if (!newPreferences) {
-    res.status(404).send({ message: "No new preferences" });
+//   if (!newPreferences) {
+//     res.status(404).send({ message: "No new preferences" });
+//     return;
+//   }
+
+//   try {
+//     const user = await User.findOne({ _id: req.params.userId }).exec();
+//     if (!user) {
+//       res.status(404).send({ message: "No user found" });
+//       return;
+//     }
+
+//     user.preferences = newPreferences;
+//     const savedUser = await user.save();
+//     if (!savedUser) {
+//       res.status(500).send({ message: "Something went wrong" });
+//       return;
+//     }
+
+//     res.status(200).send(user.preferences);
+//   } catch (err) {
+//     res.status(500).send({ message: "something went wrong", err });
+//   }
+// });
+
+router.post("/:userId/setUserTheme/:theme", async (req, res) => {
+  const user = User.find({ _id: req.params.userId }).exec();
+
+  if (!user) {
+    res.status(404).send({ message: "user not found" });
     return;
   }
 
-  try {
-    const user = await User.findOne({ _id: req.params.userId }).exec();
-    if (!user) {
-      res.status(404).send({ message: "No user found" });
-      return;
-    }
-
-    user.preferences = newPreferences;
-    const savedUser = await user.save();
-    if (!savedUser) {
-      res.status(500).send({ message: "Something went wrong" });
-      return;
-    }
-
-    res.status(200).send(user.preferences);
-  } catch (err) {
-    res.status(500).send({ message: "something went wrong", err });
+  user.theme = req.params.theme;
+  const userSaved = user.save();
+  if (!userSaved) {
+    res.status(400).send({ message: "user not saved, something went wrong" });
+    return;
   }
+
+  res.status(200).send(user.theme);
 });
 
 module.exports = router;

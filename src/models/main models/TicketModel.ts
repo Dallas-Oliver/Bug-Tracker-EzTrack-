@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import User from "./UserModel";
 import moment from "moment";
 

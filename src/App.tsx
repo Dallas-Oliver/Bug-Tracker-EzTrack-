@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../src/main.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import User from "./models/main models/UserModel";
@@ -10,13 +10,12 @@ import { Route, Switch, useHistory, Redirect } from "react-router-dom";
 
 function App() {
   const history = useHistory();
-  const [errorMessage, setErrorMessage] = useState();
 
-  const loginAndRedirect = async (email, password) => {
+  const loginAndRedirect = async (email: string, password: string) => {
     try {
       const response = await Auth.login(email, password);
+
       if (response.status >= 400) {
-        setErrorMessage(response.message);
         return;
       }
 
@@ -26,7 +25,12 @@ function App() {
     }
   };
 
-  const handleRegistration = async (email, name, companyName, password) => {
+  const handleRegistration = async (
+    email: string,
+    name: string,
+    companyName: string,
+    password: string
+  ) => {
     const user = new User(email, name, companyName, password);
 
     const response = await Auth.register(user);
@@ -34,7 +38,7 @@ function App() {
       console.log("no register response");
       return;
     }
-    console.log(response);
+
     loginAndRedirect(response.email, user.password);
   };
 
@@ -49,7 +53,6 @@ function App() {
               <Redirect to="/home/dashboard" />
             ) : (
               <Register
-                errorMessage={errorMessage}
                 handleSubmit={(email, name, companyName, password) =>
                   handleRegistration(email, name, companyName, password)
                 }
@@ -61,7 +64,6 @@ function App() {
           path="/login"
           render={() => (
             <Login
-              errorMessage={errorMessage}
               handleSubmit={(userEmail, password) =>
                 loginAndRedirect(userEmail, password)
               }

@@ -1,7 +1,20 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../Contexts/ThemeContext";
+import User from "../models/main models/UserModel";
 
-function InfoBar(props) {
+interface IInfoBarProps {
+  createdBy: string;
+  dateCreated: string;
+  changeStatus: (_id: string) => void;
+  _id: string;
+  status: string;
+  barType: string;
+  priority?: string;
+  assignedTo?: User;
+  description: string;
+}
+
+function InfoBar(props: Partial<IInfoBarProps>) {
   const { theme } = useContext(ThemeContext);
   return (
     <section
@@ -9,25 +22,22 @@ function InfoBar(props) {
         background: theme.dashboardTheme.background,
         color: theme.textColor,
       }}
-      className={`info-bar`}
-    >
+      className={`info-bar`}>
       <div>
         <span className="created-by">Created by: {props.createdBy}</span>
         <span className="date-created">{props.dateCreated}</span>
         <br />
         <p>
           <span
-            onClick={() => props.changeStatus(props._id)}
-            className="status-bar"
-          >
+            onClick={() => props.changeStatus!(props._id!)}
+            className="status-bar">
             {props.status === "Open" ? (
               <svg
                 className="open-status indicator"
                 xmlns="http://www.w3.org/2000/svg"
                 width="9"
                 height="9"
-                viewBox="0 0 9 9"
-              >
+                viewBox="0 0 9 9">
                 <circle cx="4.5" cy="4.5" r="4.5" fill="#51CC74" />
               </svg>
             ) : (
@@ -36,8 +46,7 @@ function InfoBar(props) {
                 xmlns="http://www.w3.org/2000/svg"
                 width="9"
                 height="9"
-                viewBox="0 0 9 9"
-              >
+                viewBox="0 0 9 9">
                 <circle cx="4.5" cy="4.5" r="4.5" fill="#f96767" />
               </svg>
             )}
@@ -46,9 +55,7 @@ function InfoBar(props) {
           {props.barType === "ticket" ? (
             <span>
               <span className="priority">priority: {props.priority}</span>
-              <span className="assigned-to">
-                Assigned to: {props.assignedTo}
-              </span>
+              <span className="assigned-to">Assigned to: {props.assignedTo}</span>
             </span>
           ) : null}
         </p>
