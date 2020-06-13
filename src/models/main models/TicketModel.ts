@@ -8,7 +8,7 @@ export default class Ticket {
   description: string;
   history: any[];
   comments: any[];
-  createdBy: User;
+  createdBy: string;
   projectId: string;
   assignedUser: User;
   priority: string;
@@ -20,7 +20,7 @@ export default class Ticket {
     this.description = description;
     this.history = [];
     this.comments = [];
-    this.createdBy = assignedUser;
+    this.createdBy = assignedUser.name;
     this.projectId = "";
     this.assignedUser = assignedUser;
     this.priority = "High";

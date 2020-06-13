@@ -67,7 +67,7 @@ export default function Ticket(props: ITicketProps) {
       />
       <InfoBar
         barType="ticket"
-        createdBy={ticketInfo.createdBy.name}
+        createdBy={ticketInfo.createdBy}
         dateCreated={ticketInfo.dateCreated}
         status={ticketInfo.status}
         description={ticketInfo.description}

@@ -96,6 +96,7 @@ function Project(props: IProjectProps) {
     newTicketList[ticketIndex].status = newStatus;
     setTicketList(newTicketList);
   };
+  console.log(projectInfo);
 
   return (
     <div className="project">
@@ -112,7 +113,7 @@ function Project(props: IProjectProps) {
           />
           <InfoBar
             barType="project"
-            createdBy={projectInfo.createdBy.name}
+            createdBy={projectInfo.createdBy}
             dateCreated={projectInfo.dateCreated}
             status={projectInfo.status}
             description={projectInfo.projectDescription}
