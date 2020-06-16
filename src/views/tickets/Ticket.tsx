@@ -51,8 +51,6 @@ export default function Ticket(props: ITicketProps) {
     }
   };
 
-  console.log(ticketInfo);
-
   return (
     <div
       style={{

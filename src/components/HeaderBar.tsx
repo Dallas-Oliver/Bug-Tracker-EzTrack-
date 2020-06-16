@@ -9,11 +9,11 @@ interface IHeaderBarProps {
 }
 
 export default function HeaderBar(props: IHeaderBarProps) {
-  const { theme, toggleThemes } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
 
   return (
     <div className="header-bar">
-      <h4>{props.title}</h4>
+      <h4 style={{ color: theme.textColor }}>{props.title}</h4>
       {props.formIsVisible ? null : (
         <button
           style={{ background: theme.background, color: theme.textColor }}

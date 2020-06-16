@@ -179,7 +179,7 @@ router.get("/:userId/preferences", async (req, res) => {
 //   }
 // });
 
-router.post("/:userId/setUserTheme/:theme", async (req, res) => {
+router.post("/:userId/setUserTheme", async (req, res) => {
   const user = User.find({ _id: req.params.userId }).exec();
 
   if (!user) {
@@ -187,8 +187,13 @@ router.post("/:userId/setUserTheme/:theme", async (req, res) => {
     return;
   }
 
-  user.theme = req.params.theme;
+  if (user.theme === undefined || user.theme === "light") {
+    user.theme = "dark";
+  } else if (user.theme === "dark") {
+    user.theme = "light";
+  }
   const userSaved = user.save();
+
   if (!userSaved) {
     res.status(400).send({ message: "user not saved, something went wrong" });
     return;

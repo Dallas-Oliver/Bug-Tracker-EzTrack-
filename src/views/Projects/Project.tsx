@@ -96,7 +96,6 @@ function Project(props: IProjectProps) {
     newTicketList[ticketIndex].status = newStatus;
     setTicketList(newTicketList);
   };
-  console.log(projectInfo);
 
   return (
     <div className="project">

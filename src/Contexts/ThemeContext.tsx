@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { AuthService as Auth } from "../auth/AuthService";
+import ThemeStorageUtil from "../models/Theme";
 
 export interface IContext {
   theme?: {
@@ -20,6 +21,7 @@ export const ThemeContext = createContext<any>({});
 export const ThemeProvider = (props: IThemeProviderProps) => {
   const themes = {
     lightTheme: {
+      name: "light",
       background: "#F5F5F5",
       textColor: "black",
       linkTextColor: "#0b486b",
@@ -29,6 +31,7 @@ export const ThemeProvider = (props: IThemeProviderProps) => {
     },
 
     darkTheme: {
+      name: "dark",
       background: "#363636",
       textColor: "white",
       linkTextColor: "#19ABFF",
@@ -40,19 +43,14 @@ export const ThemeProvider = (props: IThemeProviderProps) => {
   const [theme, setTheme] = useState(themes.lightTheme);
 
   const toggleThemes = async () => {
-    setTheme(theme.textColor === "black" ? themes.darkTheme : themes.lightTheme);
+    setTheme(theme.name === "light" ? themes.darkTheme : themes.lightTheme);
 
-    const userId: string = await Auth.getUserId();
-    const response = await Auth.fetch(`users/${userId}/setUserTheme/${theme}`);
-    const themeJson = await response.json();
+    ThemeStorageUtil.setTheme(theme.name);
   };
 
   const getUserTheme = async () => {
-    const user = await Auth.getUserData();
-
-    if (user.theme) {
-      setTheme(user.theme);
-    }
+    const theme = ThemeStorageUtil.getTheme();
+    setTheme(theme === "light" ? themes.darkTheme : themes.lightTheme);
   };
 
   useEffect(() => {

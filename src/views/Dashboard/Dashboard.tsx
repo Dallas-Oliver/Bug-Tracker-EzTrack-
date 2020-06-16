@@ -40,6 +40,7 @@ function Dashboard() {
     }
 
     const userData = await response.json();
+
     setUserInfo(userData);
   };
 
