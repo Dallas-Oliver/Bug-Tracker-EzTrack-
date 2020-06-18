@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { AuthService as Auth } from "../../auth/AuthService";
 import User from "../../models/main models/UserModel";
@@ -27,6 +27,7 @@ function Project(props: IProjectProps) {
   const [ticketIsVisible, toggleTicket] = useState(false);
   const { projectId } = useParams<IProjectId>();
   const [assignedUser, setAssignedUser] = useState<string>("");
+  const [projectIsClosed, toggleProjectIsClosed] = useState(false);
 
   useEffect(() => {
     const getProjectData = async () => {
@@ -89,8 +90,10 @@ function Project(props: IProjectProps) {
     }
 
     const project = await response.json();
+
     props.handleProjectStatusChange(projectId, project.status);
     changeAllTicketStatus(project.status);
+    toggleProjectIsClosed((projectIsClosed) => !projectIsClosed);
     setProjectInfo(project);
   };
 
@@ -117,6 +120,7 @@ function Project(props: IProjectProps) {
             formIsVisible || ticketIsVisible ? "blur" : ""
           }`}>
           <HeaderBar
+            projectStatus={projectInfo.status}
             title={projectInfo.name}
             formIsVisible={formIsVisible}
             buttonText="New Ticket +"
@@ -133,6 +137,7 @@ function Project(props: IProjectProps) {
           />
 
           <TicketList
+            projectStatus={projectInfo.status}
             ticketList={ticketList}
             openTicket={(userId: string) => openTicket(userId)}
           />

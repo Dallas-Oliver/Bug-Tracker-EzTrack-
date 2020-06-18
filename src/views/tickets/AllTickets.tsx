@@ -49,6 +49,7 @@ function AllTickets() {
       }}
       className="all-tickets">
       <TicketList
+        projectStatus="Open"
         ticketIsVisible={ticketIsVisible}
         ticketList={ticketList}
         openTicket={(_id) => openTicket(_id)}

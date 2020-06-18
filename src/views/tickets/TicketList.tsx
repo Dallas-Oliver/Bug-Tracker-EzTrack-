@@ -9,6 +9,7 @@ interface ITicketListProps {
   ticketIsVisible?: boolean;
   ticketList: TicketModel[];
   openTicket: (_id: string) => void;
+  projectStatus?: string;
 }
 
 export default function TicketList(props: ITicketListProps) {
@@ -37,6 +38,7 @@ export default function TicketList(props: ITicketListProps) {
               {props.ticketList.map((ticket) => {
                 return (
                   <TicketListItem
+                    projectStatus={props.projectStatus}
                     key={ticket._id}
                     _id={ticket._id}
                     name={ticket.name}

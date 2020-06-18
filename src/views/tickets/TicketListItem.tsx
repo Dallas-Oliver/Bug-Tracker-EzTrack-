@@ -8,6 +8,7 @@ interface ITicketListitemProps {
   _id: string;
   status: string;
   assignedUser: string;
+  projectStatus?: string;
 }
 
 function TicketListItem(props: ITicketListitemProps) {
@@ -16,7 +17,11 @@ function TicketListItem(props: ITicketListitemProps) {
     <tr className="ticket-list-item">
       <td>
         <p
-          style={{ color: theme.linkTextColor }}
+          style={
+            props.projectStatus === "Closed" || props.status === "Closed"
+              ? { color: "gray" }
+              : { color: theme.linkTextColor }
+          }
           className="ticket-link"
           onClick={() => props.openTicket(props._id)}>
           {props.name}

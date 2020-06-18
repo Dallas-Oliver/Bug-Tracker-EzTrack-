@@ -50,6 +50,7 @@ function ProjectList(props: IProjectListProps) {
               props.projectList.map((project: Project) => {
                 return (
                   <ProjectListItem
+                    projectStatus={project.status}
                     key={project._id}
                     _id={project._id}
                     name={project.name}

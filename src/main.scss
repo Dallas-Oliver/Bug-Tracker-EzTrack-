@@ -544,7 +544,7 @@ html {
             font-family: $main-font;
             border-radius: 4px;
             width: auto;
-            height: 40vh;
+            height: auto;
             padding: 1em 1em;
             transition: opacity 0.3s ease-in-out;
 
@@ -786,6 +786,11 @@ html {
       -moz-box-sizing: border-box;
       cursor: pointer;
       background: none;
+
+      .disabled {
+        color: "#A19CA0";
+        border-color: "#A19CA0";
+      }
     }
   }
 

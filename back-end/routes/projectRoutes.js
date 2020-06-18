@@ -174,4 +174,10 @@ router.get("/:projectId/change-status", async (req, res) => {
   }
 });
 
+router.get("/:projectId/get-status", async (req, res) => {
+  const projectId = req.params.projectId;
+
+  // const projectStatus = await Project.find({ _id: projectId }).exec().status;
+  // console.log(projectStatus);
+});
 module.exports = router;

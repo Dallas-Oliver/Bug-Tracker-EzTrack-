@@ -1,16 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { AuthService as Auth } from "../auth/AuthService";
-import ThemeStorageUtil from "../models/Theme";
-
-export interface IContext {
-  theme?: {
-    background: string;
-    textColor: string;
-    linkTextColor: string;
-    dashboardTheme: { background: string };
-  };
-  toggleThemes: () => void;
-}
+import LocalStorageUtil from "../models/LocalStorage";
 
 interface IThemeProviderProps {
   children: JSX.Element;
@@ -47,12 +36,12 @@ export const ThemeProvider = (props: IThemeProviderProps) => {
   const toggleThemes = async () => {
     setTheme(theme.name === "light" ? themes.darkTheme : themes.lightTheme);
 
-    ThemeStorageUtil.setTheme(theme.name);
+    LocalStorageUtil.setItem(theme.name, theme.name);
   };
 
   const getUserTheme = async () => {
-    const theme = ThemeStorageUtil.getTheme();
-    setTheme(theme === "light" ? themes.darkTheme : themes.lightTheme);
+    const themeName = LocalStorageUtil.getItemFromStorage(theme.name);
+    setTheme(themeName === "light" ? themes.darkTheme : themes.lightTheme);
   };
 
   useEffect(() => {
