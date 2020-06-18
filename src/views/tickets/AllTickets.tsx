@@ -19,6 +19,8 @@ function AllTickets() {
   };
 
   useEffect(() => {
+    let mounted = true;
+
     const getTicketData = async () => {
       const response = await Auth.fetch("/tickets/all");
 
@@ -27,9 +29,16 @@ function AllTickets() {
         return;
       }
       const tickets = await response.json();
-      setTicketList(tickets);
+      if (mounted) {
+        setTicketList(tickets);
+      }
     };
+
     getTicketData();
+
+    return function unMount() {
+      mounted = false;
+    };
   }, []);
 
   return (
@@ -38,18 +47,14 @@ function AllTickets() {
         background: theme.background,
         color: theme.textColor,
       }}
-      className="all-tickets"
-    >
+      className="all-tickets">
       <TicketList
         ticketIsVisible={ticketIsVisible}
         ticketList={ticketList}
         openTicket={(_id) => openTicket(_id)}
       />
       {!currentTicketId || ticketIsVisible === false ? null : (
-        <Ticket
-          hideTicket={() => toggleTicket(false)}
-          _id={currentTicketId}
-        />
+        <Ticket hideTicket={() => toggleTicket(false)} _id={currentTicketId} />
       )}
     </div>
   );

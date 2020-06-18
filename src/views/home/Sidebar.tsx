@@ -31,7 +31,7 @@ function Sidebar(props: ISideBarProps) {
           Logout
         </h3>
         <span className="theme-icon" onClick={() => toggleThemes()}>
-          {theme.background === "#363636" ? (
+          {theme.name === "dark" ? (
             <span aria-label="sun" role="img">
               🌞
             </span>

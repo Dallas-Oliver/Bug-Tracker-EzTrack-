@@ -885,8 +885,7 @@ html {
 .App .add-form .form .cancel,
 .App .add-form .form .btn {
   background: none;
-  color: #141414;
-  border: 1px solid #141414;
+  border: 1px solid;
 }
 
 .App .header-bar {
@@ -938,6 +937,7 @@ html {
 
 .App .info-bar .status-bar {
   margin-right: 1em;
+  margin-top: 5em;
   padding: 0.2em 0.4em;
   cursor: pointer;
   border: 1px solid black;

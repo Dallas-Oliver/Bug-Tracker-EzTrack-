@@ -22,15 +22,22 @@ function ProjectManager(props: IProjectMangerProps) {
   const history = useHistory();
 
   useEffect(() => {
+    let mounted = true;
     async function getAllProjects() {
       const response = await Auth.fetch("/projects/all");
       if (!response) {
         console.log("no projects");
       }
       const projects = await response.json();
-      updateProjectList(projects);
+      if (mounted) {
+        updateProjectList(projects);
+      }
     }
     getAllProjects();
+
+    return function unMount() {
+      mounted = false;
+    };
   }, []);
 
   const handleSubmit = async () => {
@@ -56,7 +63,9 @@ function ProjectManager(props: IProjectMangerProps) {
 
   const handleProjectStatusChange = (projectId: string, status: string) => {
     let newProjectList: ProjectModel[] = [...projectList];
-    let projectIndex = newProjectList.map((project: ProjectModel) => project._id).indexOf(projectId);
+    let projectIndex = newProjectList
+      .map((project: ProjectModel) => project._id)
+      .indexOf(projectId);
     newProjectList[projectIndex].status = status;
     updateProjectList(newProjectList);
   };
@@ -69,7 +78,9 @@ function ProjectManager(props: IProjectMangerProps) {
   };
 
   return (
-    <div style={{ background: theme.background, color: theme.colorText }} className="project-manager">
+    <div
+      style={{ background: theme.background, color: theme.colorText }}
+      className="project-manager">
       <Switch>
         <Route
           exact
@@ -98,7 +109,9 @@ function ProjectManager(props: IProjectMangerProps) {
           path="/home/projects/:projectId"
           render={() => (
             <Project
-              handleProjectStatusChange={(projectId: string, status: string) => handleProjectStatusChange(projectId, status)}
+              handleProjectStatusChange={(projectId: string, status: string) =>
+                handleProjectStatusChange(projectId, status)
+              }
               users={props.users}
             />
           )}

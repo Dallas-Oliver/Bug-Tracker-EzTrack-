@@ -2,7 +2,6 @@ const router = require("express").Router();
 const Project = require("../models/Project");
 const Ticket = require("../models/Ticket");
 const User = require("../models/User");
-const jwt = require("jsonwebtoken");
 
 //recieves a project object in the req.body and creates a new instance of the Project model and saves it in the DB.
 //Also saves the project._id in the current users projectIds array.
@@ -77,7 +76,7 @@ router.get("/:projectId", async (req, res) => {
   res.status(200).send({ project, tickets });
 });
 
-router.post("/save-ticket/:projectId", async (req, res) => {
+router.post("/:projectId/save-ticket", async (req, res) => {
   const projectId = req.params.projectId;
   const newTicket = req.body.newTicket;
 
@@ -87,7 +86,7 @@ router.post("/save-ticket/:projectId", async (req, res) => {
   }
 
   try {
-    const user = await User.findById(req.body.newTicket.assignedUser).exec();
+    const user = await User.findById(newTicket.assignedUser).exec();
 
     if (!user) {
       res.status(404).send({ message: "No user found" });
@@ -97,7 +96,7 @@ router.post("/save-ticket/:projectId", async (req, res) => {
     const ticket = new Ticket({
       name: newTicket.name,
       dateCreated: newTicket.dateCreated,
-      createdBy: req.body.user.name,
+      createdBy: req.body.currentUser.name,
       description: newTicket.description,
       projectId: projectId,
       priority: newTicket.priority,
@@ -123,7 +122,7 @@ router.post("/save-ticket/:projectId", async (req, res) => {
     project.save();
     res.status(201).send(ticket);
   } catch (err) {
-    res.status(500).send({ message: "Ticket not saved" });
+    res.status(500).send({ message: err });
   }
 });
 
@@ -159,6 +158,12 @@ router.get("/:projectId/change-status", async (req, res) => {
     } else if (project.status === "Closed") {
       project.status = "Open";
     }
+
+    //find all tickets with _ids that exist within the current projects tickets array(whick contains ticket ids) and update their status to match the status of the project.
+    await Ticket.updateMany(
+      { _id: { $in: project.tickets } },
+      { status: project.status }
+    ).exec();
 
     await project.save();
     res.status(200).send(project);

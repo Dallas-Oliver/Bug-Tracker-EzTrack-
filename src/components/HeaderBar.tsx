@@ -16,7 +16,11 @@ export default function HeaderBar(props: IHeaderBarProps) {
       <h4 style={{ color: theme.textColor }}>{props.title}</h4>
       {props.formIsVisible ? null : (
         <button
-          style={{ background: theme.background, color: theme.textColor }}
+          style={{
+            background: theme.background,
+            color: theme.textColor,
+            borderColor: theme.buttonBorder,
+          }}
           className="add-project-button"
           onClick={props.toggle}>
           {props.buttonText}

@@ -28,16 +28,18 @@ export const ThemeProvider = (props: IThemeProviderProps) => {
       dashboardTheme: {
         background: "#FFFFFF",
       },
+      buttonBorder: "black",
     },
 
     darkTheme: {
       name: "dark",
-      background: "#363636",
+      background: "#0F0F0F",
       textColor: "white",
       linkTextColor: "#19ABFF",
       dashboardTheme: {
-        background: "#5C5C5C",
+        background: "#212121",
       },
+      buttonBorder: "white",
     },
   };
   const [theme, setTheme] = useState(themes.lightTheme);

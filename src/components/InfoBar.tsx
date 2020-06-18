@@ -10,7 +10,7 @@ interface IInfoBarProps {
   status: string;
   barType: string;
   priority?: string;
-  assignedTo?: User;
+  assignedTo?: string;
   description: string;
 }
 
@@ -29,6 +29,7 @@ function InfoBar(props: Partial<IInfoBarProps>) {
         <br />
         <p>
           <span
+            style={{ borderColor: theme.buttonBorder }}
             onClick={() => props.changeStatus!(props._id!)}
             className="status-bar">
             {props.status === "Open" ? (

@@ -29,7 +29,12 @@ function ProjectList(props: IProjectListProps) {
         color: theme.textColor,
       }}
       className="project-list">
-      <HeaderBar title="All Projects" formIsVisible={props.formIsVisible} toggle={props.showForm} buttonText="New Project" />
+      <HeaderBar
+        title="All Projects"
+        formIsVisible={props.formIsVisible}
+        toggle={props.showForm}
+        buttonText="New Project +"
+      />
 
       {props.projectList.length >= 1 ? (
         <table className={`project-table ${props.formIsVisible ? "blur" : ""}`}>

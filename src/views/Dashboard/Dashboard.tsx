@@ -26,26 +26,32 @@ function Dashboard() {
   const [ticketIsVisible, toggleTicket] = useState(false);
   const { theme } = useContext(ThemeContext);
 
-  const getUserData = async () => {
-    const user = await Auth.getUserData();
-    if (!user) {
-      console.log("no user");
-      return;
-    }
-
-    const response = await Auth.fetch(`/users/${user._id}`);
-    if (!response) {
-      console.log("no user info available");
-      return;
-    }
-
-    const userData = await response.json();
-
-    setUserInfo(userData);
-  };
-
   useEffect(() => {
+    let mounted = true;
+    const getUserData = async () => {
+      const user = await Auth.getUserData();
+      if (!user) {
+        console.log("no user");
+        return;
+      }
+
+      const response = await Auth.fetch(`/users/${user._id}`);
+      if (!response) {
+        console.log("no user info available");
+        return;
+      }
+
+      const userData = await response.json();
+
+      if (mounted) {
+        setUserInfo(userData);
+      }
+    };
     getUserData();
+
+    return function unMount() {
+      mounted = false;
+    };
   }, []);
 
   const openTicket = (_id: string) => {

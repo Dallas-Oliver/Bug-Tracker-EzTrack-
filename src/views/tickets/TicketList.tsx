@@ -13,14 +13,14 @@ interface ITicketListProps {
 
 export default function TicketList(props: ITicketListProps) {
   const { theme } = useContext(ThemeContext);
+
   return (
     <div
       style={{
         background: theme.dashboardTheme.background,
         color: theme.textColor,
       }}
-      className={`ticket-list  ${props.ticketIsVisible ? "blur" : ""}`}
-    >
+      className={`ticket-list  ${props.ticketIsVisible ? "blur" : ""}`}>
       <h4>All Tickets</h4>
       <SimpleBar>
         {props.ticketList.length >= 1 ? (

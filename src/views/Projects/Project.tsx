@@ -26,7 +26,7 @@ function Project(props: IProjectProps) {
   const [formIsVisible, toggleForm] = useState(false);
   const [ticketIsVisible, toggleTicket] = useState(false);
   const { projectId } = useParams<IProjectId>();
-  const [assignedUser, setAssignedUser] = useState<string>();
+  const [assignedUser, setAssignedUser] = useState<string>("");
 
   useEffect(() => {
     const getProjectData = async () => {
@@ -45,11 +45,16 @@ function Project(props: IProjectProps) {
   }, [projectId]);
 
   const handleTicketSubmit = async () => {
-    const user: User = await Auth.getUserData();
-    let newTicket = new TicketModel(titleInput, descInput, user);
+    const currentUser: User = await Auth.getUserData();
+    let newTicket = new TicketModel(
+      titleInput,
+      descInput,
+      currentUser,
+      assignedUser
+    );
 
-    const response = await Auth.fetch(`/projects/save-ticket/${projectId}`, {
-      body: JSON.stringify({ newTicket, user }),
+    const response = await Auth.fetch(`/projects/${projectId}/save-ticket`, {
+      body: JSON.stringify({ newTicket, currentUser }),
       method: "POST",
     });
 
@@ -85,7 +90,14 @@ function Project(props: IProjectProps) {
 
     const project = await response.json();
     props.handleProjectStatusChange(projectId, project.status);
+    changeAllTicketStatus(project.status);
     setProjectInfo(project);
+  };
+
+  const changeAllTicketStatus = (newStatus: string) => {
+    const newTicketList: TicketModel[] = [...ticketList];
+    newTicketList.forEach((ticket) => (ticket.status = newStatus));
+    setTicketList(newTicketList);
   };
 
   const changeTicketStatus = (ticketId: string, newStatus: string) => {

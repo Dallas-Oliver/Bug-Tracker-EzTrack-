@@ -7,7 +7,7 @@ interface ITicketListitemProps {
   openTicket: (_id: string) => void;
   _id: string;
   status: string;
-  assignedUser: User;
+  assignedUser: string;
 }
 
 function TicketListItem(props: ITicketListitemProps) {

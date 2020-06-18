@@ -10,17 +10,22 @@ export default class Ticket {
   comments: any[];
   createdBy: string;
   projectId: string;
-  assignedUser: User;
+  assignedUser: string;
   priority: string;
   status: string;
 
-  constructor(title: string, description: string, assignedUser: User) {
+  constructor(
+    title: string,
+    description: string,
+    currentUser: User,
+    assignedUser: string
+  ) {
     this.name = title;
     this.dateCreated = moment().format("MMMM Do YYYY, h:mm:ss a");
     this.description = description;
     this.history = [];
     this.comments = [];
-    this.createdBy = assignedUser.name;
+    this.createdBy = currentUser.name;
     this.projectId = "";
     this.assignedUser = assignedUser;
     this.priority = "High";

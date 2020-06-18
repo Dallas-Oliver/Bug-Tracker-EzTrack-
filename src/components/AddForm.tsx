@@ -59,7 +59,7 @@ const AddForm: React.FC<IAddFormProps> = (props) => {
           <Dropdown className="dropdown">
             <Dropdown.Toggle
               className="dropdown-button"
-              variant="light"
+              variant="success"
               id="dropdown-basic">
               Assign User
             </Dropdown.Toggle>
@@ -93,6 +93,7 @@ const AddForm: React.FC<IAddFormProps> = (props) => {
             style={{
               background: theme.background,
               color: theme.textColor,
+              borderColor: theme.buttonBorder,
             }}
             className="button cancel"
             onClick={props.hideForm}>

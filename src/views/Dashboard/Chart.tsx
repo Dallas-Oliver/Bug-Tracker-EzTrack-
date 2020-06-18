@@ -21,7 +21,7 @@ function Chart(props: IChartProps) {
       {
         label: "Tickets",
         data: [openItems.length, closedItems.length],
-        backgroundColor: ["#56C556", "#F96767"],
+        backgroundColor: ["#51cc74", "#F96767"],
         borderWidth: 3,
         hoverBorderWidth: 1,
       },
