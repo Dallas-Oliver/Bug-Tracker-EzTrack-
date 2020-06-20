@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../Contexts/ThemeContext";
-import User from "../../models/main models/UserModel";
 
 interface ITicketListitemProps {
   name: string;
@@ -9,13 +8,32 @@ interface ITicketListitemProps {
   status: string;
   assignedUser: string;
   projectStatus?: string;
+  isRenderedInDashboard: boolean;
+  AddTicketToDeleteArray?: (_id: string) => void;
 }
 
 function TicketListItem(props: ITicketListitemProps) {
   const { theme } = useContext(ThemeContext);
+
+  const addTicketToDeleteArray = (_id: string) => {
+    if (!_id) {
+      return null;
+    }
+
+    props.AddTicketToDeleteArray!(_id);
+  };
+
   return (
     <tr className="ticket-list-item">
-      <td>
+      {props.isRenderedInDashboard ? null : (
+        <td>
+          <input
+            onChange={() => addTicketToDeleteArray(props._id)}
+            style={{ margin: "0px 5px" }}
+            type="checkbox"></input>
+        </td>
+      )}
+      <td style={{ padding: "0px" }}>
         <p
           style={
             props.projectStatus === "Closed" || props.status === "Closed"

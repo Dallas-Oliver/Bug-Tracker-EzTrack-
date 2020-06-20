@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../Contexts/ThemeContext";
-import User from "../models/main models/UserModel";
+import EditIcon from "./edit-icon";
+import GarbageIcon from "../views/projects/img/garbage-icon";
 
 interface IInfoBarProps {
   createdBy: string;
@@ -61,9 +62,24 @@ function InfoBar(props: Partial<IInfoBarProps>) {
           ) : null}
         </p>
       </div>
-      <hr></hr>
-      <p className="description">{props.description}</p>
-      <hr></hr>
+
+      <hr
+        style={
+          theme.name === "light"
+            ? { borderColor: "black" }
+            : { borderColor: "white" }
+        }></hr>
+      <span
+        style={{
+          float: "right",
+          cursor: "pointer",
+        }}>
+        <EditIcon />
+      </span>
+
+      <p style={{ width: "80%" }} className="description">
+        {props.description}
+      </p>
     </section>
   );
 }

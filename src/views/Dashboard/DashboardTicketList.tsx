@@ -20,9 +20,7 @@ function DashboardTicketList(props: IDashboardTicketListProps) {
   };
 
   React.useEffect(() => {
-    const openTickets = props.tickets.filter(
-      (ticket) => ticket.status === "Open"
-    );
+    const openTickets = props.tickets.filter((ticket) => ticket.status === "Open");
     setOpenTickets(openTickets);
   }, [props.tickets]);
   return (
@@ -31,8 +29,7 @@ function DashboardTicketList(props: IDashboardTicketListProps) {
         background: theme.dashboardTheme.background,
         color: theme.textColor,
       }}
-      className="dash-card dash-list ticket-list"
-    >
+      className="dash-card dash-list ticket-list">
       {!redirect ? null : <Redirect to="/home/tickets" />}
       <HeaderBar
         title="Open Tickets"
@@ -45,6 +42,7 @@ function DashboardTicketList(props: IDashboardTicketListProps) {
         <table>
           <thead>
             <tr className="table-header">
+              <th></th>
               <th>Name</th>
               <th>Status</th>
               <th>Assigned User</th>
@@ -61,6 +59,7 @@ function DashboardTicketList(props: IDashboardTicketListProps) {
                   status={ticket.status}
                   openTicket={props.openTicket}
                   assignedUser={ticket.assignedUser}
+                  isRenderedInDashboard={true}
                 />
               ) : null;
             })}

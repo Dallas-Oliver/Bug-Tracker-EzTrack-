@@ -180,4 +180,14 @@ router.get("/:projectId/get-status", async (req, res) => {
   // const projectStatus = await Project.find({ _id: projectId }).exec().status;
   // console.log(projectStatus);
 });
+
+router.post("/:projectId/updateTickeList", async (req, res) => {
+  const projectId = req.params.projectId;
+  await Project.updateOne({ _id: projectId }, { tickets: req.body }).exec();
+  const project = await Project.findById(projectId).exec();
+  console.log(project.tickets);
+  //still need to get an array of all the actual tickets that exist on the current project, not just the ids
+
+  res.status(200).send(ticketList);
+});
 module.exports = router;

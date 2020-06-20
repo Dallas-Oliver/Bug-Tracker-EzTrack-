@@ -51,6 +51,7 @@ const AddForm: React.FC<IAddFormProps> = (props) => {
           type="text"></input>
         <label htmlFor="description">{props.formType} Description</label>
         <textarea
+          rows={5}
           name="description"
           value={props.descValue}
           onChange={(e) => props.onDescChange(e.target.value)}></textarea>

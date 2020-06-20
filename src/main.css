@@ -673,7 +673,6 @@ html {
 
 .App .Home .project-manager .project .project-content .ticket-list table thead tr th {
   text-align: left;
-  padding-bottom: 0.6em;
 }
 
 .App .Home .project-manager .project .project-content .ticket-list table td {
@@ -752,7 +751,6 @@ html {
 
 .App .Home .all-tickets .ticket-list table thead tr th {
   text-align: left;
-  padding-bottom: 0.6em;
 }
 
 .App .Home .all-tickets .ticket-list .ticket-list-item .ticket-link {

@@ -53,6 +53,7 @@ function AllTickets() {
         ticketIsVisible={ticketIsVisible}
         ticketList={ticketList}
         openTicket={(_id) => openTicket(_id)}
+        isRenderedInDashboard={false}
       />
       {!currentTicketId || ticketIsVisible === false ? null : (
         <Ticket hideTicket={() => toggleTicket(false)} _id={currentTicketId} />

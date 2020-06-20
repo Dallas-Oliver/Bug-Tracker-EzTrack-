@@ -27,7 +27,6 @@ function Project(props: IProjectProps) {
   const [ticketIsVisible, toggleTicket] = useState(false);
   const { projectId } = useParams<IProjectId>();
   const [assignedUser, setAssignedUser] = useState<string>("");
-  const [projectIsClosed, toggleProjectIsClosed] = useState(false);
 
   useEffect(() => {
     const getProjectData = async () => {
@@ -93,7 +92,7 @@ function Project(props: IProjectProps) {
 
     props.handleProjectStatusChange(projectId, project.status);
     changeAllTicketStatus(project.status);
-    toggleProjectIsClosed((projectIsClosed) => !projectIsClosed);
+
     setProjectInfo(project);
   };
 
@@ -112,6 +111,27 @@ function Project(props: IProjectProps) {
     setTicketList(newTicketList);
   };
 
+  const deleteCurrentProject = (projectId: string) => {
+    console.log(projectId);
+  };
+
+  const deleteTicketListItems = async (selectedItemIds: string[]) => {
+    const newTicketList: TicketModel[] = [...ticketList];
+    const ticketIdsWithoutSelectedItems = newTicketList
+      .filter((ticket) => selectedItemIds.indexOf(ticket._id) < 0)
+      .map((ticket) => ticket._id);
+
+    const response = await Auth.fetch(`/projects/${projectId}/updateTickeList`, {
+      method: "POST",
+      body: JSON.stringify(ticketIdsWithoutSelectedItems),
+    });
+
+    const updatedAndSavedTicketList = await response.json();
+    console.log(updatedAndSavedTicketList);
+
+    setTicketList(updatedAndSavedTicketList);
+  };
+
   return (
     <div className="project">
       {projectInfo ? (
@@ -120,11 +140,13 @@ function Project(props: IProjectProps) {
             formIsVisible || ticketIsVisible ? "blur" : ""
           }`}>
           <HeaderBar
+            projectOrTicketicketVisible={true}
             projectStatus={projectInfo.status}
             title={projectInfo.name}
             formIsVisible={formIsVisible}
             buttonText="New Ticket +"
             toggle={() => toggleForm(true)}
+            delete={() => deleteCurrentProject(projectId)}
           />
           <InfoBar
             barType="project"
@@ -137,9 +159,13 @@ function Project(props: IProjectProps) {
           />
 
           <TicketList
+            deleteTicketListItems={(selectedItemIds) =>
+              deleteTicketListItems(selectedItemIds)
+            }
             projectStatus={projectInfo.status}
             ticketList={ticketList}
             openTicket={(userId: string) => openTicket(userId)}
+            isRenderedInDashboard={false}
           />
         </div>
       ) : (

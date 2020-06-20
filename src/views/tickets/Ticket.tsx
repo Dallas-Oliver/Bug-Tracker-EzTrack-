@@ -59,6 +59,7 @@ export default function Ticket(props: ITicketProps) {
       }}
       className="ticket">
       <HeaderBar
+        projectOrTicketicketVisible={true}
         title={ticketInfo.name}
         buttonText="< back"
         toggle={props.hideTicket}
