@@ -17,6 +17,7 @@ function ProjectManager(props: IProjectMangerProps) {
   const [descInput, handleDescChange] = useState("");
   const [projectList, updateProjectList] = useState<ProjectModel[]>([]);
   const [formIsVisible, toggleForm] = useState(false);
+
   const { theme } = useContext(ThemeContext);
   const { path } = useRouteMatch();
   const history = useHistory();

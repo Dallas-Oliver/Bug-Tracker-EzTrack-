@@ -20,11 +20,11 @@ function DashboardProjectList(props: IDashboardProjectListProps) {
   };
 
   React.useEffect(() => {
-    let openProjects = props.projects.filter(
-      (project) => project.status === "Open"
-    );
+    let openProjects = props.projects.filter((project) => project.status === "Open");
     setOpenProjects(openProjects);
   }, [props.projects]);
+
+  console.log(props.projects);
 
   return (
     <div
@@ -32,8 +32,7 @@ function DashboardProjectList(props: IDashboardProjectListProps) {
         background: theme.dashboardTheme.background,
         color: theme.textColor,
       }}
-      className="dash-card dash-list project-list"
-    >
+      className="dash-card dash-list project-list">
       {!redirect ? null : <Redirect to="/home/projects" />}
       <HeaderBar
         title="Open Projects"

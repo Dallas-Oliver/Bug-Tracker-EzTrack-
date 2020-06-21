@@ -5,7 +5,7 @@ import "simplebar/dist/simplebar.min.css";
 import { ThemeContext } from "../../Contexts/ThemeContext";
 import TicketModel from "../../models/main models/TicketModel";
 import GarbageIcon from "../projects/img/garbage-icon";
-import Ticket from "../../models/main models/TicketModel";
+import { Modal, Button } from "react-bootstrap";
 
 interface ITicketListProps {
   ticketIsVisible?: boolean;
@@ -19,6 +19,7 @@ interface ITicketListProps {
 export default function TicketList(props: ITicketListProps) {
   const { theme } = useContext(ThemeContext);
   const [ticketsToDelete, updateTicketsToDelete] = useState<string[]>([]);
+  const [showModal, setShowModal] = useState(false);
 
   const addTicketToDeleteArray = (_id: string) => {
     const newTicketArray: string[] = [...ticketsToDelete];
@@ -45,8 +46,12 @@ export default function TicketList(props: ITicketListProps) {
               <tr>
                 <th style={{ marginRight: "5px", padding: "0px" }}>
                   <span
-                    onClick={() => deleteCheckedListItems()}
-                    style={{ cursor: "pointer" }}>
+                    onClick={() => setShowModal(true)}
+                    style={{
+                      margin: "0px",
+                      padding: "0px",
+                      cursor: "pointer",
+                    }}>
                     <GarbageIcon />
                   </span>
                 </th>
@@ -78,6 +83,25 @@ export default function TicketList(props: ITicketListProps) {
           <p>No tickets!</p>
         )}
       </SimpleBar>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Are you sure?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Data deleted cannot be recovered!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            whoops!
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              setShowModal(false);
+              deleteCheckedListItems();
+            }}>
+            Yes Im sure!
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
