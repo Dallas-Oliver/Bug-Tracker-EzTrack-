@@ -183,10 +183,21 @@ router.get("/:projectId/get-status", async (req, res) => {
 
 router.post("/:projectId/updateTickeList", async (req, res) => {
   const projectId = req.params.projectId;
-  await Project.updateOne({ _id: projectId }, { tickets: req.body }).exec();
-  const project = await Project.findById(projectId).exec();
-  console.log(project.tickets);
+
+  const projectWithNewTicketList = await Project.findOneAndUpdate(
+    { _id: projectId },
+    { tickets: req.body.ticketIdsWithoutSelectedItems },
+    { useFindAndModify: false }
+  ).exec();
+
+  await Ticket.findOneAndDelete({
+    _id: { $in: req.body.selectedItemIds },
+  });
+
   //still need to get an array of all the actual tickets that exist on the current project, not just the ids
+  const ticketList = await Ticket.find({
+    _id: { $in: projectWithNewTicketList.tickets },
+  }).exec();
 
   res.status(200).send(ticketList);
 });

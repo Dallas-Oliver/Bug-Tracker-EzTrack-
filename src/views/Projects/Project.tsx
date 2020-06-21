@@ -120,10 +120,11 @@ function Project(props: IProjectProps) {
     const ticketIdsWithoutSelectedItems = newTicketList
       .filter((ticket) => selectedItemIds.indexOf(ticket._id) < 0)
       .map((ticket) => ticket._id);
+    console.log(ticketIdsWithoutSelectedItems);
 
     const response = await Auth.fetch(`/projects/${projectId}/updateTickeList`, {
       method: "POST",
-      body: JSON.stringify(ticketIdsWithoutSelectedItems),
+      body: JSON.stringify({ ticketIdsWithoutSelectedItems, selectedItemIds }),
     });
 
     const updatedAndSavedTicketList = await response.json();
