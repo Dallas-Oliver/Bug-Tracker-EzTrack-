@@ -14,7 +14,7 @@ interface ITicketProps {
 
 export default function Ticket(props: ITicketProps) {
   const { projectId } = useParams();
-  const [ticketInfo, setTicketInfo] = useState<TicketModel>();
+  const [ticket, setTicketInfo] = useState<TicketModel>();
   const { theme } = useContext(ThemeContext);
 
   const ticketAPICall = async (url: string) => {
@@ -35,19 +35,22 @@ export default function Ticket(props: ITicketProps) {
     ticketAPICall(`/projects/${projectId}/ticket/${props._id}`);
   }, []);
 
-  if (!ticketInfo) {
+  if (!ticket) {
     return null;
   }
 
-  const changeStatus = async (ticketId: string) => {
+  const changeStatus = async () => {
     //change ticket status
-    const ticket = await ticketAPICall(`/tickets/${ticketId}/change-status`);
 
-    setTicketInfo(ticket);
+    const updatedTicket = await ticketAPICall(
+      `/tickets/${ticket._id}/change-status`
+    );
 
-    const newStatus = ticket.status;
+    setTicketInfo(updatedTicket);
+
+    const newStatus = updatedTicket.status;
     if (props.handleTicketStatusChange) {
-      props.handleTicketStatusChange(ticketId, newStatus);
+      props.handleTicketStatusChange(ticket._id, newStatus);
     }
   };
 
@@ -60,19 +63,19 @@ export default function Ticket(props: ITicketProps) {
       className="ticket">
       <HeaderBar
         projectOrTicketicketVisible={true}
-        title={ticketInfo.name}
+        title={ticket.name}
         buttonText="< back"
         toggle={props.hideTicket}
       />
       <InfoBar
         barType="ticket"
-        createdBy={ticketInfo.createdBy}
-        dateCreated={ticketInfo.dateCreated}
-        status={ticketInfo.status}
-        description={ticketInfo.description}
-        priority={ticketInfo.priority}
-        assignedTo={ticketInfo.assignedUser}
-        changeStatus={() => changeStatus(ticketInfo._id)}
+        createdBy={ticket.createdBy}
+        dateCreated={ticket.dateCreated}
+        status={ticket.status}
+        description={ticket.description}
+        priority={ticket.priority}
+        assignedTo={ticket.assignedUser}
+        changeStatus={() => changeStatus()}
       />
     </div>
   );

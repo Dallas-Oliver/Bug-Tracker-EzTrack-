@@ -5,7 +5,7 @@ import "simplebar/dist/simplebar.min.css";
 import { ThemeContext } from "../../Contexts/ThemeContext";
 import TicketModel from "../../models/main models/TicketModel";
 import GarbageIcon from "../projects/img/garbage-icon";
-import { Modal, Button } from "react-bootstrap";
+import ModalDropDown from "../../components/ModalDropDown";
 
 interface ITicketListProps {
   ticketIsVisible?: boolean;
@@ -83,25 +83,11 @@ export default function TicketList(props: ITicketListProps) {
           <p>No tickets!</p>
         )}
       </SimpleBar>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Are you sure?</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Data deleted cannot be recovered!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            whoops!
-          </Button>
-          <Button
-            variant="danger"
-            onClick={() => {
-              setShowModal(false);
-              deleteCheckedListItems();
-            }}>
-            Yes Im sure!
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ModalDropDown
+        showModal={showModal}
+        setShowModal={() => setShowModal(false)}
+        confirmDelete={() => deleteCheckedListItems()}
+      />
     </div>
   );
 }

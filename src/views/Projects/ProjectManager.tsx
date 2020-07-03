@@ -78,6 +78,18 @@ function ProjectManager(props: IProjectMangerProps) {
     history.push(`/home/projects/${_id}`);
   };
 
+  const deleteCurrentProject = async (projectId: string) => {
+    console.log(projectList);
+
+    const response = await Auth.fetch(`projects/delete-project/${projectId}`);
+
+    const newProjectList = [...projectList];
+    newProjectList.filter((project) => project._id !== projectId);
+    updateProjectList(newProjectList);
+
+    // history.push(`/home/projects`);
+  };
+
   return (
     <div
       style={{ background: theme.background, color: theme.colorText }}
@@ -110,6 +122,7 @@ function ProjectManager(props: IProjectMangerProps) {
           path="/home/projects/:projectId"
           render={() => (
             <Project
+              deleteCurrentProject={(projectId) => deleteCurrentProject(projectId)}
               handleProjectStatusChange={(projectId: string, status: string) =>
                 handleProjectStatusChange(projectId, status)
               }

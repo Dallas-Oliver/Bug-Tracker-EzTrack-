@@ -55,7 +55,7 @@ function ProjectList(props: IProjectListProps) {
                     _id={project._id}
                     name={project.name}
                     status={project.status}
-                    numberOfTickets={project.numberOfTickets}
+                    numberOfTickets={project.tickets.length}
                     redirectToProject={props.redirectToProject}
                   />
                 );

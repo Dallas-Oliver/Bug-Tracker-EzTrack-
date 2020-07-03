@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ThemeContext } from "../Contexts/ThemeContext";
 import GarbageIcon from "../views/projects/img/garbage-icon";
+import ModalDropDown from "../components/ModalDropDown";
 
 interface IHeaderBarProps {
   title: string;
@@ -14,6 +15,7 @@ interface IHeaderBarProps {
 
 export default function HeaderBar(props: IHeaderBarProps) {
   const { theme } = useContext(ThemeContext);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="header-bar">
@@ -21,7 +23,7 @@ export default function HeaderBar(props: IHeaderBarProps) {
       <div>
         {props.projectOrTicketicketVisible ? (
           <span
-            onClick={props.delete}
+            onClick={() => setShowModal(true)}
             style={{
               cursor: "pointer",
               marginRight: "10px",
@@ -55,6 +57,11 @@ export default function HeaderBar(props: IHeaderBarProps) {
           </button>
         )}
       </div>
+      <ModalDropDown
+        showModal={showModal}
+        setShowModal={() => setShowModal(false)}
+        confirmDelete={() => props.delete!()}
+      />
     </div>
   );
 }

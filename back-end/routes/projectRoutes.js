@@ -78,7 +78,7 @@ router.get("/:projectId", async (req, res) => {
 
 router.post("/:projectId/save-ticket", async (req, res) => {
   const projectId = req.params.projectId;
-  const newTicket = req.body.newTicket;
+  const ticketInfo = req.body.newTicket;
 
   if (!projectId) {
     res.status(400).send({ message: "Bad request" });
@@ -86,41 +86,38 @@ router.post("/:projectId/save-ticket", async (req, res) => {
   }
 
   try {
-    const user = await User.findById(newTicket.assignedUser).exec();
+    const user = await User.findById(ticketInfo.assignedUser).exec();
 
     if (!user) {
       res.status(404).send({ message: "No user found" });
       return;
     }
 
-    const ticket = new Ticket({
-      name: newTicket.name,
-      dateCreated: newTicket.dateCreated,
+    const newTicket = new Ticket({
+      name: ticketInfo.name,
+      dateCreated: ticketInfo.dateCreated,
       createdBy: req.body.currentUser.name,
-      description: newTicket.description,
+      description: ticketInfo.description,
       projectId: projectId,
-      priority: newTicket.priority,
-      status: newTicket.status,
+      priority: ticketInfo.priority,
+      status: ticketInfo.status,
       assignedUser: user.name,
     });
 
-    const savedTicket = await ticket.save();
-
+    const savedTicket = await newTicket.save();
     if (!savedTicket) {
-      res.status(400).send({ message: "Ticket not saved" });
+      res.status(400).send({ message: "Ticket not saved!" });
       return;
     }
 
-    const project = await Project.findOne({ _id: projectId }).exec();
-    if (!project) {
-      res.status(404).send({ message: "No project found" });
+    try {
+      await Project.updateOne({ _id: projectId }, { $push: { tickets: newTicket } });
+    } catch (err) {
+      res.status(500).send({ mesage: err });
       return;
     }
 
-    project.tickets.push(ticket._id);
-    project.numberOfTickets = project.numberOfTickets + 1;
-    project.save();
-    res.status(201).send(ticket);
+    res.status(201).send(newTicket);
   } catch (err) {
     res.status(500).send({ message: err });
   }
@@ -190,7 +187,7 @@ router.post("/:projectId/updateTickeList", async (req, res) => {
     { useFindAndModify: false }
   ).exec();
 
-  await Ticket.findOneAndDelete({
+  await Ticket.deleteMany({
     _id: { $in: req.body.selectedItemIds },
   });
 

@@ -1,4 +1,5 @@
 import User from "./UserModel";
+import produce from "immer";
 import moment from "moment";
 
 export default class Ticket {

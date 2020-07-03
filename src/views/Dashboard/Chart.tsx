@@ -43,6 +43,11 @@ function Chart(props: IChartProps) {
 
   return (
     <div className="pie-graph">
+      {openItems.length === 0 && closedItems.length === 0 ? (
+        <div></div>
+      ) : (
+        <div></div>
+      )}
       {openItems || closedItems ? (
         <Pie
           data={chartData}

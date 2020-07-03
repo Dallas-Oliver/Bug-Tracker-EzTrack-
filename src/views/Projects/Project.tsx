@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
+import produce from "immer";
 import { useParams } from "react-router-dom";
 import { AuthService as Auth } from "../../auth/AuthService";
 import User from "../../models/main models/UserModel";
@@ -12,6 +13,7 @@ import { Project as ProjectModel } from "../../models/main models/ProjectModel";
 
 interface IProjectProps {
   handleProjectStatusChange: (_id: string, status: string) => void;
+  deleteCurrentProject: (projectId: string) => void;
   users: User[];
 }
 interface IProjectId {
@@ -61,6 +63,7 @@ function Project(props: IProjectProps) {
     if (!response) {
       console.log("no ticket");
     }
+
     const ticket = await response.json();
     setTicketList((ticketList) => ticketList.concat(ticket));
     handleTitleUpdate("");
@@ -103,24 +106,22 @@ function Project(props: IProjectProps) {
   };
 
   const changeTicketStatus = (ticketId: string, newStatus: string) => {
-    const newTicketList: TicketModel[] = [...ticketList];
-    const ticketIndex = newTicketList
-      .map((ticket: TicketModel) => ticket._id)
-      .indexOf(ticketId);
-    newTicketList[ticketIndex].status = newStatus;
+    const newTicketList = produce(ticketList, (ticketListCopy) => {
+      const ticketIndex = ticketListCopy
+        .map((ticket: TicketModel) => ticket._id)
+        .indexOf(ticketId);
+      ticketListCopy[ticketIndex].status = newStatus;
+    });
+
     setTicketList(newTicketList);
   };
 
-  const deleteCurrentProject = (projectId: string) => {
-    console.log(projectId);
-  };
-
   const deleteTicketListItems = async (selectedItemIds: string[]) => {
-    const newTicketList: TicketModel[] = [...ticketList];
-    const ticketIdsWithoutSelectedItems = newTicketList
-      .filter((ticket) => selectedItemIds.indexOf(ticket._id) < 0)
-      .map((ticket) => ticket._id);
-    console.log(ticketIdsWithoutSelectedItems);
+    const ticketIdsWithoutSelectedItems = produce(ticketList, (ticketListCopy) => {
+      return ticketListCopy
+        .filter((ticket) => selectedItemIds.indexOf(ticket._id) < 0)
+        .map((ticket) => ticket._id);
+    });
 
     const response = await Auth.fetch(`/projects/${projectId}/updateTickeList`, {
       method: "POST",
@@ -128,7 +129,6 @@ function Project(props: IProjectProps) {
     });
 
     const updatedAndSavedTicketList = await response.json();
-    console.log(updatedAndSavedTicketList);
 
     setTicketList(updatedAndSavedTicketList);
   };
@@ -147,7 +147,7 @@ function Project(props: IProjectProps) {
             formIsVisible={formIsVisible}
             buttonText="New Ticket +"
             toggle={() => toggleForm(true)}
-            delete={() => deleteCurrentProject(projectId)}
+            delete={() => props.deleteCurrentProject(projectId)}
           />
           <InfoBar
             barType="project"

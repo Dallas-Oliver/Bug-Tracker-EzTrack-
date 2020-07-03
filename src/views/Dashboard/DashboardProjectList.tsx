@@ -24,8 +24,6 @@ function DashboardProjectList(props: IDashboardProjectListProps) {
     setOpenProjects(openProjects);
   }, [props.projects]);
 
-  console.log(props.projects);
-
   return (
     <div
       style={{
@@ -60,7 +58,7 @@ function DashboardProjectList(props: IDashboardProjectListProps) {
                     _id={project._id}
                     name={project.name}
                     status={project.status}
-                    numberOfTickets={project.numberOfTickets}
+                    numberOfTickets={project.tickets.length}
                     redirectToProject={props.redirectToProject}
                   />
                 ) : null;
