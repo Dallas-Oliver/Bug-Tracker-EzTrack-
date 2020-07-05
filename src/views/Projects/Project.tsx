@@ -166,7 +166,7 @@ function Project(props: IProjectProps) {
             projectStatus={projectInfo.status}
             ticketList={ticketList}
             openTicket={(userId: string) => openTicket(userId)}
-            isRenderedInDashboard={false}
+            isRenderedOnDashboard={false}
           />
         </div>
       ) : (

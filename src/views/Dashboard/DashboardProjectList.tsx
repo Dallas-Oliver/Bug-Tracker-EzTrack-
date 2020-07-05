@@ -60,6 +60,7 @@ function DashboardProjectList(props: IDashboardProjectListProps) {
                     status={project.status}
                     numberOfTickets={project.tickets.length}
                     redirectToProject={props.redirectToProject}
+                    isRenderedOnDashboard={true}
                   />
                 ) : null;
               })

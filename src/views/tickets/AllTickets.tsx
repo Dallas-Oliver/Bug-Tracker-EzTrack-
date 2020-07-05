@@ -4,6 +4,7 @@ import Ticket from "./Ticket";
 import { AuthService as Auth } from "../../auth/AuthService";
 import { ThemeContext } from "../../Contexts/ThemeContext";
 import TicketModel from "../../models/main models/TicketModel";
+import produce from "immer";
 
 function AllTickets() {
   const [ticketList, setTicketList] = useState<TicketModel[]>([]);
@@ -41,6 +42,17 @@ function AllTickets() {
     };
   }, []);
 
+  const changeTicketStatus = (ticketId: string, newStatus: string) => {
+    const newTicketList = produce(ticketList, (ticketListCopy) => {
+      const ticketIndex = ticketListCopy
+        .map((ticket: TicketModel) => ticket._id)
+        .indexOf(ticketId);
+      ticketListCopy[ticketIndex].status = newStatus;
+    });
+
+    setTicketList(newTicketList);
+  };
+
   return (
     <div
       style={{
@@ -53,10 +65,16 @@ function AllTickets() {
         ticketIsVisible={ticketIsVisible}
         ticketList={ticketList}
         openTicket={(_id) => openTicket(_id)}
-        isRenderedInDashboard={false}
+        isRenderedOnDashboard={true}
       />
       {!currentTicketId || ticketIsVisible === false ? null : (
-        <Ticket hideTicket={() => toggleTicket(false)} _id={currentTicketId} />
+        <Ticket
+          hideTicket={() => toggleTicket(false)}
+          _id={currentTicketId}
+          handleTicketStatusChange={(ticketId: string, newStatus: string) =>
+            changeTicketStatus(ticketId, newStatus)
+          }
+        />
       )}
     </div>
   );

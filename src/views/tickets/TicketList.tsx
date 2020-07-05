@@ -10,9 +10,9 @@ import ModalDropDown from "../../components/ModalDropDown";
 interface ITicketListProps {
   ticketIsVisible?: boolean;
   ticketList: TicketModel[];
-  openTicket: (_id: string) => void;
   projectStatus?: string;
-  isRenderedInDashboard: boolean;
+  isRenderedOnDashboard: boolean;
+  openTicket: (_id: string) => void;
   deleteTicketListItems?: (ticketsToDelete: string[]) => void;
 }
 
@@ -22,7 +22,7 @@ export default function TicketList(props: ITicketListProps) {
   const [showModal, setShowModal] = useState(false);
 
   const addTicketToDeleteArray = (_id: string) => {
-    const newTicketArray: string[] = [...ticketsToDelete];
+    const newTicketArray = [...ticketsToDelete];
     newTicketArray.push(_id);
     updateTicketsToDelete(newTicketArray);
   };
@@ -44,17 +44,19 @@ export default function TicketList(props: ITicketListProps) {
           <table>
             <thead>
               <tr>
-                <th style={{ marginRight: "5px", padding: "0px" }}>
-                  <span
-                    onClick={() => setShowModal(true)}
-                    style={{
-                      margin: "0px",
-                      padding: "0px",
-                      cursor: "pointer",
-                    }}>
-                    <GarbageIcon />
-                  </span>
-                </th>
+                {props.isRenderedOnDashboard ? null : (
+                  <th style={{ marginRight: "5px", padding: "0px" }}>
+                    <span
+                      onClick={() => setShowModal(true)}
+                      style={{
+                        margin: "0px",
+                        padding: "0px",
+                        cursor: "pointer",
+                      }}>
+                      <GarbageIcon />
+                    </span>
+                  </th>
+                )}
                 <th>Ticket Name</th>
                 <th>Ticket Status</th>
                 <th>Assigned user</th>
@@ -65,7 +67,7 @@ export default function TicketList(props: ITicketListProps) {
               {props.ticketList.map((ticket) => {
                 return (
                   <TicketListItem
-                    isRenderedInDashboard={props.isRenderedInDashboard}
+                    isRenderedOnDashboard={props.isRenderedOnDashboard}
                     projectStatus={props.projectStatus}
                     key={ticket._id}
                     _id={ticket._id}

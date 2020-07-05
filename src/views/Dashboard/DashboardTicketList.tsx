@@ -42,7 +42,6 @@ function DashboardTicketList(props: IDashboardTicketListProps) {
         <table>
           <thead>
             <tr className="table-header">
-              <th></th>
               <th>Name</th>
               <th>Status</th>
               <th>Assigned User</th>
@@ -59,7 +58,7 @@ function DashboardTicketList(props: IDashboardTicketListProps) {
                   status={ticket.status}
                   openTicket={props.openTicket}
                   assignedUser={ticket.assignedUser}
-                  isRenderedInDashboard={true}
+                  isRenderedOnDashboard={true}
                 />
               ) : null;
             })}

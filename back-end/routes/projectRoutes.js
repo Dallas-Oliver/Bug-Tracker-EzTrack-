@@ -7,7 +7,6 @@ const User = require("../models/User");
 //Also saves the project._id in the current users projectIds array.
 //responds with the newly created project.
 router.post("/save-project", async (req, res) => {
-  console.log(req.body.newProject);
   const project = new Project(req.body.newProject);
 
   try {
@@ -171,11 +170,36 @@ router.get("/:projectId/change-status", async (req, res) => {
   }
 });
 
-router.get("/:projectId/get-status", async (req, res) => {
+router.get("/delete-project/:projectId", async (req, res) => {
   const projectId = req.params.projectId;
 
-  // const projectStatus = await Project.find({ _id: projectId }).exec().status;
-  // console.log(projectStatus);
+  try {
+    const deletedProject = await Project.deleteOne({ _id: projectId });
+
+    await Ticket.deleteMany({ _id: { $in: deletedProject.tickets } });
+  } catch (err) {
+    res.send(err);
+  }
+
+  const updatedProjectList = await Project.find();
+  res.status(200).send(updatedProjectList);
+});
+
+router.post("/update-project-list", async (req, res) => {
+  try {
+    await Project.deleteMany({ _id: { $in: req.body.selectedItems } });
+  } catch (err) {
+    res.status(500).send({ message: "Something went wrong", err });
+  }
+
+  const updatedProjectList = await Project.find();
+
+  if (updatedProjectList.length === 0) {
+    res.status(200).send([]);
+    return;
+  }
+
+  res.status(200).send(updatedProjectList);
 });
 
 router.post("/:projectId/updateTickeList", async (req, res) => {

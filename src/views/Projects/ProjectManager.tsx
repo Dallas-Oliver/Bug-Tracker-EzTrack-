@@ -7,6 +7,7 @@ import Project from "./Project";
 import { AuthService as Auth } from "../../auth/AuthService";
 import { ThemeContext } from "../../Contexts/ThemeContext";
 import AddForm from "../../components/AddForm";
+import produce from "immer";
 
 interface IProjectMangerProps {
   users: User[];
@@ -79,15 +80,33 @@ function ProjectManager(props: IProjectMangerProps) {
   };
 
   const deleteCurrentProject = async (projectId: string) => {
-    console.log(projectList);
+    const response = await Auth.fetch(`/projects/delete-project/${projectId}`);
+    const updatedAndSavedProjectList = await response.json();
+    updateProjectList(updatedAndSavedProjectList);
+    history.push(`/home/projects`);
+  };
 
-    const response = await Auth.fetch(`projects/delete-project/${projectId}`);
+  const deleteProjectListItems = async (selectedItems: string[]) => {
+    //delete projects from project list based on a passed in id list
+    const projectIdsWithoutSelectedItems = produce(
+      projectList,
+      (projectListCopy) => {
+        return projectListCopy
+          .filter((project) => selectedItems.indexOf(project._id) === -1)
+          .map((project) => project._id);
+      }
+    );
 
-    const newProjectList = [...projectList];
-    newProjectList.filter((project) => project._id !== projectId);
-    updateProjectList(newProjectList);
+    console.log(projectIdsWithoutSelectedItems);
 
-    // history.push(`/home/projects`);
+    const response = await Auth.fetch(`/projects/update-project-list`, {
+      method: "POST",
+      body: JSON.stringify({ projectIdsWithoutSelectedItems, selectedItems }),
+    });
+
+    const updatedAndSavedProjectList = await response.json();
+    console.log(updatedAndSavedProjectList);
+    updateProjectList(updatedAndSavedProjectList);
   };
 
   return (
@@ -103,17 +122,20 @@ function ProjectManager(props: IProjectMangerProps) {
               <ProjectList
                 titleInput={titleInput}
                 descInput={descInput}
-                handleTitleChange={(title) => {
-                  handleTitleChange(title);
-                }}
+                formIsVisible={formIsVisible}
+                projectList={projectList}
+                users={props.users}
                 handleDescChange={(title) => handleDescChange(title)}
                 handleSubmit={() => handleSubmit()}
                 hideForm={() => toggleForm(false)}
                 showForm={() => toggleForm(true)}
-                formIsVisible={formIsVisible}
-                projectList={projectList}
                 redirectToProject={(_id) => redirectToProject(_id)}
-                users={props.users}
+                handleTitleChange={(title) => {
+                  handleTitleChange(title);
+                }}
+                deleteProjectListItems={(selectedItems) =>
+                  deleteProjectListItems(selectedItems)
+                }
               />
             );
           }}
@@ -122,11 +144,11 @@ function ProjectManager(props: IProjectMangerProps) {
           path="/home/projects/:projectId"
           render={() => (
             <Project
+              users={props.users}
               deleteCurrentProject={(projectId) => deleteCurrentProject(projectId)}
               handleProjectStatusChange={(projectId: string, status: string) =>
                 handleProjectStatusChange(projectId, status)
               }
-              users={props.users}
             />
           )}
         />

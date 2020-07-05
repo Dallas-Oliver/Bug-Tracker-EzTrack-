@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../Contexts/ThemeContext";
+import CheckBox from "../../components/CheckBox";
 
 interface ITicketListitemProps {
   name: string;
@@ -8,7 +9,7 @@ interface ITicketListitemProps {
   status: string;
   assignedUser: string;
   projectStatus?: string;
-  isRenderedInDashboard: boolean;
+  isRenderedOnDashboard: boolean;
   AddTicketToDeleteArray?: (_id: string) => void;
 }
 
@@ -25,20 +26,15 @@ function TicketListItem(props: ITicketListitemProps) {
 
   return (
     <tr className="ticket-list-item">
-      {props.isRenderedInDashboard ? null : (
-        <td>
-          <input
-            onChange={() => addTicketToDeleteArray(props._id)}
-            style={{ margin: "0px 5px" }}
-            type="checkbox"></input>
-        </td>
+      {props.isRenderedOnDashboard ? null : (
+        <CheckBox addItemToDeleteArray={() => addTicketToDeleteArray(props._id)} />
       )}
       <td style={{ padding: "0px" }}>
         <p
           style={
             props.projectStatus === "Closed" || props.status === "Closed"
-              ? { color: "gray" }
-              : { color: theme.linkTextColor }
+              ? { color: "gray", margin: "0px" }
+              : { color: theme.linkTextColor, margin: "0px" }
           }
           className="ticket-link"
           onClick={() => props.openTicket(props._id)}>
